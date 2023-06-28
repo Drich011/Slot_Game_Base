@@ -1,0 +1,37 @@
+{
+  "name": "webpack-setup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/howler": "^2.2.7",
+    "@types/webfontloader": "^1.6.35",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "html-webpack-plugin": "^5.5.1",
+    "mini-css-extract-plugin": "^2.7.5",
+    "ts-loader": "^9.4.1",
+    "webfontloader": "^1.6.28",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "gsap": "^3.11.5",
+    "howler": "^2.2.3",
+    "pixi-scrollbox": "^2.3.1",
+    "pixi-spine": "^4.0.3",
+    "pixi-viewport": "^5.0.1",
+    "pixi.js": "^7.2.4",
+    "typescript": "^5.0.4"
+  }
+}
