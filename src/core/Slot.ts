@@ -267,7 +267,7 @@ export default class Slot{
                                          this.maskSprite.y = this.frameBorder.y 
                                          this.spinReelAnimation = []
                                          this.generateTypeIndex = 0
-                                        // this.checkPattern()            
+                                         this.checkPattern()            
                                          this.spinCount = 0
                                          this.isSpinning = false
                                          //this.checkBalance()
@@ -311,7 +311,7 @@ export default class Slot{
         this.preGeneratedTypes.push(arr)
         if(i >= 2 ){
             if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType)){
-                this.reelEffect[2].visible = true 
+               // this.reelEffect[2].visible = true 
                 Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
                 if(!this.freeSpinStart){
                 this.spinReelAnimation[2].repeat(2)
@@ -378,6 +378,69 @@ export default class Slot{
             data.symbol.width = this.blockWidth
             data.symbol.height = this.blockHeight
         })
+    }
+    private checkPattern(){
+        let arr = Array.from({length: json.pattern.length}, (_, index) => index)
+        this.paylines = []
+        let countsArray:Array<any> = []
+
+        json.pattern.forEach((blocks,index)=>{
+            let pattern:Array<any> = []
+            if(index == arr[index]){
+                this.containPattern(blocks,pattern)
+            }
+            countsArray.push(Functions.hasConsecutiveSameValues(pattern))
+        })
+
+        countsArray.forEach((data,index)=>{
+            if(index == arr[index] && data.count>2){
+                let totalLinePay:number = 0
+                let notWild:number = 0
+                let eventMultiplier:number = 0
+                let lineSymbols:Array<any> = []
+                    for(let i=0;i<data.count;i++){
+                        //add animation
+                        lineSymbols.push(data.blocks[i].type)
+                        // validate not to match bonus and wild symbol
+                        if(lineSymbols.length == data.count){
+                            if(!lineSymbols.includes(10) || !lineSymbols.includes(11)){
+                                lineSymbols.forEach((el,i)=>{
+                                        if(data.blocks[i].type != 11){
+                                            notWild = i
+                                        }
+                                        if(data.blocks[i].type == 11){
+                                            data.blocks[i].payout = data.blocks[notWild].payout
+                                        }
+                                        totalLinePay+=data.blocks[i].payout
+                                        //this.totalWin += data.blocks[i].payout
+                                        this.animatePatterns(i,data.blocks[i].block)              
+                              
+                                })
+                            }
+                        }
+                    }
+                if(data.arrTypes == this.bonusType && !this.freeSpinStart){
+                    this.freeSpinStart = true
+                }
+                // validate not to add payline bonus and wild symbol
+                if(lineSymbols.length == data.count){
+                    if(!lineSymbols.includes(10) || !lineSymbols.includes(11)){
+                        this.paylines.push({payline:index+1,symbols:lineSymbols,payout:totalLinePay})
+                    }
+                }
+            }
+        })
+    }
+    private containPattern(blocks:Array<number>,arr:Array<any>){
+        blocks.forEach((blockNo,index)=>{
+            arr.push({pattern:this.reelsSymbols[index][blockNo],blockNo:blockNo})
+        })
+    }
+    private animatePatterns(reelIndex:number,blockIndex:number){
+        let symbol = this.reelsSymbols[reelIndex][blockIndex]
+        Functions.loadSpineAnimation(symbol.symbol,'animation',true,0.8)
+        //this.playSound(5);
+        this.animateDone = false
     }
      private resetTopSymbolsAlpha(index:number){
         this.maskSprite.height = this.frameBg.height - 8
