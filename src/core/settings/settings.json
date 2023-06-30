@@ -1,0 +1,76 @@
+{
+    "symbolAssets":[
+        {
+            "symbol": "bird",
+            "type":1,
+            "pay":0.2
+        },
+        {
+            "symbol": "snake",
+            "type":2,
+            "pay":0.3
+        },
+        {
+            "symbol": "monkey",
+            "type":3,
+            "pay":0.5
+        },
+        {
+            "symbol": "tiger",
+            "type":4,
+            "pay":0.6
+        },
+        {
+            "symbol": "cameleon",
+            "type":5,
+            "pay":0.7
+        },
+        {
+            "symbol": "orange_crystal",
+            "type":6,
+            "pay":1
+        },
+        {
+            "symbol": "green_crystal",
+            "type":7,
+            "pay":1.5
+        },
+        {
+            "symbol": "violet_crystal",
+            "type":8,
+            "pay":2
+        },
+        {
+            "symbol": "blue_crystal",
+            "type":9,
+            "pay":2
+        },
+        {
+            "symbol": "bonus_symbol",
+            "type":10,
+            "pay":3
+        },
+        {
+            "symbol": "wild",
+            "type":11,
+            "pay":0
+        }
+    ],
+    "pattern":[
+        [27,27,27,27,27],
+        [28,28,28,28,28],
+        [29,29,29,29,29],
+        [27,28,29,28,27],
+        [29,28,27,28,29],
+        [27,27,28,27,27],
+        [29,29,28,29,29],
+        [28,27,27,27,28],
+        [28,29,29,29,28],
+        [29,27,27,27,27],
+        [27,28,28,28,28],
+        [29,28,28,28,28],
+        [28,28,29,28,28],
+        [28,28,29,28,29],
+        [27,28,29,28,29]
+    ]
+}

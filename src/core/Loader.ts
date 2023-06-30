@@ -30,7 +30,19 @@ export default class Loader{
                 name: 'game-screen',
                 assets: [
                     {name: 'main',srcs: 'assets/roulette.json'},
-                    {name: 'background',srcs: 'assets/main/background.json'}
+                    {name: 'background',srcs: 'assets/main/background.json'},
+                    {name: 'frame',srcs: 'assets/main/frame.json'},
+                    {name: 'bird',srcs: 'assets/slot/sprites/bird.json'},
+                    {name: 'blue_crystal',srcs: 'assets/slot/sprites/blue_crystal.json'},
+                    {name: 'bonus_symbol',srcs: 'assets/slot/sprites/bonus.json'},
+                    {name: 'cameleon',srcs: 'assets/slot/sprites/cameleon.json'},
+                    {name: 'snake',srcs: 'assets/slot/sprites/snake.json'},
+                    {name: 'violet_crystal',srcs: 'assets/slot/sprites/violet_crystal.json'},
+                    {name: 'monkey',srcs: 'assets/slot/sprites/monkey.json'},
+                    {name: 'tiger',srcs:'assets/slot/sprites/tiger.json'},
+                    {name: 'green_crystal',srcs: 'assets/slot/sprites/green_crystal.json'},
+                    {name: 'orange_crystal',srcs: 'assets/slot/sprites/orange_crystal.json'},
+                    {name: 'wild',srcs: 'assets/slot/sprites/wild.json'},
                 ],
             }],
         };

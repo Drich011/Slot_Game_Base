@@ -6,6 +6,7 @@ import {Spine} from 'pixi-spine';
 import { gsap } from "gsap";
 import { PixiPlugin } from "gsap/PixiPlugin";
 import {Howler} from 'howler';
+import Slot from './Slot';
 // give the plugin a reference to the PIXI object
 PixiPlugin.registerPIXI(PIXI);
 export default class Game{
@@ -16,8 +17,12 @@ export default class Game{
     private baseHeight:number = 0
     private roulette:PIXI.Sprite
 
+    private slotGame:Slot;
+
     //background
     private background:PIXI.Sprite
+    private frame:PIXI.Sprite
+    private frameBG:PIXI.Sprite
     constructor(){
         this.gameContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
@@ -49,12 +54,26 @@ export default class Game{
         // this.gameContainer.addChild(this.roulette)
 
         this.createBackground()
+        this.createSlot()
         this.app.stage.addChild(this.gameContainer)
+
+        window.document.addEventListener('keydown', (e)=> { 
+            this.startSpin('normal')
+        });
     }  
 
     private createBackground(){
         this.background =  new PIXI.Sprite(this.textureArray.background.textures['background.jpg'])
-        console.log(this.background)
         this.gameContainer.addChild(this.background)
     }
+
+    private createSlot(){
+        this.slotGame = new Slot(this.app,this.textureArray)
+        this.gameContainer.addChild(this.slotGame.container)
+    }
+
+    private startSpin(spinType:string){
+        this.slotGame.startSpin(spinType)
+    }
+
 }
