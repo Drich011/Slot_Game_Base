@@ -34,31 +34,27 @@ export default class Game{
         this.baseHeight = this.app.screen.height
         this.textureArray = res
 
-        // this.roulette =  new PIXI.Sprite(this.textureArray.main.textures['roulette.png'])
-        // this.roulette.x = 500
-        // this.roulette.y = 500
-        // this.roulette.scale.set(1)
-        // this.roulette.anchor.set(0.5)
-        // let tl = gsap.to(this.roulette,{
-        //     rotation:300,
-        //     duration:5,
-        //     onUpdate: function() {
-        //         // if (tl.progress() > 0.7898) {
-        //         //     tl.timeScale(0.1);
-        //         // }
-        //         // console.log(this.roulette.rotation)
-        //         // tl.timeScale(1);
-        //         console.log(tl.progress())
-        //     }
-        // })
-        // this.gameContainer.addChild(this.roulette)
-
         this.createBackground()
         this.createSlot()
         this.app.stage.addChild(this.gameContainer)
 
-        window.document.addEventListener('keydown', (e)=> { 
-            this.startSpin('normal')
+        window.document.addEventListener('keydown', (e)=> {
+            if(!this.slotGame.isSpinning){
+                if(this.slotGame.notLongPress === true) {
+                    this.slotGame.notLongPress = false;
+                    this.startSpin('normal')
+                    this.slotGame.timeScale = 0
+                }else{
+                    this.startSpin('normal')
+                    this.slotGame.timeScale = 10
+                }
+            }else{
+                this.slotGame.timeScale = 10
+            }
+        });
+
+        window.document.addEventListener('keyup', ()=> {
+            this.slotGame.notLongPress = true;
         });
     }  
 
@@ -70,6 +66,7 @@ export default class Game{
     private createSlot(){
         this.slotGame = new Slot(this.app,this.textureArray)
         this.gameContainer.addChild(this.slotGame.container)
+        this.slotGame.container.y = -40
     }
 
     private startSpin(spinType:string){

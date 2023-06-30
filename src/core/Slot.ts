@@ -106,7 +106,7 @@ export default class Slot{
         this.frameBorder.width = 1682
         this.frameBorder.height = 886
         this.frameBorder.x = this.frameBg.x - frameX
-        this.frameBorder.y = this.frameBg.y - frameY
+        this.frameBorder.y = this.frameBg.y - frameY - 3
         this.container.addChild(this.frameBorder)
     }
 
@@ -289,9 +289,9 @@ export default class Slot{
                                              }
                                          }
                                          this.autoPlayCount--
-                                         // set the credit base 
+                                        // set the credit base 
                                         // this.onSpinEnd()
-                                         //console.log(this.autoPlayCount, " z")
+                                        //console.log(this.autoPlayCount, " z")
                                         //  if(this.autoPlayCount == 0 && !this.autoplayDoneEvent) {
                                         //      this.createCongrats()
                                         //  }
@@ -312,7 +312,6 @@ export default class Slot{
         if(i >= 2 ){
             if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType)){
                 this.reelEffect[2].visible = true 
-          1
                 Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
                 if(!this.freeSpinStart){
                 this.spinReelAnimation[2].repeat(2)
