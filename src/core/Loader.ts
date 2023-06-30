@@ -29,7 +29,8 @@ export default class Loader{
             {
                 name: 'game-screen',
                 assets: [
-                    {name: 'main',srcs: 'assets/roulette.json'}
+                    {name: 'main',srcs: 'assets/roulette.json'},
+                    {name: 'background',srcs: 'assets/main/background.json'}
                 ],
             }],
         };
