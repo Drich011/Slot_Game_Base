@@ -1,0 +1,48 @@
+
+orange_crystal.png
+size: 761,265
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+glow
+  rotate: false
+  xy: 440, 3
+  size: 60, 55
+  orig: 64, 61
+  offset: 2, 3
+  index: -1
+glow2
+  rotate: false
+  xy: 502, 17
+  size: 44, 41
+  orig: 48, 45
+  offset: 2, 2
+  index: -1
+orange_stone
+  rotate: true
+  xy: 224, 54
+  size: 209, 214
+  orig: 216, 220
+  offset: 3, 3
+  index: -1
+orange_stone_blur
+  rotate: true
+  xy: 440, 60
+  size: 203, 230
+  orig: 210, 237
+  offset: 3, 2
+  index: -1
+outerglow_orange
+  rotate: true
+  xy: 2, 48
+  size: 215, 220
+  orig: 228, 232
+  offset: 8, 8
+  index: -1
+shine_orange
+  rotate: true
+  xy: 672, 2
+  size: 261, 87
+  orig: 265, 90
+  offset: 2, 1
+  index: -1
