@@ -1,0 +1,48 @@
+
+green_crystal.png
+size: 331,504
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+glow
+  rotate: true
+  xy: 156, 2
+  size: 60, 55
+  orig: 64, 61
+  offset: 2, 3
+  index: -1
+glow2
+  rotate: true
+  xy: 213, 18
+  size: 44, 41
+  orig: 48, 45
+  offset: 2, 2
+  index: -1
+outerglow_green
+  rotate: false
+  xy: 92, 267
+  size: 207, 235
+  orig: 213, 241
+  offset: 3, 3
+  index: -1
+shine_green
+  rotate: true
+  xy: 2, 240
+  size: 262, 88
+  orig: 266, 90
+  offset: 2, 1
+  index: -1
+stone_green
+  rotate: false
+  xy: 156, 64
+  size: 173, 201
+  orig: 175, 203
+  offset: 1, 1
+  index: -1
+stone_green_blur
+  rotate: false
+  xy: 2, 2
+  size: 152, 236
+  orig: 153, 238
+  offset: 0, 1
+  index: -1
