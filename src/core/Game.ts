@@ -56,7 +56,7 @@ export default class Game{
         window.document.addEventListener('touchstart', (e)=> {
             if(!this.slotGame.isSpinning){
                 if(this.slotGame.notLongPress === true) {
-                    this.slotGame.notLongPress = false;
+                    //this.slotGame.notLongPress = false;
                     this.startSpin('normal')
                     this.slotGame.timeScale = 0
                 }else{
