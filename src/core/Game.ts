@@ -53,6 +53,22 @@ export default class Game{
             }
         });
 
+        window.document.addEventListener('touchstart', (e)=> {
+            if(!this.slotGame.isSpinning){
+                if(this.slotGame.notLongPress === true) {
+                    this.slotGame.notLongPress = false;
+                    this.startSpin('normal')
+                    this.slotGame.timeScale = 0
+                }else{
+                    this.startSpin('normal')
+                    this.slotGame.timeScale = 10
+                }
+            }else{
+                this.slotGame.timeScale = 10
+            }
+        });
+        
+
         window.document.addEventListener('keyup', ()=> {
             this.slotGame.notLongPress = true;
         });
@@ -61,6 +77,8 @@ export default class Game{
     private createBackground(){
         this.background =  new PIXI.Sprite(this.textureArray.background.textures['background.jpg'])
         this.gameContainer.addChild(this.background)
+        this.background.height = this.baseHeight
+        this.background.width = this.baseWidth
     }
 
     private createSlot(){

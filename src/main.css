@@ -31,6 +31,10 @@ canvas.desktop{
     width: 2560px !important;
     height: 1440px !important;
 }
+canvas{
+    max-width: 100%;
+    max-height: 100vh;
+}
 
 @media(max-width:2188px){
     canvas.desktop{

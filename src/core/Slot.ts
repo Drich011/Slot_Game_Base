@@ -43,7 +43,7 @@ export default class Slot{
 
     private readonly bonusType:number = 10
 
-    private reelY:number = -6713.7
+    private reelY:number = -1300.7
     // private reelY:number = -6773.7
     public timeScale:number = 0
     public autoPlayCount:number = 0
@@ -62,18 +62,20 @@ export default class Slot{
     public generateTypeIndex:number = 0
 
     private animateDone:boolean = true;
-    public freeSpinStart:boolean = false
+    public freeSpinStart:boolean = false 
 
     private reelsValues:Array<Array<number>> = [
-        [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
-        [2,8,3,11,10,7,3,11,9,1,4,2,3,4,4,7,5,10,5,9,2,6,8,6,9,3,9,11,1,7],
-        [1,2,9,3,10,2,3,9,8,10,2,4,11,4,2,11,5,9,5,9,2,6,8,6,9,3,11,7,1,7],
-        [1,1,1,1,11,4,1,1,11,1,4,10,11,11,1,1,4,1,5,9,2,6,8,11,9,3,9,7,1,7],
-        [11,5,9,2,4,6,11,11,2,9,10,5,3,3,8,11,4,5,3,5,8,9,1,6,6,11,3,7,3,2]
+        // [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
+        // [2,8,3,11,10,7,3,11,9,1,4,2,3,4,4,7,5,10,5,9,2,6,8,6,9,3,9,11,1,7],
+        // [1,2,9,3,10,2,3,9,8,10,2,4,11,4,2,11,5,9,5,9,2,6,8,6,9,3,11,7,1,7],
+        // [1,1,1,1,11,4,1,1,11,1,4,10,11,11,1,1,4,1,5,9,2,6,8,11,9,3,9,7,1,7],
+        // [11,5,9,2,4,6,11,11,2,9,10,5,3,3,8,11,4,5,3,5,8,9,1,6,6,11,3,7,3,2]
+        [3,4,3,11,10,1,11,10,1],
+        [2,8,3,11,10,7,11,10,1],
+        [1,2,9,3,10,2,11,10,1],
+        [1,1,1,1,11,4,11,10,1],
+        [11,5,9,2,4,6,11,10,1]
     ]
-
-
-
 
     constructor(app:PIXI.Application,textureArray:any){
         this.app = app
@@ -131,8 +133,6 @@ export default class Slot{
             data.y = this.reelY
             this.reelsContainer.addChild(data)
             this.container.addChild(this.reelsContainer)
-
-
         })
         //create mask for reels
         this.maskSprite = Functions.loadTexture(this.textureArray,'frame','mask_big') 
@@ -173,7 +173,7 @@ export default class Slot{
         //  this.symbolCount3 = 0
          this.paylines = []
          let hiddenReelY = -100
-         let dY = 250
+         let dY =250
          let bounceOffset = this.reelY-30
          let durationBounceUp:number;
          let delay:number;
@@ -236,9 +236,9 @@ export default class Slot{
                              //this.onSpinning()
                              if(spin.repeat() !== 2 && spin.repeat() !== 4 && spin.repeat() !== 6){
                                  if(data.y > hiddenReelY){
-                                     this.reelContainer[index].children[27].y = 0
-                                     this.reelContainer[index].children[28].y = 260
-                                     this.reelContainer[index].children[29].y = 520
+                                     this.reelContainer[index].children[3].y = 0
+                                     this.reelContainer[index].children[4].y = 260
+                                     this.reelContainer[index].children[5].y = 520
                                  }
                              }
                              if(this.timeScale == 10 && spinType !== 'turbo'){
@@ -309,12 +309,29 @@ export default class Slot{
      private generateTypes(i:number){
         let arr = Functions.arrayRandomizer(this.reelsValues[i])      
         this.preGeneratedTypes.push(arr)
+       
+        // if( i >= 0 ){
+        //     this.spinReelAnimation[0].repeat(1)
+        // }
+        // if( i >= 1 ){
+        //     this.spinReelAnimation[1].repeat(1)
+        // }
+        // if( i >= 2 ){
+        //     this.spinReelAnimation[2].repeat(1)
+        // }
+        // if( i >= 3 ){
+        //     this.spinReelAnimation[3].repeat(1)
+        // } 
+        // if( i >= 4 ){
+        //     this.spinReelAnimation[4].repeat(1)
+        // }
+       
         if(i >= 2 ){
             if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType)){
                // this.reelEffect[2].visible = true 
-                Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
+               // Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
                 if(!this.freeSpinStart){
-                this.spinReelAnimation[2].repeat(2)
+                //s this.spinReelAnimation[2].repeat(2)
                 }
 
             }
@@ -344,9 +361,10 @@ export default class Slot{
         })
     }
     private updateVisibleBlocks(index:number){
-        let firstPosY = 6966
-        let secondPosY = 7224
-        let thirdPosY = 7482
+        let firstPosY =  1557
+        let secondPosY = 1810
+        let thirdPosY = 2064
+
         let topThree = this.reelsSymbols[index].filter((data:any,index:number)=> index < 3)
         this.reelsSymbols[index].forEach((data:any,i:number)=>{
             // hide the top symbols
@@ -354,26 +372,26 @@ export default class Slot{
                 data.symbol.alpha = 0
             }
             // show the visible symbols
-            if(i == 27){
+            if(i == 6){
                 data.type = topThree[0].type
                 data.symbol = topThree[0].symbol
                 data.payout = topThree[0].payout
-                this.reelContainer[index].children[27] = data.symbol
-                this.reelContainer[index].children[27].y = firstPosY
+                this.reelContainer[index].children[6] = data.symbol
+                this.reelContainer[index].children[6].y = firstPosY
             }
-            if(i == 28){
+            if(i == 7){
                 data.type = topThree[1].type
                 data.symbol = topThree[1].symbol
                 data.payout = topThree[1].payout
-                this.reelContainer[index].children[28] = data.symbol
-                this.reelContainer[index].children[28].y = secondPosY
+                this.reelContainer[index].children[7] = data.symbol
+                this.reelContainer[index].children[7].y = secondPosY
             }
-            if(i == 29){
+            if(i == 8){
                 data.type = topThree[2].type
                 data.symbol = topThree[2].symbol
                 data.payout = topThree[2].payout
-                this.reelContainer[index].children[29] = data.symbol
-                this.reelContainer[index].children[29].y = thirdPosY
+                this.reelContainer[index].children[8] = data.symbol
+                this.reelContainer[index].children[8].y = thirdPosY
             }
             data.symbol.width = this.blockWidth
             data.symbol.height = this.blockHeight
@@ -389,7 +407,7 @@ export default class Slot{
             if(index == arr[index]){
                 this.containPattern(blocks,pattern)
             }
-            countsArray.push(Functions.hasConsecutiveSameValues(pattern))
+           // countsArray.push(Functions.hasConsecutiveSameValues(pattern))
         })
 
         countsArray.forEach((data,index)=>{

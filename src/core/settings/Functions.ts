@@ -161,6 +161,7 @@ const hasConsecutiveSameValues=(arr:Array<any>)=> {
   let arrType:number = 0 ;
   let zeroWild:number = 0;
   for (let i = 0; i < arr.length; i++) {
+    console.log(i)
       arrRes.push({block:arr[i].blockNo,payout:arr[i].pattern.payout,type:arr[i].pattern.type,symbol:arr[i].pattern.symbol})
   }
   for (let i = 1; i < arr.length; i++) {

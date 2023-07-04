@@ -7,6 +7,7 @@ const path = require('path');
 
 module.exports = {
   devtool: 'source-map',
+  productionSourceMap: false,
   entry: './src/index.ts',
   module: {
     rules: [
