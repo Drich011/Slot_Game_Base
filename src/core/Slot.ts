@@ -25,8 +25,8 @@ export default class Slot{
     public frameBg:PIXI.Sprite
     public frameBorder:PIXI.Sprite
 
-    private blockWidth:number = 280
-    private blockHeight:number = 260
+    private blockWidth:number = 250
+    private blockHeight:number = 230
     private blockSpacing:number = 258
     private reelPosX:Array<number> = [366.5,668.5,966,1263,1558.5]
     private maskPosX:Array<number> = [220,520,820,1118,1415]
@@ -97,14 +97,14 @@ export default class Slot{
     private createParent(){
         const frameX = 95
         const frameY = 70
-        this.frameBg = Functions.loadTexture(this.textureArray,'frame','slot_frame_bg')
+        this.frameBg = Functions.loadTexture(this.textureArray,'slot_frame_controller','frame_bg')
         this.frameBg.width = 1490
         this.frameBg.height = 765
         this.frameBg.y = ((this.baseHeight - this.frameBg.height)/2) - 30
         this.frameBg.x = (this.baseWidth - this.frameBg.width)/2 
         this.container.addChild(this.frameBg)
 
-        this.frameBorder = Functions.loadTexture(this.textureArray,'frame','slot_frame')
+        this.frameBorder = Functions.loadTexture(this.textureArray,'slot_frame_controller','frame')
         this.frameBorder.width = 1682
         this.frameBorder.height = 886
         this.frameBorder.x = this.frameBg.x - frameX

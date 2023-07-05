@@ -1,10 +1,10 @@
 {
 	"frames": {
-		"background.jpg": {
+		"background.png": {
 			"frame": {
 				"x": 10,
 				"y": 10,
-				"w": 1920,
+				"w": 1921,
 				"h": 1080
 			},
 			"rotated": false,
@@ -12,11 +12,11 @@
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 1920,
+				"w": 1921,
 				"h": 1080
 			},
 			"sourceSize": {
-				"w": 1920,
+				"w": 1921,
 				"h": 1080
 			}
 		}
@@ -27,7 +27,7 @@
 		"image": "background.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 1940,
+			"w": 1941,
 			"h": 1100
 		},
 		"scale": "1"

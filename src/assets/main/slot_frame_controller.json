@@ -1,0 +1,315 @@
+{
+	"frames": {
+		"autoplay.png": {
+			"frame": {
+				"x": 10,
+				"y": 10,
+				"w": 73,
+				"h": 73
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 73,
+				"h": 73
+			},
+			"sourceSize": {
+				"w": 73,
+				"h": 73
+			}
+		},
+		"autoplay_hover.png": {
+			"frame": {
+				"x": 103,
+				"y": 10,
+				"w": 73,
+				"h": 73
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 73,
+				"h": 73
+			},
+			"sourceSize": {
+				"w": 73,
+				"h": 73
+			}
+		},
+		"balance_container.png": {
+			"frame": {
+				"x": 196,
+				"y": 10,
+				"w": 295,
+				"h": 49
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 295,
+				"h": 49
+			},
+			"sourceSize": {
+				"w": 295,
+				"h": 49
+			}
+		},
+		"bet_container.png": {
+			"frame": {
+				"x": 511,
+				"y": 10,
+				"w": 293,
+				"h": 48
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 293,
+				"h": 48
+			},
+			"sourceSize": {
+				"w": 293,
+				"h": 48
+			}
+		},
+		"controller.png": {
+			"frame": {
+				"x": 10,
+				"y": 103,
+				"w": 1920,
+				"h": 176
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 1920,
+				"h": 176
+			},
+			"sourceSize": {
+				"w": 1920,
+				"h": 176
+			}
+		},
+		"frame.png": {
+			"frame": {
+				"x": 10,
+				"y": 299,
+				"w": 1682,
+				"h": 886
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 1682,
+				"h": 886
+			},
+			"sourceSize": {
+				"w": 1682,
+				"h": 886
+			}
+		},
+		"frame_bg.png": {
+			"frame": {
+				"x": 1950,
+				"y": 10,
+				"w": 1486,
+				"h": 770
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 1486,
+				"h": 770
+			},
+			"sourceSize": {
+				"w": 1486,
+				"h": 770
+			}
+		},
+		"info.png": {
+			"frame": {
+				"x": 1712,
+				"y": 800,
+				"w": 75,
+				"h": 75
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 75,
+				"h": 75
+			},
+			"sourceSize": {
+				"w": 75,
+				"h": 75
+			}
+		},
+		"info_hover.png": {
+			"frame": {
+				"x": 1807,
+				"y": 800,
+				"w": 75,
+				"h": 75
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 75,
+				"h": 75
+			},
+			"sourceSize": {
+				"w": 75,
+				"h": 75
+			}
+		},
+		"settings.png": {
+			"frame": {
+				"x": 824,
+				"y": 10,
+				"w": 94,
+				"h": 62
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 94,
+				"h": 62
+			},
+			"sourceSize": {
+				"w": 94,
+				"h": 62
+			}
+		},
+		"settings_hover.png": {
+			"frame": {
+				"x": 938,
+				"y": 10,
+				"w": 94,
+				"h": 62
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 94,
+				"h": 62
+			},
+			"sourceSize": {
+				"w": 94,
+				"h": 62
+			}
+		},
+		"spin.png": {
+			"frame": {
+				"x": 1902,
+				"y": 800,
+				"w": 128,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 128,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 128,
+				"h": 128
+			}
+		},
+		"spin_hover.png": {
+			"frame": {
+				"x": 2050,
+				"y": 800,
+				"w": 129,
+				"h": 129
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 129,
+				"h": 129
+			},
+			"sourceSize": {
+				"w": 129,
+				"h": 129
+			}
+		},
+		"volume.png": {
+			"frame": {
+				"x": 2199,
+				"y": 800,
+				"w": 79,
+				"h": 75
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 79,
+				"h": 75
+			},
+			"sourceSize": {
+				"w": 79,
+				"h": 75
+			}
+		},
+		"volume_hover.png": {
+			"frame": {
+				"x": 2298,
+				"y": 800,
+				"w": 79,
+				"h": 75
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 79,
+				"h": 75
+			},
+			"sourceSize": {
+				"w": 79,
+				"h": 75
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "slot_frame_controller.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 3446,
+			"h": 1195
+		},
+		"scale": "1"
+	}
+}

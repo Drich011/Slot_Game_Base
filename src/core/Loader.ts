@@ -32,6 +32,7 @@ export default class Loader{
                     {name: 'main',srcs: 'assets/roulette.json'},
                     {name: 'background',srcs: 'assets/main/background.json'},
                     {name: 'frame',srcs: 'assets/main/frame.json'},
+                    {name: 'slot_frame_controller',srcs: 'assets/main/slot_frame_controller.json'},
                     {name: 'bird',srcs: 'assets/slot/sprites/bird.json'},
                     {name: 'blue_crystal',srcs: 'assets/slot/sprites/blue_crystal.json'},
                     {name: 'bonus_symbol',srcs: 'assets/slot/sprites/bonus.json'},

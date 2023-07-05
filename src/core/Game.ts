@@ -75,10 +75,10 @@ export default class Game{
     }  
 
     private createBackground(){
-        this.background =  new PIXI.Sprite(this.textureArray.background.textures['background.jpg'])
+        this.background =  new PIXI.Sprite(this.textureArray.background.textures['background.png'])
         this.gameContainer.addChild(this.background)
-        this.background.height = this.baseHeight
-        this.background.width = this.baseWidth
+        this.background.height = this.app.screen.height
+        this.background.width = this.app.screen.width+500
     }
 
     private createSlot(){
