@@ -70,11 +70,11 @@ export default class Slot{
         // [1,2,9,3,10,2,3,9,8,10,2,4,11,4,2,11,5,9,5,9,2,6,8,6,9,3,11,7,1,7],
         // [1,1,1,1,11,4,1,1,11,1,4,10,11,11,1,1,4,1,5,9,2,6,8,11,9,3,9,7,1,7],
         // [11,5,9,2,4,6,11,11,2,9,10,5,3,3,8,11,4,5,3,5,8,9,1,6,6,11,3,7,3,2]
-        [3,4,3,11,10,1,11,10,1],
-        [2,8,3,11,10,7,11,10,1],
-        [1,2,9,3,10,2,11,10,1],
-        [1,1,1,1,11,4,11,10,1],
-        [11,5,9,2,4,6,11,10,1]
+        [3,4,3,2,10,1,3,10,5,11,6,1],
+        [2,8,3,11,10,7,11,10,1,11,10,1],
+        [1,2,9,3,10,2,11,10,1,11,10,1],
+        [1,1,1,1,11,4,11,10,1,11,10,1],
+        [11,5,9,2,4,6,11,10,1,11,10,1]
     ]
 
     constructor(app:PIXI.Application,textureArray:any){
@@ -91,8 +91,6 @@ export default class Slot{
     private init(){
         this.createParent()
         this.createReels()
-    
-
     }
 
     private createParent(){
@@ -408,7 +406,8 @@ export default class Slot{
             if(index == arr[index]){
                 this.containPattern(blocks,pattern)
             }
-           // countsArray.push(Functions.hasConsecutiveSameValues(pattern))
+           
+            countsArray.push(Functions.hasConsecutiveSameValues(pattern))
         })
 
         countsArray.forEach((data,index)=>{

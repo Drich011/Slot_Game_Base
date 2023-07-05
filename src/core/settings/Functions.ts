@@ -156,13 +156,14 @@ const loadSpineAnimation = (spine:any,animation:string,loop:boolean,animationSpe
     }
 }
 const hasConsecutiveSameValues=(arr:Array<any>)=> {
+ 
   let count = 1; 
   let arrRes:Array<any> = []
   let arrType:number = 0 ;
   let zeroWild:number = 0;
   for (let i = 0; i < arr.length; i++) {
-    console.log(i)
       arrRes.push({block:arr[i].blockNo,payout:arr[i].pattern.payout,type:arr[i].pattern.type,symbol:arr[i].pattern.symbol})
+
   }
   for (let i = 1; i < arr.length; i++) {
       if(i-1 == 0 && arr[0].pattern.type == 11){
