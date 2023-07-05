@@ -152,6 +152,20 @@ export default class Game{
         this.controller.spinBtnSprite.addEventListener('mouseleave',()=>{
             this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
         })
+        this.controller.spinBtnSprite.addEventListener('pointerdown',()=>{
+            if(!this.slotGame.isSpinning){
+                if(this.slotGame.notLongPress === true) {
+                    //this.slotGame.notLongPress = false;
+                    this.startSpin('normal')
+                    this.slotGame.timeScale = 0
+                }else{
+                    this.startSpin('normal')
+                    this.slotGame.timeScale = 10
+                }
+            }else{
+                this.slotGame.timeScale = 10
+            }
+        })
 
         this.controller.soundBtnSprite.addEventListener('mouseenter',()=>{
             this.controller.soundBtnSprite.texture = this.soundOnHover
