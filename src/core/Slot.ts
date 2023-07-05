@@ -27,8 +27,8 @@ export default class Slot{
 
     private blockWidth:number = 250
     private blockHeight:number = 230
-    private blockSpacing:number = 258
-    private reelPosX:Array<number> = [366.5,668.5,966,1263,1558.5]
+    private blockSpacing:number = 250
+    private reelPosX:Array<number> = [375.5,668.5,966,1263,1538.5]
     private maskPosX:Array<number> = [220,520,820,1118,1415]
     private reelEffectPosX:Array<number> = [369,666,967.5,1263,1558.5]
     private maskPosY:number = 130
@@ -43,7 +43,7 @@ export default class Slot{
 
     private readonly bonusType:number = 10
 
-    private reelY:number = -1300.7
+    private reelY:number = -1260.7
     // private reelY:number = -6773.7
     public timeScale:number = 0
     public autoPlayCount:number = 0
@@ -91,6 +91,7 @@ export default class Slot{
     private init(){
         this.createParent()
         this.createReels()
+    
 
     }
 
@@ -361,9 +362,9 @@ export default class Slot{
         })
     }
     private updateVisibleBlocks(index:number){
-        let firstPosY =  1557
-        let secondPosY = 1810
-        let thirdPosY = 2064
+        let firstPosY =  1512
+        let secondPosY = 1756
+        let thirdPosY = 2000
 
         let topThree = this.reelsSymbols[index].filter((data:any,index:number)=> index < 3)
         this.reelsSymbols[index].forEach((data:any,i:number)=>{

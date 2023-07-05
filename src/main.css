@@ -24,6 +24,13 @@ body.desktop{
     justify-content: center;
     align-items: center;
 }
+body{
+    background-color: #000000;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 canvas.desktop{
     width: auto !important;
     max-width: fit-content !important;
@@ -32,8 +39,11 @@ canvas.desktop{
     height: 1440px !important;
 }
 canvas{
-    max-width: 100%;
+    width: auto !important;
+    max-width: fit-content !important;
     max-height: 100vh;
+    width: 2560px !important;
+    height: 1440px !important;
 }
 
 @media(max-width:2188px){
