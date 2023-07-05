@@ -43,7 +43,7 @@ export default class Slot{
 
     private readonly bonusType:number = 10
 
-    private reelY:number = -1260.7
+    private reelY:number = -2005.2
     // private reelY:number = -6773.7
     public timeScale:number = 0
     public autoPlayCount:number = 0
@@ -360,9 +360,9 @@ export default class Slot{
         })
     }
     private updateVisibleBlocks(index:number){
-        let firstPosY =  1512
-        let secondPosY = 1756
-        let thirdPosY = 2000
+        let firstPosY =  2250
+        let secondPosY = 2500
+        let thirdPosY = 2750
 
         let topThree = this.reelsSymbols[index].filter((data:any,index:number)=> index < 3)
         this.reelsSymbols[index].forEach((data:any,i:number)=>{
@@ -371,26 +371,26 @@ export default class Slot{
                 data.symbol.alpha = 0
             }
             // show the visible symbols
-            if(i == 6){
+            if(i == 9){
                 data.type = topThree[0].type
                 data.symbol = topThree[0].symbol
                 data.payout = topThree[0].payout
-                this.reelContainer[index].children[6] = data.symbol
-                this.reelContainer[index].children[6].y = firstPosY
+                this.reelContainer[index].children[9] = data.symbol
+                this.reelContainer[index].children[9].y = firstPosY
             }
-            if(i == 7){
+            if(i == 10){
                 data.type = topThree[1].type
                 data.symbol = topThree[1].symbol
                 data.payout = topThree[1].payout
-                this.reelContainer[index].children[7] = data.symbol
-                this.reelContainer[index].children[7].y = secondPosY
+                this.reelContainer[index].children[10] = data.symbol
+                this.reelContainer[index].children[10].y = secondPosY
             }
-            if(i == 8){
+            if(i == 11){
                 data.type = topThree[2].type
                 data.symbol = topThree[2].symbol
                 data.payout = topThree[2].payout
-                this.reelContainer[index].children[8] = data.symbol
-                this.reelContainer[index].children[8].y = thirdPosY
+                this.reelContainer[index].children[11] = data.symbol
+                this.reelContainer[index].children[11].y = thirdPosY
             }
             data.symbol.width = this.blockWidth
             data.symbol.height = this.blockHeight

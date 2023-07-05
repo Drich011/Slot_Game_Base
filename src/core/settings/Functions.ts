@@ -156,7 +156,6 @@ const loadSpineAnimation = (spine:any,animation:string,loop:boolean,animationSpe
     }
 }
 const hasConsecutiveSameValues=(arr:Array<any>)=> {
- 
   let count = 1; 
   let arrRes:Array<any> = []
   let arrType:number = 0 ;
