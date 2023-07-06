@@ -37,6 +37,14 @@ export default class Game{
     private spinHover: PIXI.Texture
     private settingsHover: PIXI.Texture
 
+    // values
+    private betAmount:number = 1
+    private betIndex:number = 0
+    private userCredit:number = 999
+    private matchingGameWin:number = 0
+    private isAutoPlay:boolean = false
+    private isMatchingGame:boolean = false
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
@@ -60,6 +68,7 @@ export default class Game{
         this.createSlot()
         this.createController()
         this.events()
+        this.updateTextValues()
         this.app.stage.addChild(this.gameContainer)
 
         window.document.addEventListener('keydown', (e)=> {
@@ -198,13 +207,32 @@ export default class Game{
                 this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume_off').texture
             }else{
                 this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture
-            }
-           // this.controller.soundBtnSprite.texture = this.soundOnHover
-          
+            }        
         })
     }
     private onSpinEnd(){
         this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
+        this.userCredit += this.slotGame.totalWin 
+        this.updateCreditValues()
+    }
+    private updateTextValues(){
+        this.betTextValue()    
+        this.updateCreditValues()
+     }
+
+    private betTextValue(){
+        //bet value
+        this.controller.betText.text = this.betAmount 
+        this.controller.betText.x = (this.controller.betContainerSprite.width - this.controller.betText.width)/2 
+        //bet value buy bonus
+        // this.buyBonusText.text = this.betAmount
+        // this.buyBonusText.x = (this.buyBonusBtn.width - this.buyBonusText.width)/2
+        // this.buyBonusText.y = (this.buyBonusBtn.height - this.buyBonusText.height) - 20
+    }
+    private updateCreditValues(){
+        //credit value
+        this.controller.creditText.text = Functions.numberWithCommas(this.userCredit) 
+        this.controller.creditText.x = (this.controller.creditContainerSprite.width - this.controller.creditText.width)/2  
     }
 
 }

@@ -64,6 +64,9 @@ export default class Slot{
     private animateDone:boolean = true;
     public freeSpinStart:boolean = false 
 
+    // payout
+    public totalWin:number = 0
+
     //methods
     private onSpinEnd:()=>void
 
@@ -435,7 +438,7 @@ export default class Slot{
                                             data.blocks[i].payout = data.blocks[notWild].payout
                                         }
                                         totalLinePay+=data.blocks[i].payout
-                                        //this.totalWin += data.blocks[i].payout
+                                        this.totalWin += data.blocks[i].payout
                                         this.animatePatterns(i,data.blocks[i].block)              
                               
                                 })
