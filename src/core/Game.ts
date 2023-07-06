@@ -9,9 +9,11 @@ import {Howler} from 'howler';
 import Slot from './Slot';
 import Controller from './Controller';
 import Functions from './settings/Functions';
+import json from './settings/settings.json'
 // give the plugin a reference to the PIXI object
 PixiPlugin.registerPIXI(PIXI);
 export default class Game{
+    
     private app:PIXI.Application
     private textureArray:any
     private gameContainer:PIXI.Container;
@@ -45,9 +47,102 @@ export default class Game{
     private isAutoPlay:boolean = false
     private isMatchingGame:boolean = false
 
+    //text values
+    private buyBonusText:PIXI.Text
+    private paylineText:PIXI.Text
+    private paylineTextBottom:PIXI.Text
+    private paylineGreetings:string
+    //text style 
+    private textStyle:PIXI.TextStyle
+    private textStyle2:PIXI.TextStyle
+    private textStyle3:PIXI.TextStyle
+    private whiteYellow:PIXI.TextStyle
+    private descText:PIXI.TextStyle
+    private textStyleSize:number = 40
+    //arrays 
+    private paylineContainersAnimation:Array<any> = []
+    private paylineAnimations:Array<any> = []
+
+    private paylineContainer:PIXI.Container
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
+        this.paylineContainer = new PIXI.Container
+        this.whiteYellow = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: 120,
+            fontWeight: 'bolder',
+            fill: ['#fffdfa', '#fec159'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: false,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
+        this.textStyle = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: this.textStyleSize,
+            fontWeight: 'bolder',
+            fill: ['#95EBFF', '#44C6ED'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 0,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: false,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
+        this.textStyle2 = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: 120,
+            fontWeight: 'bolder',
+            fill: ['#ffffff', '#ffffff'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: true,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
+        this.textStyle3 = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: 30,
+            fontWeight: 'bolder',
+            fill: ['#ffffff', '#ffffff'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: false,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
+        this.descText = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: 25,
+            fill: ['#ffffff', '#ffffff'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: true,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
         new Loader(this.init.bind(this))
     }
     private init(res:any,app:PIXI.Application){
@@ -71,6 +166,7 @@ export default class Game{
         this.updateTextValues()
         this.app.stage.addChild(this.gameContainer)
 
+       
         window.document.addEventListener('keydown', (e)=> {
             if(!this.slotGame.isSpinning){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
@@ -117,13 +213,14 @@ export default class Game{
     }
 
     private createSlot(){
-        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this))
+        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this),this.onSpinning.bind(this))
         this.gameContainer.addChild(this.slotGame.container)
         this.slotGame.container.y = +80
     }
 
     private createController(){
         this.controller = new Controller(this.app,this.textureArray)
+        this.createPaylineAnimation()
         this.gameContainer.addChild(this.controller.container)
 
     }
@@ -176,7 +273,6 @@ export default class Game{
                     //this.slotGame.notLongPress = false;
                     this.startSpin('normal')
                     this.slotGame.timeScale = 0
-
                 }else{
                     this.startSpin('normal')
                     this.slotGame.timeScale = 10
@@ -210,9 +306,19 @@ export default class Game{
             }        
         })
     }
+    private onSpinning(){
+        this.paylineGreetings = 'GOOD LUCK'
+        this.paylineContainersAnimation.forEach(data=>{
+            this.controller.parentSprite.removeChild(data)
+        })
+        this.updatePaylineAnimation(this.paylineGreetings)
+    }
     private onSpinEnd(){
+        this.paylineGreetings = 'SPIN TO WIN'
+        this.updatePaylineAnimation(this.paylineGreetings)
         this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
         this.userCredit += this.slotGame.totalWin 
+        this.slotGame.totalWin = 0
         this.updateCreditValues()
     }
     private updateTextValues(){
@@ -233,6 +339,89 @@ export default class Game{
         //credit value
         this.controller.creditText.text = Functions.numberWithCommas(this.userCredit) 
         this.controller.creditText.x = (this.controller.creditContainerSprite.width - this.controller.creditText.width)/2  
+    }
+    private createPaylineAnimation(){
+        this.paylineText =  new PIXI.Text('SPIN TO WIN', this.textStyle)
+        this.paylineTextBottom = new PIXI.Text('Tap space or enter to skip', this.textStyle3)
+        this.paylineContainer.addChild(this.paylineText,this.paylineTextBottom)
+        this.updatePaylineText(this.paylineTextBottom.text,this.paylineText.text)
+        this.controller.parentSprite.addChild(this.paylineContainer)
+    }
+
+    private updatePaylineAnimation(greetings:string){
+        this.paylineContainersAnimation = []
+        this.paylineAnimations.forEach(data=>{data.kill()})
+        let paylineContent:any = this.slotGame.paylines
+        let parentContainer = this.controller.parentSprite
+        this.paylineText.text = greetings
+        let paylineTotal = 0
+        let bottomText = this.isAutoPlay?`Spin left ${this.slotGame.autoPlayCount}`:'Tap space or enter to skip'
+        if(this.slotGame.paylines.length !== 0){
+            for(let i=0;i<paylineContent.length;i++){
+                bottomText = ''
+                this.updatePaylineText(bottomText,this.paylineText.text)
+                let payline = paylineContent[i].payline
+                let payout = Functions.numberWithCommas(paylineContent[i].payout)
+                const container = new PIXI.Container
+                const containerWithText = new PIXI.Container
+                const greetingText = new PIXI.Text(`line ${payline} pays ${payout}`, this.descText)
+                paylineContent[i].symbols.forEach((data:any,index:number)=>{
+                    let assetFrom:any;
+                    assetFrom = json.symbolAssets[data-1]
+                    let symbols = Functions.loadTexture(this.textureArray,'slot',`${assetFrom.symbol}`)
+                    symbols.x = index*65
+                    container.addChild(symbols)
+                    // paylineTotal+=assetFrom.pay
+                })
+                container.x = greetingText.width
+                containerWithText.addChild(container,greetingText)
+                containerWithText.alpha = 0
+                greetingText.y = (containerWithText.height - greetingText.height)/2
+                this.paylineContainersAnimation.push(containerWithText)
+                this.animatePaySymbols(containerWithText,i)
+                parentContainer.addChild(containerWithText)
+            }
+            this.updatePaylineText(bottomText,`WIN ${Functions.numberWithCommas(this.slotGame.totalWin)}`)
+        }
+        this.updatePaylineText(bottomText,this.paylineText.text)
+    }
+
+    private animatePaySymbols(containerWithText:any,i:number){
+        let lastIndex = i+1
+        let parentContainer = this.controller.parentSprite
+        let fadeIn = gsap.to(containerWithText,{
+            delay:i*2,
+            duration:1,
+            alpha:1,
+            onStart:()=>{
+                containerWithText.x = (parentContainer.width - containerWithText.width)/2
+                containerWithText.y = (parentContainer.height - containerWithText.height)-10
+            },
+            onComplete:()=>{
+                containerWithText.alpha = 0
+                fadeIn.kill()
+                let timeOut = setTimeout(()=>{
+                    if(lastIndex == this.slotGame.paylines.length){
+                        this.paylineContainersAnimation.forEach((data,index)=>{
+                            this.animatePaySymbols(data,index)
+                        })
+                    }
+                    clearTimeout(timeOut)
+                },3000)
+            }
+        })
+        this.paylineAnimations.push(fadeIn)
+    }
+
+    private updatePaylineText(bottomText:string,topText:string){
+        this.paylineTextBottom.text = bottomText
+        this.paylineText.text = topText 
+        this.paylineText.x = (this.paylineContainer.width - this.paylineText.width)/2
+        this.paylineText.y = 20
+        this.paylineTextBottom.x = (this.paylineContainer.width - this.paylineTextBottom.width)/2
+        this.paylineTextBottom.y = (this.paylineText.height)+ 15
+        this.paylineContainer.x = (this.controller.parentSprite.width - this.paylineContainer.width)/2
+        this.paylineContainer.y = 38
     }
 
 }

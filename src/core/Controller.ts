@@ -33,7 +33,7 @@ export default class Controller{
         this.container.sortableChildren = true
         this.textStyle = new PIXI.TextStyle({  
             fontFamily: 'Eras ITC',
-            fontSize: 55,
+            fontSize: 43,
             fontWeight: 'bolder',
             fill: ['#ffffff', '#ffffff'], // gradient
             strokeThickness: 5,

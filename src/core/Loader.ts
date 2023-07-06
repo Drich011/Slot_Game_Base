@@ -30,6 +30,7 @@ export default class Loader{
                 name: 'game-screen',
                 assets: [
                     {name: 'main',srcs: 'assets/roulette.json'},
+                    {name: 'slot',srcs: 'assets/slot/sprites/slot.json'},
                     {name: 'background',srcs: 'assets/main/background.json'},
                     {name: 'frame',srcs: 'assets/main/frame.json'},
                     {name: 'slot_frame_controller',srcs: 'assets/main/slot_frame_controller.json'},

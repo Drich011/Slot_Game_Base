@@ -69,6 +69,7 @@ export default class Slot{
 
     //methods
     private onSpinEnd:()=>void
+    private onSpinning:()=>void
 
     private reelsValues:Array<Array<number>> = [
         // [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
@@ -83,7 +84,7 @@ export default class Slot{
         [11,5,9,2,4,6,11,10,1,11,10,1]
     ]
 
-    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void){
+    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void,onSpinning:()=>void,){
         this.app = app
         this.baseWidth = this.app.screen.width
         this.baseHeight = this.app.screen.height
@@ -92,6 +93,7 @@ export default class Slot{
         this.reelsContainer = new PIXI.Container
 
         this.onSpinEnd = onSpinEnd
+        this.onSpinning = onSpinning
 
         this.init()
     }
@@ -240,7 +242,7 @@ export default class Slot{
                              this.generateTypeIndex++
                          },
                          onUpdate:()=>{
-                             //this.onSpinning()
+                             this.onSpinning()
                              if(spin.repeat() !== 2 && spin.repeat() !== 4 && spin.repeat() !== 6){
                                  if(data.y > hiddenReelY){
                                      this.reelContainer[index].children[3].y = 0
