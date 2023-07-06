@@ -48,11 +48,11 @@ export default class Game{
         this.baseHeight = this.app.screen.height
         this.textureArray = res
 
-                //buttons Hover
+        //buttons Hover
         this.autoplayHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','autoplay_hover').texture
         this.infoHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','info_hover').texture
         this.soundOnHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume_hover').texture
-       // this.soundOffHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','sound_off_button_hover').texture
+        this.soundOffHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume_off_hover').texture
         this.spinHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_hover').texture
         this.settingsHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','settings_hover').texture
 
@@ -64,6 +64,7 @@ export default class Game{
 
         window.document.addEventListener('keydown', (e)=> {
             if(!this.slotGame.isSpinning){
+                this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
                     this.slotGame.notLongPress = false;
                     this.startSpin('normal')
@@ -79,6 +80,7 @@ export default class Game{
 
         window.document.addEventListener('touchstart', (e)=> {
             if(!this.slotGame.isSpinning){
+                
                 if(this.slotGame.notLongPress === true) {
                     //this.slotGame.notLongPress = false;
                     this.startSpin('normal')
@@ -106,7 +108,7 @@ export default class Game{
     }
 
     private createSlot(){
-        this.slotGame = new Slot(this.app,this.textureArray)
+        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this))
         this.gameContainer.addChild(this.slotGame.container)
         this.slotGame.container.y = +80
     }
@@ -147,17 +149,25 @@ export default class Game{
 
 
         this.controller.spinBtnSprite.addEventListener('mouseenter',()=>{
-            this.controller.spinBtnSprite.texture = this.spinHover
+            if(!this.slotGame.isSpinning){
+                this.controller.spinBtnSprite.texture = this.spinHover
+            }
+           
         })
         this.controller.spinBtnSprite.addEventListener('mouseleave',()=>{
-            this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
+            if(!this.slotGame.isSpinning){
+                this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
+            }
+           
         })
         this.controller.spinBtnSprite.addEventListener('pointerdown',()=>{
             if(!this.slotGame.isSpinning){
+                this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
                     //this.slotGame.notLongPress = false;
                     this.startSpin('normal')
                     this.slotGame.timeScale = 0
+
                 }else{
                     this.startSpin('normal')
                     this.slotGame.timeScale = 10
@@ -168,18 +178,33 @@ export default class Game{
         })
 
         this.controller.soundBtnSprite.addEventListener('mouseenter',()=>{
+           if(this.controller.soundBtnSprite.texture == Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture ||  this.controller.soundBtnSprite.texture == this.soundOnHover ){
             this.controller.soundBtnSprite.texture = this.soundOnHover
+            }else{
+                this.controller.soundBtnSprite.texture = this.soundOffHover
+            }
           
         })
         this.controller.soundBtnSprite.addEventListener('mouseleave',()=>{
-            this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture
-           
+           // this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture 
+           if(this.controller.soundBtnSprite.texture == Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture ||  this.controller.soundBtnSprite.texture == this.soundOnHover ){
+            this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture 
+            }else{
+                this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume_off').texture 
+            } 
         })
-
-
-
-
-
+        this.controller.soundBtnSprite.addEventListener('pointerdown',()=>{
+            if(this.controller.soundBtnSprite.texture == Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture ||  this.controller.soundBtnSprite.texture == this.soundOnHover ){
+                this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume_off').texture
+            }else{
+                this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture
+            }
+           // this.controller.soundBtnSprite.texture = this.soundOnHover
+          
+        })
+    }
+    private onSpinEnd(){
+        this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
     }
 
 }

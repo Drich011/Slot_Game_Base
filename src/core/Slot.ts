@@ -64,6 +64,9 @@ export default class Slot{
     private animateDone:boolean = true;
     public freeSpinStart:boolean = false 
 
+    //methods
+    private onSpinEnd:()=>void
+
     private reelsValues:Array<Array<number>> = [
         // [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
         // [2,8,3,11,10,7,3,11,9,1,4,2,3,4,4,7,5,10,5,9,2,6,8,6,9,3,9,11,1,7],
@@ -77,13 +80,15 @@ export default class Slot{
         [11,5,9,2,4,6,11,10,1,11,10,1]
     ]
 
-    constructor(app:PIXI.Application,textureArray:any){
+    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void){
         this.app = app
         this.baseWidth = this.app.screen.width
         this.baseHeight = this.app.screen.height
         this.textureArray = textureArray
         this.container = new PIXI.Container
         this.reelsContainer = new PIXI.Container
+
+        this.onSpinEnd = onSpinEnd
 
         this.init()
     }
@@ -289,7 +294,7 @@ export default class Slot{
                                          }
                                          this.autoPlayCount--
                                         // set the credit base 
-                                        // this.onSpinEnd()
+                                         this.onSpinEnd()
                                         //console.log(this.autoPlayCount, " z")
                                         //  if(this.autoPlayCount == 0 && !this.autoplayDoneEvent) {
                                         //      this.createCongrats()
