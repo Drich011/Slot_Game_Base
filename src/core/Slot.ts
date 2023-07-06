@@ -28,7 +28,7 @@ export default class Slot{
     private blockWidth:number = 250
     private blockHeight:number = 230
     private blockSpacing:number = 250
-    private reelPosX:Array<number> = [375.5,668.5,966,1263,1538.5]
+    private reelPosX:Array<number> = [384,672,966,1263,1538.5]
     private maskPosX:Array<number> = [220,520,820,1118,1415]
     private reelEffectPosX:Array<number> = [369,666,967.5,1263,1558.5]
     private maskPosY:number = 130
