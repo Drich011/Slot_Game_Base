@@ -1,0 +1,153 @@
+
+bonus.png
+size: 543,542
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+b
+  rotate: false
+  xy: 489, 47
+  size: 46, 101
+  orig: 48, 103
+  offset: 1, 1
+  index: -1
+b_blur
+  rotate: false
+  xy: 441, 27
+  size: 46, 121
+  orig: 48, 123
+  offset: 1, 1
+  index: -1
+frame_bg
+  rotate: true
+  xy: 219, 305
+  size: 235, 200
+  orig: 237, 202
+  offset: 1, 1
+  index: -1
+frame_bg_blur
+  rotate: true
+  xy: 2, 58
+  size: 235, 218
+  orig: 237, 222
+  offset: 1, 2
+  index: -1
+frame_border
+  rotate: true
+  xy: 2, 295
+  size: 245, 215
+  orig: 247, 217
+  offset: 1, 1
+  index: -1
+n
+  rotate: true
+  xy: 245, 8
+  size: 54, 101
+  orig: 56, 103
+  offset: 1, 1
+  index: -1
+n_blur
+  rotate: true
+  xy: 2, 2
+  size: 54, 121
+  orig: 56, 123
+  offset: 1, 1
+  index: -1
+o
+  rotate: true
+  xy: 421, 364
+  size: 43, 103
+  orig: 45, 105
+  offset: 1, 1
+  index: -1
+o_blur
+  rotate: true
+  xy: 265, 145
+  size: 43, 123
+  orig: 45, 125
+  offset: 1, 1
+  index: -1
+s
+  rotate: true
+  xy: 421, 320
+  size: 42, 103
+  orig: 44, 105
+  offset: 1, 1
+  index: -1
+s_blur
+  rotate: false
+  xy: 348, 20
+  size: 42, 123
+  orig: 44, 125
+  offset: 1, 1
+  index: -1
+u
+  rotate: true
+  xy: 421, 271
+  size: 47, 102
+  orig: 49, 104
+  offset: 1, 1
+  index: -1
+u_blur
+  rotate: false
+  xy: 392, 26
+  size: 47, 122
+  orig: 49, 124
+  offset: 1, 1
+  index: -1
+vine1
+  rotate: true
+  xy: 222, 64
+  size: 124, 41
+  orig: 124, 42
+  offset: 0, 1
+  index: -1
+vine1_blur
+  rotate: false
+  xy: 421, 482
+  size: 120, 58
+  orig: 122, 61
+  offset: 1, 2
+  index: -1
+vine2
+  rotate: false
+  xy: 245, 256
+  size: 148, 47
+  orig: 148, 47
+  offset: 0, 0
+  index: -1
+vine2_blur
+  rotate: false
+  xy: 245, 190
+  size: 145, 64
+  orig: 147, 67
+  offset: 1, 2
+  index: -1
+vine3
+  rotate: false
+  xy: 125, 2
+  size: 118, 54
+  orig: 118, 54
+  offset: 0, 0
+  index: -1
+vine3_blur
+  rotate: false
+  xy: 421, 409
+  size: 115, 71
+  orig: 117, 74
+  offset: 1, 2
+  index: -1
+vine4
+  rotate: false
+  xy: 395, 219
+  size: 146, 50
+  orig: 146, 50
+  offset: 0, 0
+  index: -1
+vine4_blur
+  rotate: false
+  xy: 392, 150
+  size: 144, 67
+  orig: 146, 70
+  offset: 1, 2
+  index: -1
