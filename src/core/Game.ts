@@ -8,6 +8,7 @@ import { PixiPlugin } from "gsap/PixiPlugin";
 import {Howler} from 'howler';
 import Slot from './Slot';
 import Controller from './Controller';
+import Modal from './Modal';
 import Functions from './settings/Functions';
 import json from './settings/settings.json'
 // give the plugin a reference to the PIXI object
@@ -23,6 +24,7 @@ export default class Game{
 
     private slotGame:Slot;
     private controller:Controller;
+    private modal:Modal
 
     //background
     private background:PIXI.Sprite
@@ -64,6 +66,14 @@ export default class Game{
     private paylineAnimations:Array<any> = []
 
     private paylineContainer:PIXI.Container
+
+    //texttures
+    private textureToggleOn:PIXI.Texture
+    private textureToggleOff:PIXI.Texture
+    private textureRollOn:PIXI.Texture
+    private textureRollOff:PIXI.Texture
+    private spinTextureOn:PIXI.Texture
+    private spinTextureOff:PIXI.Texture
 
     constructor(){
         this.gameContainer = new PIXI.Container
@@ -151,6 +161,13 @@ export default class Game{
         this.baseHeight = this.app.screen.height
         this.textureArray = res
 
+        this.textureToggleOn = Functions.loadTexture(this.textureArray,'modal_autoplay','on').texture
+        this.textureToggleOff = Functions.loadTexture(this.textureArray,'modal_autoplay','off').texture
+        this.textureRollOn = Functions.loadTexture(this.textureArray,'modal_autoplay','roll_active').texture
+        this.textureRollOff = Functions.loadTexture(this.textureArray,'modal_autoplay','roll').texture
+        this.spinTextureOn = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
+        this.spinTextureOff = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
+
         //buttons Hover
         this.autoplayHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','autoplay_hover').texture
         this.infoHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','info_hover').texture
@@ -162,20 +179,21 @@ export default class Game{
         this.createBackground()
         this.createSlot()
         this.createController()
+        this.createModal()
         this.events()
         this.updateTextValues()
         this.app.stage.addChild(this.gameContainer)
 
        
         window.document.addEventListener('keydown', (e)=> {
-            if(!this.slotGame.isSpinning){
+            if(!this.slotGame.isSpinning && !this.isAutoPlay){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
                     this.slotGame.notLongPress = false;
-                    this.startSpin('normal')
+                    this.startSpinAutoPlay(1)
                     this.slotGame.timeScale = 0
                 }else{
-                    this.startSpin('normal')
+                    this.startSpinAutoPlay(1)
                     this.slotGame.timeScale = 10
                 }
             }else{
@@ -188,10 +206,10 @@ export default class Game{
                 
                 if(this.slotGame.notLongPress === true) {
                     //this.slotGame.notLongPress = false;
-                    this.startSpin('normal')
+                    this.startSpinAutoPlay(5)
                     this.slotGame.timeScale = 0
                 }else{
-                    this.startSpin('normal')
+                    this.startSpinAutoPlay(5)
                     this.slotGame.timeScale = 10
                 }
             }else{
@@ -224,9 +242,26 @@ export default class Game{
         this.gameContainer.addChild(this.controller.container)
 
     }
+    private createModal(){
+        this.modal = new Modal(this.app,this.textureArray)
+        this.modal.closeModal.addEventListener('pointerdown',() =>{
+           // this.playSound(1)
+            
+            this.controller.settingBtnSpite.interactive = true
+            this.controller.autoPlay.interactive = true
+        })
+        // this.modal.closeModal.addListener('mouseover',() =>{
+        //     this.playSound(2)
+        // })
+    }
 
     private startSpin(spinType:string){
         this.slotGame.startSpin(spinType)
+    }
+    private startSpinAutoPlay(spinCount:number){
+        this.slotGame.autoPlayCount = spinCount
+        this.startSpin('normal')
+       // this.modal.totalSpin = 0 
     }
 
     private events(){
@@ -251,6 +286,29 @@ export default class Game{
         })
         this.controller.autoPlay.addEventListener('mouseleave',()=>{
             this.controller.autoPlay.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','autoplay').texture
+        })
+        this.controller.autoPlay.addEventListener('pointerdown',()=>{
+            this.modal.createAutoPlaySettings()
+
+                    //MODAL AUTOPLAY
+            this.modal.rollBtn.addEventListener('pointerdown',()=>{
+                //this.playSound(1)
+                
+            // this.buyBonusBtn.interactive = false
+                this.controller.autoPlay.interactive = true
+                this.controller.spinBtnSprite.texture = this.spinTextureOff
+            // this.controller.spinBtnSprite.interactive = false
+                this.isAutoPlay = true
+                this.modal.rollBtn.texture = this.textureRollOn
+                if(!this.slotGame.isSpinning){
+                    // this.startSpinAutoPlay(this.modal.totalSpin)
+                    if(this.modal.totalSpin >= 1){
+                        this.startSpinAutoPlay(this.modal.totalSpin)
+                    }else{
+                    alert("Please choose a spin count!");
+                    }
+                }  
+            })
         })
 
 
@@ -305,6 +363,8 @@ export default class Game{
                 this.controller.soundBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture
             }        
         })
+
+
     }
     private onSpinning(){
         this.paylineGreetings = 'GOOD LUCK'
@@ -320,6 +380,10 @@ export default class Game{
         this.userCredit += this.slotGame.totalWin 
         this.slotGame.totalWin = 0
         this.updateCreditValues()
+
+        if(this.slotGame.autoPlayCount == 0){
+            this.isAutoPlay = false
+        }
     }
     private updateTextValues(){
         this.betTextValue()    

@@ -1,0 +1,99 @@
+{
+ "modalInfoPage":[
+    {
+        "title":"paytable_slot_title",
+        "desc":"All symbols pay from left to right on adjacent reels starting from the leftmost reel."
+    },
+    {
+        "title":"game_rules_title",
+        "desc":"The Jackpot Game has 3 symbols. each with fix values of total bet as follows:"
+    },
+    {
+        "title":"game_rules_title",
+        "desc":"Free Spin Feature has 2 types, the multiplier wilds and money wilds. each with 3 new symbols and fix values of total bet as follows:"
+    },
+    {
+        "title":"slot_pattern_title",
+        "desc":"Below is the payline pattern for the slot"
+    },
+    {
+        "title":"how_to_play_title",
+        "desc":""
+    },
+    {
+        "title":"settings_menu_title",
+        "desc":""
+    }
+ ],
+ "mainSymbols":[
+    {
+        "img": "bird",
+        "text":0.2
+    },
+    {
+        "img": "snake",
+        "text":0.3
+    },
+    {
+        "img": "monkey",
+        "text":0.5
+    },
+    {
+        "img": "leopard",
+        "text":0.6
+    },
+    {
+        "img": "chameleon",
+        "text":0.7
+    },
+    {
+        "img": "orange_crystal",
+        "text":1
+    },
+    {
+        "img": "green_crystal",
+        "text":1.5
+    },
+    {
+        "img": "violet_crystal",
+        "text":2
+    },
+    {
+        "img": "blue_crystal",
+        "text":2
+    },
+    {
+        "img": "bonus_symbol",
+        "text":"This is bonus symbol, It appears on all reels. hit 3 or more BONUS symbols to trigger the free spin Feature"
+    },
+    {
+        "img": "wild",
+        "text":"This symbol is WILD and substitutes for all symbols.Wild symbol appears on reels 2, 3 and 4. Whenever a wild appears on the screen in the base game it can randomly trigger the JACKPOT BONUS GAME."
+    }
+ ],
+ "jackpotSymbols":[
+    {
+        "img":"mini",
+        "text":5000
+    },
+    {
+        "img":"major",
+        "text":8000
+    },
+    {
+        "img":"grand",
+        "text":10000
+    }
+ ],
+ "freeSpinImages":[
+    {
+        "img":"spin_multiplier",
+        "text":"Multiplier Wilds",
+        "desc":"Mupltiplier Symbols substitutes for all symbols, the value of each multiplier symbol is multiplied to the symbol's value"
+    },{
+        "img":"spin_money",
+        "text":"Money Wilds",
+        "desc":"Money Symbols substitutes for all symbols, the value of each money symbol is added to the symbol's value"
+    }
+ ]
+}
