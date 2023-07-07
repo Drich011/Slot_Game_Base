@@ -75,6 +75,8 @@ export default class Game{
     private spinTextureOn:PIXI.Texture
     private spinTextureOff:PIXI.Texture
 
+    private spinType:string = 'normal'
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
@@ -260,7 +262,7 @@ export default class Game{
     }
     private startSpinAutoPlay(spinCount:number){
         this.slotGame.autoPlayCount = spinCount
-        this.startSpin('normal')
+        this.startSpin(this.spinType)
        // this.modal.totalSpin = 0 
     }
 
@@ -287,28 +289,74 @@ export default class Game{
         this.controller.autoPlay.addEventListener('mouseleave',()=>{
             this.controller.autoPlay.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','autoplay').texture
         })
-        this.controller.autoPlay.addEventListener('pointerdown',()=>{
-            this.modal.createAutoPlaySettings()
-
-                    //MODAL AUTOPLAY
-            this.modal.rollBtn.addEventListener('pointerdown',()=>{
+        this.controller.autoPlay.addEventListener('pointerdown',()=>{    
+            this.controller.autoPlay.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','autoplay').texture
+            //this.controller.autoPlay.interactive = false   
+            if(this.isAutoPlay){
+                this.controller.spinBtnSprite.interactive = true 
+                this.controller.spinBtnSprite.cursor = 'pointer' 
+                this.isAutoPlay = false
+                this.controller.spinBtnSprite.texture = this.spinTextureOn 
+                this.slotGame.autoPlayCount = 0
+            }else{
+                this.modal.createAutoPlaySettings()
+                //MODAL AUTOPLAY
+                this.modal.rollBtn.addEventListener('pointerdown',()=>{
                 //this.playSound(1)
-                
-            // this.buyBonusBtn.interactive = false
+                //this.buyBonusBtn.interactive = false
                 this.controller.autoPlay.interactive = true
                 this.controller.spinBtnSprite.texture = this.spinTextureOff
-            // this.controller.spinBtnSprite.interactive = false
+                //this.controller.spinBtnSprite.interactive = false
                 this.isAutoPlay = true
                 this.modal.rollBtn.texture = this.textureRollOn
-                if(!this.slotGame.isSpinning){
-                    // this.startSpinAutoPlay(this.modal.totalSpin)
-                    if(this.modal.totalSpin >= 1){
-                        this.startSpinAutoPlay(this.modal.totalSpin)
-                    }else{
-                    alert("Please choose a spin count!");
-                    }
-                }  
-            })
+                    if(!this.slotGame.isSpinning){
+                            // this.startSpinAutoPlay(this.modal.totalSpin)
+                        if(this.modal.totalSpin >= 1){
+                            this.startSpinAutoPlay(this.modal.totalSpin)
+                        }else{
+                            alert("Please choose a spin count!");
+                        }
+                    }  
+                })
+                //toggle spin type
+                this.modal.btnArray.forEach((data,index)=>{
+                //data.addListener('mouseover',() =>{
+                //this.playSound(2)
+                //     })
+                    data.addEventListener('pointerdown',()=>{
+                        // this.playSound(1)
+                        if(index == 0){
+                            this.modal.btnArray[1].texture = this.textureToggleOff
+                            if(data.texture == this.textureToggleOff){
+                                data.texture = this.textureToggleOn
+                                this.spinType = 'quick'
+                            }else{
+                                this.spinType = 'normal'
+                                data.texture = this.textureToggleOff
+                            }
+                        }else{
+                            this.modal.btnArray[0].texture = this.textureToggleOff
+                            if(data.texture == this.textureToggleOff){
+                                this.spinType = 'turbo'
+                                data.texture = this.textureToggleOn
+                            }else{
+                                this.spinType = 'normal'
+                                data.texture = this.textureToggleOff
+                            }
+                        }
+                    })
+                })
+                // initialize active spintype button
+                if(this.spinType == 'quick'){
+                    this.modal.btnArray[0].texture = this.textureToggleOn
+                }else if(this.spinType == 'turbo'){
+                    this.modal.btnArray[1].texture = this.textureToggleOn
+                }else{
+                    this.modal.btnArray[0].texture = this.textureToggleOff
+                    this.modal.btnArray[1].texture = this.textureToggleOff
+                }
+            }
+
         })
 
 
@@ -325,14 +373,14 @@ export default class Game{
            
         })
         this.controller.spinBtnSprite.addEventListener('pointerdown',()=>{
-            if(!this.slotGame.isSpinning){
+            if(!this.slotGame.isSpinning && !this.isAutoPlay){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
                     //this.slotGame.notLongPress = false;
-                    this.startSpin('normal')
+                    this.startSpinAutoPlay(1)
                     this.slotGame.timeScale = 0
                 }else{
-                    this.startSpin('normal')
+                    this.startSpinAutoPlay(1)
                     this.slotGame.timeScale = 10
                 }
             }else{
@@ -376,13 +424,14 @@ export default class Game{
     private onSpinEnd(){
         this.paylineGreetings = 'SPIN TO WIN'
         this.updatePaylineAnimation(this.paylineGreetings)
-        this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
+     
         this.userCredit += this.slotGame.totalWin 
         this.slotGame.totalWin = 0
         this.updateCreditValues()
 
         if(this.slotGame.autoPlayCount == 0){
             this.isAutoPlay = false
+            this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
         }
     }
     private updateTextValues(){

@@ -139,6 +139,9 @@ export default class Modal{
             this.modalFrame.removeChild(this.autoPlaySettingsCont)
             this.modalFrame.removeChild(this.infoContainer)
             this.app.stage.removeChild(this.container)
+            while(this.btnArray.length){
+                this.btnArray.pop();
+              }  
         })
         this.modalFrame.addChild(this.closeModal)
     }
