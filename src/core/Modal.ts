@@ -22,6 +22,10 @@ export default class Modal{
         private autoPlaySettingsCont:PIXI.Container
         private systemContainer:PIXI.Container
         private infoContainer:PIXI.Container
+
+        public separator:PIXI.Sprite
+        public leftContainer:PIXI.Container
+        public rightContainer:PIXI.Container
         //sprites
         private overlay:PIXI.Sprite
         private modalFrame:PIXI.Sprite
@@ -139,11 +143,113 @@ export default class Modal{
             this.modalFrame.removeChild(this.autoPlaySettingsCont)
             this.modalFrame.removeChild(this.infoContainer)
             this.app.stage.removeChild(this.container)
+            this.modalFrame.removeChild(this.leftContainer)
+            this.modalFrame.removeChild(this.rightContainer)
+            this.modalFrame.removeChild(this.separator)
             while(this.btnArray.length){
                 this.btnArray.pop();
               }  
         })
         this.modalFrame.addChild(this.closeModal)
+    }
+
+    public createSystemSettings(betDisable:boolean){
+        this.betBtns = []
+        this.soundBtns = []
+        this.systemContainer = new PIXI.Container
+        this.leftContainer = new PIXI.Container
+        this.rightContainer = new PIXI.Container
+        //title
+        this.modalTitle = Functions.loadTexture(this.textureArray,'modal_settings','system_settings_title')
+        this.modalTitle.x = (this.modalFrame.width - this.modalTitle.width)/2
+        this.modalTitle.y = this.titleY
+        //this.modalFrame.addChild(this.modalTitle)
+        // middle separator
+        this.separator = Functions.loadTexture(this.textureArray,'modal_settings','separate')
+        this.separator.x = (this.modalFrame.width - this.separator.width)/2
+        this.separator.y = (this.modalFrame.height - this.separator.height)/2
+       // this.systemContainer.addChild(this.separator)
+        this.modalFrame.addChild(this.separator)
+        this.systemContainer.y = (this.modalFrame.height - this.systemContainer.height) / 2 
+
+        // left container content
+        // bet container
+        this.betAmountSpite = Functions.loadTexture(this.textureArray,'modal_settings','total_bet_container')
+        this.betAmountSpite.x = 0
+        this.leftContainer.addChild(this.betAmountSpite)
+        // bet amount
+        this.betAmountText = new PIXI.Text(`1`, this.textStyle)
+        this.betAmountText.x = (this.betAmountSpite.width - this.betAmountText.width)/2
+        this.betAmountText.y = (this.betAmountSpite.height - this.betAmountText.height)/2
+        this.leftContainer.addChild(this.betAmountText)
+        // title
+        const totalBetText = new PIXI.Text(`TOTAL BET`, this.textStyle);
+        totalBetText.x = (this.betAmountSpite.width - totalBetText.width)/2
+        totalBetText.y = -totalBetText.height
+        this.leftContainer.addChild(totalBetText)
+        // minus btn
+        this.minusBtn = Functions.loadTexture(this.textureArray,'modal_settings','minus_bet')
+        this.minusBtn.x = this.betAmountSpite.x
+        this.minusBtn.y= this.betAmountSpite.height + 20
+        this.minusBtn.interactive = betDisable?false:true
+        this.minusBtn.cursor = 'pointer'
+        this.betBtns.push(this.minusBtn)
+        this.leftContainer.addChild(this.minusBtn)
+        // plus btn
+        this.plusBtn = Functions.loadTexture(this.textureArray,'modal_settings','add_bet')
+        this.plusBtn.x = (this.betAmountSpite.x + this.betAmountSpite.width) - this.plusBtn.width
+        this.plusBtn.y = this.minusBtn.y
+        this.plusBtn.interactive = betDisable?false:true
+        this.plusBtn.cursor = 'pointer'
+        this.betBtns.push(this.plusBtn)
+        this.leftContainer.x = (this.separator.x - this.leftContainer.width) / 2 
+        this.leftContainer.y = (this.modalFrame.height - this.leftContainer.height)/2 + 50
+        this.leftContainer.addChild(this.plusBtn)
+        //this.systemContainer.addChild(this.leftContainer)
+        this.modalFrame.addChild(this.leftContainer)
+        
+        // right container content
+        const ambientTitle = new PIXI.Text(`AMBIENT MUSIC`, this.textStyle);
+        ambientTitle.x = 0
+        // ambient desc
+        const ambientDesc = new PIXI.Text(`Turn on and off background music `, this.textStyle2);
+        ambientDesc.x = 0
+        ambientDesc.y = 45
+        this.rightContainer.addChild(ambientTitle,ambientDesc)
+        // ambient toggle
+        this.musicBtnSprite = Functions.loadTexture(this.textureArray,'modal_settings','off')
+        this.musicBtnSprite.interactive = true
+        this.musicBtnSprite.cursor = 'pointer'
+        this.musicBtnSprite.x = ambientTitle.width +50
+        this.musicBtnSprite.y = ambientTitle.y + 15
+        this.soundBtns.push(this.musicBtnSprite)
+        this.rightContainer.addChild(this.musicBtnSprite)
+        // sfx 
+        const sfxTitle = new PIXI.Text(`SOUND FX`, this.textStyle);
+        sfxTitle.x = 0 
+        sfxTitle.y = 120
+        // ambient desc
+        const sfxDesc = new PIXI.Text(`Turn on and off sound effects`, this.textStyle2);
+        sfxDesc.x = sfxTitle.x
+        sfxDesc.y = sfxTitle.y + 45
+        this.rightContainer.addChild(sfxTitle,sfxDesc)
+        // ambient toggle
+        this.sfxBtnSprite = Functions.loadTexture(this.textureArray,'modal_settings','off')
+        this.sfxBtnSprite.interactive = true
+        this.sfxBtnSprite.cursor ='pointer'
+        this.sfxBtnSprite.x = sfxTitle.width + 160
+        this.sfxBtnSprite.y = sfxTitle.y + 15
+        this.soundBtns.push(this.sfxBtnSprite)
+        this.rightContainer.addChild(this.sfxBtnSprite)
+        this.rightContainer.x = this.separator.x + 60
+        this.rightContainer.y = (this.modalFrame.height - this.rightContainer.height)/2 
+       // this.systemContainer.addChild(this.rightContainer)
+       this.modalFrame.addChild(this.rightContainer)
+
+        this.modalFrame.addChild(this.systemContainer)
+        this.container.addChild(this.overlay,this.modalFrame)
+        this.app.stage.addChild(this.container)
+        
     }
 
     public createAutoPlaySettings(){

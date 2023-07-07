@@ -33,6 +33,7 @@ export default class Loader{
                     {name: 'slot',srcs: 'assets/slot/sprites/slot.json'},
                     {name: 'modal_main',srcs: 'assets/modal/sprites/modal_main.json'},
                     {name: 'modal_autoplay',srcs: 'assets/modal/sprites/modal_autoplay.json'},
+                    {name: 'modal_settings',srcs: 'assets/modal/sprites/modal_settings.json'},
                     {name: 'background',srcs: 'assets/main/background.json'},
                     {name: 'frame',srcs: 'assets/main/frame.json'},
                     {name: 'slot_frame_controller',srcs: 'assets/main/slot_frame_controller.json'},

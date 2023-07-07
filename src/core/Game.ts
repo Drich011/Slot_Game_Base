@@ -77,6 +77,15 @@ export default class Game{
 
     private spinType:string = 'normal'
 
+    //sound 
+    private sound:Array<any>;
+    private globalSound:Boolean = false;
+    private ambientCheck:Boolean = false;
+    private sfxCheck:Boolean = false;
+    //sound
+    private sounBtnSpriteOn:PIXI.Texture
+    private sounBtnSpriteOff:PIXI.Texture
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
@@ -169,6 +178,8 @@ export default class Game{
         this.textureRollOff = Functions.loadTexture(this.textureArray,'modal_autoplay','roll').texture
         this.spinTextureOn = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
         this.spinTextureOff = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
+        this.sounBtnSpriteOff =  Functions.loadTexture(this.textureArray,'slot_frame_controller','volume_off').texture
+        this.sounBtnSpriteOn =  Functions.loadTexture(this.textureArray,'slot_frame_controller','volume').texture
 
         //buttons Hover
         this.autoplayHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','autoplay_hover').texture
@@ -188,41 +199,41 @@ export default class Game{
 
        
         window.document.addEventListener('keydown', (e)=> {
-            if(!this.slotGame.isSpinning && !this.isAutoPlay){
-                this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
-                if(this.slotGame.notLongPress === true) {
-                    this.slotGame.notLongPress = false;
-                    this.startSpinAutoPlay(1)
-                    this.slotGame.timeScale = 0
+            if(e.code === 'Space'  || e.key === 'Enter'){       
+                if(!this.slotGame.isSpinning && !this.isAutoPlay){
+                    this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
+                    if(this.slotGame.notLongPress === true) {
+                        this.slotGame.notLongPress = false;
+                        this.startSpinAutoPlay(1)
+                        this.slotGame.timeScale = 0
+                    }else{
+                        this.startSpinAutoPlay(1)
+                        this.slotGame.timeScale = 10
+                    }
                 }else{
-                    this.startSpinAutoPlay(1)
                     this.slotGame.timeScale = 10
                 }
-            }else{
-                this.slotGame.timeScale = 10
             }
         });
-
-        window.document.addEventListener('touchstart', (e)=> {
-            if(!this.slotGame.isSpinning){
-                
-                if(this.slotGame.notLongPress === true) {
-                    //this.slotGame.notLongPress = false;
-                    this.startSpinAutoPlay(5)
-                    this.slotGame.timeScale = 0
-                }else{
-                    this.startSpinAutoPlay(5)
-                    this.slotGame.timeScale = 10
-                }
-            }else{
-                this.slotGame.timeScale = 10
-            }
-        });
-        
 
         window.document.addEventListener('keyup', ()=> {
             this.slotGame.notLongPress = true;
         });
+
+        window.document.addEventListener('touchstart', (e)=> {
+            if(!this.slotGame.isSpinning){
+                if(this.slotGame.notLongPress === true) {
+                    this.startSpinAutoPlay(5)
+                    this.slotGame.timeScale = 0
+                }else{
+                    this.startSpinAutoPlay(5)
+                    this.slotGame.timeScale = 10
+                }
+            }else{
+                this.slotGame.timeScale = 10
+            }
+        });
+
     }  
 
     private createBackground(){
@@ -281,6 +292,100 @@ export default class Game{
         this.controller.settingBtnSpite.addEventListener('mouseleave',()=>{
             this.controller.settingBtnSpite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','settings').texture
         })
+        this.controller.settingBtnSpite.addEventListener('pointerdown',()=>{
+            this.controller.settingBtnSpite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','settings').texture
+            //this.isOpenSetting = true
+            //this.playSound(1)
+
+            this.controller.infoBtnSprite.interactive = false
+            this.controller.settingBtnSpite.interactive = false
+            this.controller.autoPlay.interactive = false
+
+            // call settings modal
+            this.modal.createSystemSettings(this.isAutoPlay)
+            // spin type toggle
+            this.modal.betBtns.forEach((data,index)=>{
+                data.addEventListener('pointerdown',()=>{
+                   // this.playSound(1)
+                    // data.addListener('mouseover',() =>{
+                    //     this.playSound(2)
+                    // })
+                    
+                    if(index == 0){
+                        this.betIndex--
+                        this.betAmount = json.bet_amounts[this.betIndex]
+                        if(this.betIndex == 0){
+                            this.modal.betBtns[0].interactive = false
+                        }else{
+                            this.modal.betBtns[0].interactive = true
+                            this.modal.betBtns[1].interactive = true
+                        }
+                    }else{
+                        this.betIndex++
+                        this.betAmount = json.bet_amounts[this.betIndex]
+                        if(this.betIndex == 5){
+                            this.modal.betBtns[1].interactive = false
+                        }else{
+                            this.modal.betBtns[0].interactive = true
+                            this.modal.betBtns[1].interactive = true
+                        }
+                    }
+                    this.modal.betAmountText.text = this.betAmount
+                    this.modal.betAmountText.x = (this.modal.betAmountSpite.width - this.modal.betAmountText.width)/2
+                    this.betTextValue()
+                })
+            })
+            // disable click for adjusting bet buttons
+            if(this.betIndex == 0){
+                this.modal.betBtns[0].interactive = false
+            }
+            if(this.betIndex == 5){
+                this.modal.betBtns[1].interactive = false
+            }
+            //sound events
+            if(this.ambientCheck){
+                this.modal.soundBtns[0].texture = this.textureToggleOn
+            }else{
+                this.modal.soundBtns[0].texture = this.textureToggleOff
+            }
+            if(this.sfxCheck){
+                this.modal.soundBtns[1].texture = this.textureToggleOn
+            }else{
+                this.modal.soundBtns[1].texture = this.textureToggleOff
+            }
+
+            this.modal.soundBtns.forEach((data,index)=>{
+                // data.addListener('mouseover',() =>{
+                //     this.playSound(2)
+                // })
+                data.addEventListener('pointerdown',()=>{
+                    //this.playSound(1)
+                    if(data.texture == this.textureToggleOff){
+                        Howler.mute(false)
+                        this.controller.soundBtnSprite.texture = this.sounBtnSpriteOn
+                        data.texture = this.textureToggleOn
+                        if(index == 0){
+                           this.ambientCheck = true
+                        }else{
+                           this.sfxCheck = true
+                        }
+                    }else{
+                        data.texture = this.textureToggleOff
+                        this.controller.soundBtnSprite.texture = this.sounBtnSpriteOff
+                        if(index == 0){
+                            this.ambientCheck = false 
+                        }else{
+                            this.sfxCheck = false
+                        }  
+                    }
+                    //this.checkSoundToggle()
+                })
+            })
+            // re position bet amount tex on click
+            this.modal.betAmountText.text = this.betAmount
+            this.modal.betAmountText.x = (this.modal.betAmountSpite.width - this.modal.betAmountText.width)/2
+        })
+
 
 
         this.controller.autoPlay.addEventListener('mouseenter',()=>{
@@ -299,6 +404,7 @@ export default class Game{
                 this.controller.spinBtnSprite.texture = this.spinTextureOn 
                 this.slotGame.autoPlayCount = 0
             }else{
+                this.controller.autoPlay.interactive = false
                 this.modal.createAutoPlaySettings()
                 //MODAL AUTOPLAY
                 this.modal.rollBtn.addEventListener('pointerdown',()=>{
@@ -361,13 +467,12 @@ export default class Game{
 
 
         this.controller.spinBtnSprite.addEventListener('mouseenter',()=>{
-            if(!this.slotGame.isSpinning){
+            if(!this.slotGame.isSpinning && !this.isAutoPlay){
                 this.controller.spinBtnSprite.texture = this.spinHover
             }
-           
         })
         this.controller.spinBtnSprite.addEventListener('mouseleave',()=>{
-            if(!this.slotGame.isSpinning){
+            if(!this.slotGame.isSpinning && !this.isAutoPlay){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
             }
            
