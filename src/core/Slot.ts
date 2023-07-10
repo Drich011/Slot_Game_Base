@@ -342,7 +342,6 @@ export default class Slot{
                 if(!this.freeSpinStart){
                 //s this.spinReelAnimation[2].repeat(2)
                 }
-
             }
         }
     }
