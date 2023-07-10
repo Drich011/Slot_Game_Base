@@ -341,6 +341,9 @@ export default class Modal{
         this.rollBtn.addEventListener('pointerdown',()=>{
             this.modalFrame.removeChild(this.autoPlaySettingsCont)
             this.app.stage.removeChild(this.container)   
+            while(this.btnArray.length){
+                this.btnArray.pop();
+              }  
         })
     }
 
