@@ -71,6 +71,12 @@ export default class Slot{
     private onSpinEnd:()=>void
     private onSpinning:()=>void
 
+    private reelsSymbolsTop1:Array<any> = []
+    private reelsSymbolsTop2:Array<any> = []
+    private reelsSymbolsTop3:Array<any> = []
+    private reelsSymbolsTop4:Array<any> = []
+    private reelsSymbolsTop5:Array<any> = []
+
     private reelsValues:Array<Array<number>> = [
         // [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
         // [2,8,3,11,10,7,3,11,9,1,4,2,3,4,4,7,5,10,5,9,2,6,8,6,9,3,9,11,1,7],
@@ -174,6 +180,16 @@ export default class Slot{
     }
 
     public startSpin(spinType:string){
+        while(this.reelsSymbolsTop1.length){
+            this.reelsSymbolsTop1.pop()
+            this.reelsSymbolsTop2.pop()
+            this.reelsSymbolsTop3.pop()
+            this.reelsSymbolsTop4.pop()
+            this.reelsSymbolsTop5.pop()
+        }
+        // this.reelsSymbols.forEach((data:any,index:number)=>{
+        //     this.checkReelTopValue(index)
+        // })
          this.bonusSymbolsCount = 0
          //this.soundStop(5)
          this.spinType = spinType
@@ -367,6 +383,53 @@ export default class Slot{
             symbol.width = this.blockWidth
             symbol.height = this.blockHeight
         })
+        this.checkReelTopValue(i)
+    }
+    private checkReelTopValue(i:number){
+        let j = 0
+      // console.log( this.reelContainer[i])
+       
+       if(i==0){
+        this.reelsSymbols[i].forEach((data:any,index:number)=>{
+            if(index<3){
+                this.reelsSymbolsTop1.push(this.reelsSymbols[i][index].type)
+            }
+        })
+        console.log(this.reelsSymbolsTop1,"1")
+       }
+       if(i==1){
+        this.reelsSymbols[i].forEach((data:any,index:number)=>{
+            if(index<3){
+                this.reelsSymbolsTop2.push(this.reelsSymbols[i][index].type)
+            }
+        })
+        console.log(this.reelsSymbolsTop2,"2")
+       }
+       if(i==2){
+        this.reelsSymbols[i].forEach((data:any,index:number)=>{
+            if(index<3){
+                this.reelsSymbolsTop3.push(this.reelsSymbols[i][index].type)
+            }
+        })
+        console.log(this.reelsSymbolsTop3,"3")
+       }
+       if(i==3){
+        this.reelsSymbols[i].forEach((data:any,index:number)=>{
+            if(index<3){
+                this.reelsSymbolsTop4.push(this.reelsSymbols[i][index].type)
+            }
+        })
+        console.log(this.reelsSymbolsTop4,"4")
+       }
+       if(i==4){
+        this.reelsSymbols[i].forEach((data:any,index:number)=>{
+            if(index<3){
+                this.reelsSymbolsTop5.push(this.reelsSymbols[i][index].type)
+            }
+        })
+        console.log(this.reelsSymbolsTop5,"5")
+       }
+
     }
     private updateVisibleBlocks(index:number){
         let firstPosY =  2250
@@ -378,6 +441,7 @@ export default class Slot{
             // hide the top symbols
             if(i > 2){
                 data.symbol.alpha = 0
+
             }
             // show the visible symbols
             if(i == 9){
