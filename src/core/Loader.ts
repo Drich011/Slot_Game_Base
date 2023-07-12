@@ -30,6 +30,7 @@ export default class Loader{
                 name: 'game-screen',
                 assets: [
                     {name: 'main',srcs: 'assets/roulette.json'},
+                    {name: 'wheel',srcs: 'assets/wheel.json'},
                     {name: 'slot',srcs: 'assets/slot/sprites/slot.json'},
                     {name: 'modal_main',srcs: 'assets/modal/sprites/modal_main.json'},
                     {name: 'modal_autoplay',srcs: 'assets/modal/sprites/modal_autoplay.json'},

@@ -86,6 +86,8 @@ export default class Game{
     private sounBtnSpriteOn:PIXI.Texture
     private sounBtnSpriteOff:PIXI.Texture
 
+    private wheelDeg:Array<number> = [3600,3690,3780,3870]
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
@@ -189,6 +191,28 @@ export default class Game{
         this.spinHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_hover').texture
         this.settingsHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','settings_hover').texture
 
+        
+        this.roulette =  new PIXI.Sprite(this.textureArray.wheel.textures['wheel.png'])
+        this.roulette.x = 960
+        this.roulette.y = 500
+        this.roulette.scale.set(0.9)
+        this.roulette.anchor.set(0.5)
+        let tl = gsap.to(this.roulette,{
+            //rotation:PIXI.DEG_TO_RAD*1800,
+            rotation:PIXI.DEG_TO_RAD*this.wheelDeg[Math.floor(Math.random()*4)],
+            duration:5,
+            onUpdate: function() {
+                // if (tl.progress() > 0.7898) {
+                //     tl.timeScale(0.1);
+                // }
+                // console.log(this.roulette.rotation)
+                // tl.timeScale(1);
+               // console.log(tl.progress())
+               // console.log(this.wheelDeg[Math.random()*3])
+            }
+        })
+       // this.gameContainer.addChild(this.roulette)
+
         this.createBackground()
         this.createSlot()
         this.createController()
@@ -196,6 +220,7 @@ export default class Game{
         this.events()
         this.updateTextValues()
         this.app.stage.addChild(this.gameContainer)
+        this.app.stage.addChild(this.roulette)
 
        
         window.document.addEventListener('keydown', (e)=> {
@@ -214,6 +239,20 @@ export default class Game{
                     this.slotGame.timeScale = 10
                 }
             }
+            let tl = gsap.to(this.roulette,{
+                //rotation:PIXI.DEG_TO_RAD*1800,
+                rotation:PIXI.DEG_TO_RAD*this.wheelDeg[Math.floor(Math.random()*4)],
+                duration:5,
+                onUpdate: function() {
+                    // if (tl.progress() > 0.7898) {
+                    //     tl.timeScale(0.1);
+                    // }
+                    // console.log(this.roulette.rotation)
+                    // tl.timeScale(1);
+                   // console.log(tl.progress())
+                   // console.log(this.wheelDeg[Math.random()*3])
+                }
+            })
         });
 
         window.document.addEventListener('keyup', ()=> {
