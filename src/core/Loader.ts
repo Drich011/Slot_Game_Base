@@ -49,6 +49,8 @@ export default class Loader{
                     {name: 'green_crystal',srcs: 'assets/slot/sprites/green_crystal.json'},
                     {name: 'orange_crystal',srcs: 'assets/slot/sprites/orange_crystal.json'},
                     {name: 'wild',srcs: 'assets/slot/sprites/wild.json'},
+                    {name: 'bonus',srcs: 'assets/bonus/sprites/bonus.json'},
+                    {name: 'pop_glow',srcs: 'assets/bonus/sprites/pop_glow.json'},
                 ],
             }],
         };

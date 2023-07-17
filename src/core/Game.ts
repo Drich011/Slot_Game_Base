@@ -18,9 +18,11 @@ export default class Game{
     private app:PIXI.Application
     private textureArray:any
     private gameContainer:PIXI.Container;
+    private wheelEventContainer:PIXI.Container;
     private baseWidth:number = 0
     private baseHeight:number = 0
     private roulette:PIXI.Sprite
+    private roulette_arrow:PIXI.Sprite
 
     private slotGame:Slot;
     private controller:Controller;
@@ -85,11 +87,20 @@ export default class Game{
     //sound
     private sounBtnSpriteOn:PIXI.Texture
     private sounBtnSpriteOff:PIXI.Texture
+    
+    //bonus
+    private buyBonusBtn:PIXI.Sprite
+    private wheelDeg:Array<number> = [3600,3672,3744,3816,3888]
 
-    private wheelDeg:Array<number> = [3600,3690,3780,3870]
+    //spines
+    private popGlow:Spine
+    private popGlow2:Spine
+    private buyBonusFrame:PIXI.Sprite
+    private overlay:PIXI.Sprite
 
     constructor(){
         this.gameContainer = new PIXI.Container
+        this.wheelEventContainer = new PIXI.Container
         this.gameContainer.sortableChildren = true
         this.paylineContainer = new PIXI.Container
         this.whiteYellow = new PIXI.TextStyle({  
@@ -191,26 +202,12 @@ export default class Game{
         this.spinHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_hover').texture
         this.settingsHover = Functions.loadTexture(this.textureArray,'slot_frame_controller','settings_hover').texture
 
-        
-        this.roulette =  new PIXI.Sprite(this.textureArray.wheel.textures['wheel.png'])
-        this.roulette.x = 960
-        this.roulette.y = 500
-        this.roulette.scale.set(0.9)
-        this.roulette.anchor.set(0.5)
-        // let tl = gsap.to(this.roulette,{
-        //     //rotation:PIXI.DEG_TO_RAD*1800,
-        //     rotation:PIXI.DEG_TO_RAD*this.wheelDeg[Math.floor(Math.random()*4)],
-        //     duration:5,
-        //     onUpdate: function() {
-        //         // if (tl.progress() > 0.7898) {
-        //         //     tl.timeScale(0.1);
-        //         // }
-        //         // console.log(this.roulette.rotation)
-        //         // tl.timeScale(1);
-        //        // console.log(tl.progress())
-        //        // console.log(this.wheelDeg[Math.random()*3])
-        //     }
-        // })
+        this.popGlow = new Spine(this.textureArray.pop_glow.spineData)
+        this.popGlow2 = new Spine(this.textureArray.pop_glow.spineData)
+
+
+        //overlay
+        this.overlay = Functions.loadTexture(this.textureArray,'modal_main','overlay')
        // this.gameContainer.addChild(this.roulette)
 
         this.createBackground()
@@ -219,8 +216,13 @@ export default class Game{
         this.createModal()
         this.events()
         this.updateTextValues()
+        this.createBuyBonus()
         this.app.stage.addChild(this.gameContainer)
-        this.app.stage.addChild(this.roulette)
+      
+       
+        // this.app.stage.addChild(this.roulette)
+        // this.app.stage.addChild(this.roulette_arrow)
+
 
        
         window.document.addEventListener('keydown', (e)=> {
@@ -239,20 +241,8 @@ export default class Game{
                     this.slotGame.timeScale = 10
                 }
             }
-            // let tl = gsap.to(this.roulette,{
-            //     //rotation:PIXI.DEG_TO_RAD*1800,
-            //     rotation:PIXI.DEG_TO_RAD*this.wheelDeg[Math.floor(Math.random()*4)],
-            //     duration:5,
-            //     onUpdate: function() {
-            //         // if (tl.progress() > 0.7898) {
-            //         //     tl.timeScale(0.1);
-            //         // }
-            //         // console.log(this.roulette.rotation)
-            //         // tl.timeScale(1);
-            //        // console.log(tl.progress())
-            //        // console.log(this.wheelDeg[Math.random()*3])
-            //     }
-            // })
+           
+
         });
 
         window.document.addEventListener('keyup', ()=> {
@@ -274,6 +264,7 @@ export default class Game{
         });
 
     }  
+
 
     private createBackground(){
         this.background =  new PIXI.Sprite(this.textureArray.background.textures['background.png'])
@@ -306,6 +297,232 @@ export default class Game{
         //     this.playSound(2)
         // })
     }
+    private createBuyBonus(){
+        this.buyBonusBtn = Functions.loadTexture(this.textureArray,'bonus','buy_free_spin_btn')
+        this.buyBonusBtn.interactive = true
+        this.buyBonusBtn.cursor = 'pointer'
+        this.buyBonusBtn.y = (this.baseHeight - this.buyBonusBtn.height)/2
+        this.buyBonusText = new PIXI.Text(`${this.betAmount}`, this.textStyle)
+        this.buyBonusText.x = (this.buyBonusBtn.width - this.buyBonusText.width)/2
+        this.buyBonusText.y = (this.buyBonusBtn.height - this.buyBonusText.height) - 20
+        this.buyBonusBtn.addChild(this.buyBonusText)
+        this.gameContainer.addChild(this.buyBonusBtn)
+
+        this.buyBonusBtn.addEventListener('pointerdown',()=>{
+            this.buyBonusPopUp()
+        })
+    }
+
+    private buyBonusPopUp(){
+        let glowX = 956
+        let glowY = 1044
+        let dY = -80
+
+        // buy bonus modal 
+        // glow animation
+        this.popGlow.x = glowX
+        this.popGlow.y = glowY
+        this.popGlow.alpha = 0
+        this.popGlow.scale.x = 1.1
+        this.popGlow.scale.y = 1.3
+        Functions.loadSpineAnimation(this.popGlow,'glow',true,0.1)
+        this.overlay.addChild(this.popGlow)
+        
+        this.buyBonusFrame = Functions.loadTexture(this.textureArray,'bonus','get_free_spin')
+        this.buyBonusFrame.x = (this.baseWidth - this.buyBonusFrame.width)/2
+        this.buyBonusFrame.y = dY
+        //amount
+        const amount = new PIXI.Text(`${this.betAmount}`, this.textStyle2)
+        amount.x = (this.buyBonusFrame.width - amount.width)/2
+        amount.y = (this.buyBonusFrame.height - amount.height) * 0.85
+        this.buyBonusFrame.addChild(amount)
+        //close buy btn
+        const close = Functions.loadTexture(this.textureArray,'bonus','ex')
+        close.interactive = true
+        close.cursor = 'pointer'
+        close.x = (close.width)
+        close.y = (this.buyBonusFrame.height - close.height)*.94
+        this.buyBonusFrame.addChild(close)
+        //close buy btn
+        const check = Functions.loadTexture(this.textureArray,'bonus','check')
+        check.interactive = true
+        check.cursor = 'pointer'
+        check.x = (this.buyBonusFrame.width - check.width)*.85
+        check.y = (this.buyBonusFrame.height - check.height)*.94
+        this.buyBonusFrame.addChild(check)
+        let sY = -this.buyBonusFrame.height
+        // close.addListener('mouseover',() =>{
+        //     this.playSound(2)
+        // })
+        // reject bonus
+        // close.addEventListener('mouseenter',()=>{
+        //     close.texture = this.exHover
+        //  })
+        //  close.addEventListener('mouseleave',()=>{
+        //     close.texture =Functions.loadTexture(this.textureArray,'bonus','ex').texture
+        //  })
+        close.addEventListener('pointerdown',()=>{
+            close.interactive = false
+            close.texture =Functions.loadTexture(this.textureArray,'bonus','ex').texture
+            //this.playSound(13) 
+            this.hideBonusPopUp(dY,sY);
+            //this.isOpenModal = false
+        })
+        // check.addListener('mouseover',() =>{
+        //     this.playSound(2)
+        // })
+        // accept bonus
+        // check.addEventListener('mouseenter',()=>{
+        //    check.texture = this.checkHover
+        // })
+        // check.addEventListener('mouseleave',()=>{
+        //     check.texture = Functions.loadTexture(this.textureArray,'bonus','check').texture
+        // })
+        check.addEventListener('pointerdown',()=>{
+            check.texture = Functions.loadTexture(this.textureArray,'bonus','check').texture
+           // this.playSound(12)
+            this.slotGame.freeSpinStart = true
+           // this.slotGame.isFreeSpin = true
+            this.hideBonusPopUp(dY,sY)
+            check.interactive = false
+            let timeOut = setTimeout(()=>{
+                this.startSpinAutoPlay(1)
+                this.createEventSpin()
+                clearTimeout(timeOut)
+            },1000)
+            let timeOut1 = setTimeout(()=>{
+                check.interactive = true
+                this.buyBonusFrame.removeChild(check)
+                this.buyBonusFrame.removeChild(close)
+                clearTimeout(timeOut1)
+            },5000)
+           
+        })
+        let bonusFrameShow = gsap.from(this.buyBonusFrame, {
+            delay:.3,
+            y:sY,
+            onComplete:()=>{
+                bonusFrameShow.kill()
+                let bounceUp = gsap.to(this.buyBonusFrame,{
+                    y:dY-160,
+                    onComplete:()=>{
+                        bounceUp.kill()
+                        let fadeInGlow = gsap.to(this.popGlow,{
+                            delay:0,
+                            duration:1,
+                            alpha:1,
+                            onComplete:()=>{
+                                fadeInGlow.kill()
+                            }
+                        }) 
+                    }
+                })
+            }
+        })
+        this.overlay.addChild(this.buyBonusFrame)
+        this.gameContainer.addChild( this.overlay)
+    }
+    private hideBonusPopUp(dY:number,sY:number){
+       // this.enableButtons(true)
+        let fadeOutGlow = gsap.to(this.popGlow,{
+            duration:0.3,
+            alpha:0,
+            onComplete:()=>{
+                fadeOutGlow.kill()
+                this.overlay.removeChild(this.popGlow)
+                let bonusFrameHide = gsap.to(this.buyBonusFrame, {
+                    delay:0.2,
+                    duration:0.2,
+                    y:dY*1.2,
+                    onComplete:()=>{
+                        bonusFrameHide.kill()
+                        let bounceDown = gsap.to(this.buyBonusFrame,{
+                            duration:0.2,
+                            y:sY,
+                            onComplete:()=>{
+                                bounceDown.kill()
+                                this.gameContainer.removeChild(this.overlay)
+                            }
+                        })
+                    }
+                })
+            }
+        }) 
+    }
+
+    private createEventSpin(){
+        
+        this.roulette_arrow =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_arrow.png'])
+        this.roulette =  new PIXI.Sprite(this.textureArray.wheel.textures['wheel.png'])
+        this.roulette.x = 960
+        this.roulette.y = 500
+        this.roulette.scale.set(0.1)
+        this.roulette.anchor.set(0.5)
+        this.roulette_arrow.x = this.roulette.x - (this.roulette_arrow.width/2)
+        this.roulette_arrow.y = 130
+
+
+
+        this.wheelEventContainer.addChild(this.roulette)
+        this.wheelEventContainer.addChild(this.roulette_arrow)
+        this.gameContainer.addChild(this.wheelEventContainer)
+
+        let wheelShow = gsap.to(this.roulette.scale,{
+            x: 1,
+            y: 1, 
+            duration: 1, 
+            ease: 'power2.out',
+            onComplete:()=>{
+                wheelShow.kill()
+            }
+        })
+
+        
+
+        let timeOut = setTimeout(()=>{
+            let tl = gsap.to(this.roulette,{
+                //rotation:PIXI.DEG_TO_RAD*1800,
+                rotation:PIXI.DEG_TO_RAD*this.wheelDeg[Math.floor(Math.random()*5)],
+                duration:5,
+                onUpdate: function() {
+                    // if (tl.progress() > 0.7898) {
+                    //     tl.timeScale(0.1);
+                    // }
+                    // console.log(this.roulette.rotation)
+                    // tl.timeScale(1);
+                   // console.log(tl.progress())
+                   // console.log(this.wheelDeg[Math.random()*3])
+                },
+                onComplete:()=>{
+
+                    let timeOut = setTimeout(()=>{
+                        let wheelShow2 = gsap.to(this.roulette.scale,{
+                            x: 0.01,
+                            y: 0.01, 
+                            duration: 1, 
+                            ease: 'power2.out',
+                            onComplete:()=>{
+                                wheelShow2.kill()
+                            }
+                        })
+                        let timeOut2 = setTimeout(()=>{
+                            this.gameContainer.removeChild(this.wheelEventContainer)
+                            this.wheelEventContainer.removeChild(this.roulette)
+                            this.wheelEventContainer.removeChild(this.roulette_arrow)
+                            clearTimeout(timeOut2)
+                        },1000)
+                      
+                        clearTimeout(timeOut)
+                    },1500)
+            
+                }
+            })
+            clearTimeout(timeOut)
+        },3000)
+
+
+    }
+
 
     private startSpin(spinType:string){
         this.slotGame.startSpin(spinType)
