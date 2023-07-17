@@ -4,48 +4,48 @@
 			"frame": {
 				"x": 10,
 				"y": 10,
-				"w": 73,
-				"h": 73
+				"w": 90,
+				"h": 94
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 73,
-				"h": 73
+				"w": 90,
+				"h": 94
 			},
 			"sourceSize": {
-				"w": 73,
-				"h": 73
+				"w": 90,
+				"h": 94
 			}
 		},
 		"autoplay_hover.png": {
 			"frame": {
-				"x": 103,
+				"x": 120,
 				"y": 10,
-				"w": 73,
-				"h": 73
+				"w": 90,
+				"h": 94
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 73,
-				"h": 73
+				"w": 90,
+				"h": 94
 			},
 			"sourceSize": {
-				"w": 73,
-				"h": 73
+				"w": 90,
+				"h": 94
 			}
 		},
 		"balance_container.png": {
 			"frame": {
-				"x": 196,
+				"x": 230,
 				"y": 10,
 				"w": 295,
-				"h": 49
+				"h": 70
 			},
 			"rotated": false,
 			"trimmed": false,
@@ -53,37 +53,37 @@
 				"x": 0,
 				"y": 0,
 				"w": 295,
-				"h": 49
+				"h": 70
 			},
 			"sourceSize": {
 				"w": 295,
-				"h": 49
+				"h": 70
 			}
 		},
 		"bet_container.png": {
 			"frame": {
-				"x": 511,
+				"x": 545,
 				"y": 10,
-				"w": 293,
-				"h": 48
+				"w": 328,
+				"h": 68
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 293,
-				"h": 48
+				"w": 328,
+				"h": 68
 			},
 			"sourceSize": {
-				"w": 293,
-				"h": 48
+				"w": 328,
+				"h": 68
 			}
 		},
 		"controller.png": {
 			"frame": {
 				"x": 10,
-				"y": 103,
+				"y": 124,
 				"w": 1920,
 				"h": 176
 			},
@@ -103,7 +103,7 @@
 		"frame.png": {
 			"frame": {
 				"x": 10,
-				"y": 299,
+				"y": 320,
 				"w": 1682,
 				"h": 886
 			},
@@ -124,7 +124,7 @@
 			"frame": {
 				"x": 1950,
 				"y": 10,
-				"w": 1486,
+				"w": 1510,
 				"h": 770
 			},
 			"rotated": false,
@@ -132,11 +132,11 @@
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 1486,
+				"w": 1510,
 				"h": 770
 			},
 			"sourceSize": {
-				"w": 1486,
+				"w": 1510,
 				"h": 770
 			}
 		},
@@ -144,220 +144,220 @@
 			"frame": {
 				"x": 1712,
 				"y": 800,
-				"w": 75,
-				"h": 75
+				"w": 98,
+				"h": 98
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 75,
-				"h": 75
+				"w": 98,
+				"h": 98
 			},
 			"sourceSize": {
-				"w": 75,
-				"h": 75
+				"w": 98,
+				"h": 98
 			}
 		},
 		"info_hover.png": {
 			"frame": {
-				"x": 1807,
+				"x": 1830,
 				"y": 800,
-				"w": 75,
-				"h": 75
+				"w": 98,
+				"h": 98
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 75,
-				"h": 75
+				"w": 98,
+				"h": 98
 			},
 			"sourceSize": {
-				"w": 75,
-				"h": 75
+				"w": 98,
+				"h": 98
 			}
 		},
 		"settings.png": {
 			"frame": {
-				"x": 824,
+				"x": 893,
 				"y": 10,
-				"w": 94,
-				"h": 62
+				"w": 138,
+				"h": 77
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 94,
-				"h": 62
+				"w": 138,
+				"h": 77
 			},
 			"sourceSize": {
-				"w": 94,
-				"h": 62
+				"w": 138,
+				"h": 77
 			}
 		},
 		"settings_hover.png": {
 			"frame": {
-				"x": 938,
+				"x": 1051,
 				"y": 10,
-				"w": 94,
-				"h": 62
+				"w": 138,
+				"h": 77
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 94,
-				"h": 62
+				"w": 138,
+				"h": 77
 			},
 			"sourceSize": {
-				"w": 94,
-				"h": 62
+				"w": 138,
+				"h": 77
 			}
 		},
 		"spin.png": {
 			"frame": {
-				"x": 1902,
+				"x": 1948,
 				"y": 800,
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			},
 			"sourceSize": {
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			}
 		},
 		"spin_hover.png": {
 			"frame": {
-				"x": 2050,
+				"x": 2120,
 				"y": 800,
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			},
 			"sourceSize": {
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			}
 		},
 		"spin_stop.png": {
 			"frame": {
-				"x": 2198,
+				"x": 2292,
 				"y": 800,
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			},
 			"sourceSize": {
-				"w": 128,
-				"h": 128
+				"w": 152,
+				"h": 152
 			}
 		},
 		"volume.png": {
 			"frame": {
-				"x": 2346,
-				"y": 800,
-				"w": 78,
-				"h": 75
+				"x": 1209,
+				"y": 10,
+				"w": 90,
+				"h": 85
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 78,
-				"h": 75
+				"w": 90,
+				"h": 85
 			},
 			"sourceSize": {
-				"w": 78,
-				"h": 75
+				"w": 90,
+				"h": 85
 			}
 		},
 		"volume_hover.png": {
 			"frame": {
-				"x": 2444,
-				"y": 800,
-				"w": 75,
-				"h": 75
+				"x": 1319,
+				"y": 10,
+				"w": 90,
+				"h": 85
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 75,
-				"h": 75
+				"w": 90,
+				"h": 85
 			},
 			"sourceSize": {
-				"w": 75,
-				"h": 75
+				"w": 90,
+				"h": 85
 			}
 		},
 		"volume_off.png": {
 			"frame": {
-				"x": 2539,
-				"y": 800,
-				"w": 75,
-				"h": 75
+				"x": 1429,
+				"y": 10,
+				"w": 90,
+				"h": 85
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 75,
-				"h": 75
+				"w": 90,
+				"h": 85
 			},
 			"sourceSize": {
-				"w": 75,
-				"h": 75
+				"w": 90,
+				"h": 85
 			}
 		},
 		"volume_off_hover.png": {
 			"frame": {
-				"x": 2634,
-				"y": 800,
-				"w": 75,
-				"h": 75
+				"x": 1539,
+				"y": 10,
+				"w": 90,
+				"h": 85
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 75,
-				"h": 75
+				"w": 90,
+				"h": 85
 			},
 			"sourceSize": {
-				"w": 75,
-				"h": 75
+				"w": 90,
+				"h": 85
 			}
 		}
 	},
@@ -367,8 +367,8 @@
 		"image": "slot_frame_controller.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 3446,
-			"h": 1195
+			"w": 3470,
+			"h": 1216
 		},
 		"scale": "1"
 	}

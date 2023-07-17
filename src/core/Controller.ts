@@ -33,7 +33,7 @@ export default class Controller{
         this.container.sortableChildren = true
         this.textStyle = new PIXI.TextStyle({  
             fontFamily: 'Eras ITC',
-            fontSize: 43,
+            fontSize: 30,
             fontWeight: 'bolder',
             fill: ['#ffffff', '#ffffff'], // gradient
             strokeThickness: 5,
@@ -79,42 +79,42 @@ export default class Controller{
         //info btn
         this.infoBtnSprite = infoBtnSprite
         this.infoBtnSprite.y = this.parentSprite.y+10
-        this.infoBtnSprite.x = this.infoBtnSprite.width*1.64
+        this.infoBtnSprite.x = this.infoBtnSprite.width*1.34
         this.infoBtnSprite.interactive = true
         this.infoBtnSprite.cursor = 'pointer'
         this.container.addChild(this.infoBtnSprite)
         //sound
         this.soundBtnSprite = sounBtnSprite
-        this.soundBtnSprite.y = ((this.parentSprite.y + this.parentSprite.height) - this.soundBtnSprite.height) - 20
-        this.soundBtnSprite.x = this.soundBtnSprite.width*1.01 - 25 
+        this.soundBtnSprite.y = ((this.parentSprite.y + this.parentSprite.height) - this.soundBtnSprite.height) - 5
+        this.soundBtnSprite.x = this.soundBtnSprite.width*1.01 - 45 
         this.soundBtnSprite.interactive = true
         this.soundBtnSprite.cursor = 'pointer'
         this.container.addChild(this.soundBtnSprite)
         //spin
         this.spinBtnSprite = spinBtnSprite
-        this.spinBtnSprite.y = this.parentSprite.y + 30
-        this.spinBtnSprite.x = (this.parentSprite.width - this.spinBtnSprite.width) - 157
+        this.spinBtnSprite.y = this.parentSprite.y + 15
+        this.spinBtnSprite.x = (this.parentSprite.width - this.spinBtnSprite.width) - 133
         this.spinBtnSprite.interactive = true
         this.spinBtnSprite.cursor = 'pointer'
         this.container.addChild(this.spinBtnSprite)
         //autoplay
         this.autoPlay = autoPlaySprite
-        this.autoPlay.y = (this.parentSprite.y + this.parentSprite.height) - this.autoPlay.height*1.2
-        this.autoPlay.x = (this.parentSprite.width - this.autoPlay.width) - 50
+        this.autoPlay.y = (this.parentSprite.y + this.parentSprite.height) - this.autoPlay.height*1 +3
+        this.autoPlay.x = (this.parentSprite.width - this.autoPlay.width) - 34
         this.autoPlay.interactive = true
         this.autoPlay.cursor = 'pointer'
         this.container.addChild(this.autoPlay)
         //settings
         this.settingBtnSpite = settingsBtnSpite
-        this.settingBtnSpite.y = this.parentSprite.y+90
-        this.settingBtnSpite.x = this.settingBtnSpite.width *2.1
+        this.settingBtnSpite.y = this.parentSprite.y+100
+        this.settingBtnSpite.x = this.settingBtnSpite.width *2 - 80
         this.settingBtnSpite.interactive = true
         this.settingBtnSpite.cursor = 'pointer'
         this.container.addChild(this.settingBtnSpite)
         // bet container
         this.betContainerSprite = betContSpite
         this.betContainerSprite.y = this.parentSprite.y + 105
-        this.betContainerSprite.x = this.betContainerSprite.width*1.05
+        this.betContainerSprite.x = this.betContainerSprite.width*1.1 +10
         //bet text
         this.betText = new PIXI.Text(`1`, this.textStyle)
         this.betText.x = (this.betContainerSprite.width - this.betText.width)/2 

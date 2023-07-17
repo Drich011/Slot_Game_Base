@@ -113,7 +113,7 @@ export default class Slot{
         const frameX = 95
         const frameY = 70
         this.frameBg = Functions.loadTexture(this.textureArray,'slot_frame_controller','frame_bg')
-        this.frameBg.width = 1490
+        this.frameBg.width = 1510
         this.frameBg.height = 765
         this.frameBg.y = ((this.baseHeight - this.frameBg.height)/2) - 30
         this.frameBg.x = (this.baseWidth - this.frameBg.width)/2 
@@ -122,8 +122,8 @@ export default class Slot{
         this.frameBorder = Functions.loadTexture(this.textureArray,'slot_frame_controller','frame')
         this.frameBorder.width = 1682
         this.frameBorder.height = 886
-        this.frameBorder.x = this.frameBg.x - frameX
-        this.frameBorder.y = this.frameBg.y - frameY - 3
+        this.frameBorder.x = this.frameBg.x - frameX + 8
+        this.frameBorder.y = this.frameBg.y - frameY
         this.container.addChild(this.frameBorder)
     }
 
