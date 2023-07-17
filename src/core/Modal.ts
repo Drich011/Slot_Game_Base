@@ -127,16 +127,17 @@ export default class Modal{
     }
     private createParent(){
         this.overlay = Functions.loadTexture(this.textureArray,'modal_main','overlay')
-        this.modalFrame = Functions.loadTexture(this.textureArray,'modal_main','modal_frame')
+        this.modalFrame = Functions.loadTexture(this.textureArray,'modal_settings_space','modal_frame')
+
         this.modalFrame.x = (this.overlay.width - this.modalFrame.width)/2
         this.modalFrame.y = (this.overlay.height - this.modalFrame.height)/2
         //close modal
-        this.closeModal = Functions.loadTexture(this.textureArray,'modal_main','close_button') 
-        this.closeModal.scale.set(.8)
+        this.closeModal = Functions.loadTexture(this.textureArray,'modal_settings_space','close_button') 
+        this.closeModal.scale.set(1)
         this.closeModal.cursor = 'pointer'
         this.closeModal.interactive = true
-        this.closeModal.x = (this.modalFrame.width - this.closeModal.width) - 30
-        this.closeModal.y = 30 
+        this.closeModal.x = (this.modalFrame.width - this.closeModal.width) - 80
+        this.closeModal.y = 45 
         this.closeModal.addListener("pointerdown", () => {
             this.modalFrame.removeChild(this.systemContainer)
             this.modalFrame.removeChild(this.modalTitle)
@@ -165,7 +166,7 @@ export default class Modal{
         this.modalTitle.y = this.titleY
         //this.modalFrame.addChild(this.modalTitle)
         // middle separator
-        this.separator = Functions.loadTexture(this.textureArray,'modal_settings','separate')
+        this.separator = Functions.loadTexture(this.textureArray,'modal_settings_space','separate')
         this.separator.x = (this.modalFrame.width - this.separator.width)/2
         this.separator.y = (this.modalFrame.height - this.separator.height)/2
        // this.systemContainer.addChild(this.separator)
@@ -174,7 +175,7 @@ export default class Modal{
 
         // left container content
         // bet container
-        this.betAmountSpite = Functions.loadTexture(this.textureArray,'modal_settings','total_bet_container')
+        this.betAmountSpite = Functions.loadTexture(this.textureArray,'modal_settings_space','total_bet_container')
         this.betAmountSpite.x = 0
         this.leftContainer.addChild(this.betAmountSpite)
         // bet amount
@@ -188,7 +189,7 @@ export default class Modal{
         totalBetText.y = -totalBetText.height
         this.leftContainer.addChild(totalBetText)
         // minus btn
-        this.minusBtn = Functions.loadTexture(this.textureArray,'modal_settings','minus_bet')
+        this.minusBtn = Functions.loadTexture(this.textureArray,'modal_settings_space','minus_bet')
         this.minusBtn.x = this.betAmountSpite.x
         this.minusBtn.y= this.betAmountSpite.height + 20
         this.minusBtn.interactive = betDisable?false:true
@@ -196,7 +197,7 @@ export default class Modal{
         this.betBtns.push(this.minusBtn)
         this.leftContainer.addChild(this.minusBtn)
         // plus btn
-        this.plusBtn = Functions.loadTexture(this.textureArray,'modal_settings','add_bet')
+        this.plusBtn = Functions.loadTexture(this.textureArray,'modal_settings_space','add_bet')
         this.plusBtn.x = (this.betAmountSpite.x + this.betAmountSpite.width) - this.plusBtn.width
         this.plusBtn.y = this.minusBtn.y
         this.plusBtn.interactive = betDisable?false:true
@@ -217,7 +218,7 @@ export default class Modal{
         ambientDesc.y = 45
         this.rightContainer.addChild(ambientTitle,ambientDesc)
         // ambient toggle
-        this.musicBtnSprite = Functions.loadTexture(this.textureArray,'modal_settings','off')
+        this.musicBtnSprite = Functions.loadTexture(this.textureArray,'modal_settings_space','off')
         this.musicBtnSprite.interactive = true
         this.musicBtnSprite.cursor = 'pointer'
         this.musicBtnSprite.x = ambientTitle.width +50

@@ -185,8 +185,8 @@ export default class Game{
         this.baseHeight = this.app.screen.height
         this.textureArray = res
 
-        this.textureToggleOn = Functions.loadTexture(this.textureArray,'modal_autoplay','on').texture
-        this.textureToggleOff = Functions.loadTexture(this.textureArray,'modal_autoplay','off').texture
+        this.textureToggleOn = Functions.loadTexture(this.textureArray,'modal_settings_space','on').texture
+        this.textureToggleOff = Functions.loadTexture(this.textureArray,'modal_settings_space','off').texture
         this.textureRollOn = Functions.loadTexture(this.textureArray,'modal_autoplay','roll_active').texture
         this.textureRollOff = Functions.loadTexture(this.textureArray,'modal_autoplay','roll').texture
         this.spinTextureOn = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
@@ -218,6 +218,7 @@ export default class Game{
         this.updateTextValues()
         this.createBuyBonus()
         this.app.stage.addChild(this.gameContainer)
+        this.gameContainer.addChild(this.wheelEventContainer)
       
        
         // this.app.stage.addChild(this.roulette)
@@ -476,9 +477,6 @@ export default class Game{
                 wheelShow.kill()
             }
         })
-
-        
-
         let timeOut = setTimeout(()=>{
             let tl = gsap.to(this.roulette,{
                 //rotation:PIXI.DEG_TO_RAD*1800,
