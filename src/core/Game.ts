@@ -215,8 +215,9 @@ export default class Game{
         this.createController()
         this.createModal()
         this.events()
-        this.updateTextValues()
         this.createBuyBonus()
+        this.updateTextValues()
+
         this.app.stage.addChild(this.gameContainer)
         this.gameContainer.addChild(this.wheelEventContainer)
       
@@ -803,9 +804,9 @@ export default class Game{
         this.controller.betText.text = this.betAmount 
         this.controller.betText.x = (this.controller.betContainerSprite.width - this.controller.betText.width)/2 
         //bet value buy bonus
-        // this.buyBonusText.text = this.betAmount
-        // this.buyBonusText.x = (this.buyBonusBtn.width - this.buyBonusText.width)/2
-        // this.buyBonusText.y = (this.buyBonusBtn.height - this.buyBonusText.height) - 20
+         this.buyBonusText.text = this.betAmount
+         this.buyBonusText.x = (this.buyBonusBtn.width - this.buyBonusText.width)/2
+         this.buyBonusText.y = (this.buyBonusBtn.height - this.buyBonusText.height) - 20
     }
     private updateCreditValues(){
         //credit value
