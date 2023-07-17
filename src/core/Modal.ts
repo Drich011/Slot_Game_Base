@@ -268,7 +268,9 @@ export default class Modal{
             textValue.x = (btn.width - textValue.width)/2 
             textValue.y = (btn.height - textValue.height)/2 
             btn.addChild(textValue)
-            btn.x = data.x *250
+            btn.x = data.x *230
+            btn.width = 200
+            
             btn.cursor = 'pointer'
             btn.interactive = true
             if(index >=5){
