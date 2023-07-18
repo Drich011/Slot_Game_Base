@@ -395,7 +395,7 @@ export default class Slot{
                 this.reelsSymbolsTop1.push(this.reelsSymbols[i][index].type)
             }
         })
-        console.log(this.reelsSymbolsTop1,"1")
+       // console.log(this.reelsSymbolsTop1,"1")
        }
        if(i==1){
         this.reelsSymbols[i].forEach((data:any,index:number)=>{
@@ -403,7 +403,7 @@ export default class Slot{
                 this.reelsSymbolsTop2.push(this.reelsSymbols[i][index].type)
             }
         })
-        console.log(this.reelsSymbolsTop2,"2")
+      //  console.log(this.reelsSymbolsTop2,"2")
        }
        if(i==2){
         this.reelsSymbols[i].forEach((data:any,index:number)=>{
@@ -411,7 +411,7 @@ export default class Slot{
                 this.reelsSymbolsTop3.push(this.reelsSymbols[i][index].type)
             }
         })
-        console.log(this.reelsSymbolsTop3,"3")
+       // console.log(this.reelsSymbolsTop3,"3")
        }
        if(i==3){
         this.reelsSymbols[i].forEach((data:any,index:number)=>{
@@ -419,7 +419,7 @@ export default class Slot{
                 this.reelsSymbolsTop4.push(this.reelsSymbols[i][index].type)
             }
         })
-        console.log(this.reelsSymbolsTop4,"4")
+       // console.log(this.reelsSymbolsTop4,"4")
        }
        if(i==4){
         this.reelsSymbols[i].forEach((data:any,index:number)=>{
@@ -427,7 +427,7 @@ export default class Slot{
                 this.reelsSymbolsTop5.push(this.reelsSymbols[i][index].type)
             }
         })
-        console.log(this.reelsSymbolsTop5,"5")
+      //  console.log(this.reelsSymbolsTop5,"5")
        }
 
     }

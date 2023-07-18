@@ -90,7 +90,7 @@ export default class Game{
     
     //bonus
     private buyBonusBtn:PIXI.Sprite
-    private wheelDeg:Array<number> = [3600,3672,3744,3816,3888]
+    private wheelDeg:Array<number> = [3600,3673,3745,3816,3887]
 
     //spines
     private popGlow:Spine
@@ -217,11 +217,12 @@ export default class Game{
         this.events()
         this.createBuyBonus()
         this.updateTextValues()
+        
 
         this.app.stage.addChild(this.gameContainer)
         this.gameContainer.addChild(this.wheelEventContainer)
-      
-       
+
+          
         // this.app.stage.addChild(this.roulette)
         // this.app.stage.addChild(this.roulette_arrow)
 
@@ -733,6 +734,8 @@ export default class Game{
            
         })
         this.controller.spinBtnSprite.addEventListener('pointerdown',()=>{
+            // console.log(this.slotGame.isSpinning,"this.slotGame.isSpinning")
+            // console.log(this.isAutoPlay,"this.isAutoPlay")
             if(!this.slotGame.isSpinning && !this.isAutoPlay){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
