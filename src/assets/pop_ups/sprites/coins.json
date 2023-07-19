@@ -1,0 +1,87 @@
+{"frames": {
+
+"new_coin_spinning_00000.png":
+{
+	"frame": {"x":489,"y":1137,"w":478,"h":478},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":11,"w":478,"h":478},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00001.png":
+{
+	"frame": {"x":1,"y":1186,"w":453,"h":480},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":39,"y":10,"w":453,"h":480},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00002.png":
+{
+	"frame": {"x":489,"y":728,"w":407,"h":484},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":83,"y":8,"w":407,"h":484},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00003.png":
+{
+	"frame": {"x":493,"y":412,"w":314,"h":488},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":136,"y":6,"w":314,"h":488},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00004.png":
+{
+	"frame": {"x":1,"y":505,"w":219,"h":488},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":147,"y":6,"w":219,"h":488},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00005.png":
+{
+	"frame": {"x":1,"y":316,"w":187,"h":490},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":125,"y":5,"w":187,"h":490},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00006.png":
+{
+	"frame": {"x":1,"y":1,"w":313,"h":495},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":57,"y":0,"w":313,"h":495},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00007.png":
+{
+	"frame": {"x":498,"y":1,"w":409,"h":488},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":6,"w":409,"h":488},
+	"sourceSize": {"w":500,"h":500}
+},
+"new_coin_spinning_00008.png":
+{
+	"frame": {"x":1,"y":726,"w":458,"h":486},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":7,"w":458,"h":486},
+	"sourceSize": {"w":500,"h":500}
+}},
+"animations": {
+	"new_coin_spinning": ["new_coin_spinning_00000.png","new_coin_spinning_00001.png","new_coin_spinning_00002.png","new_coin_spinning_00003.png","new_coin_spinning_00004.png","new_coin_spinning_00005.png","new_coin_spinning_00006.png","new_coin_spinning_00007.png","new_coin_spinning_00008.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "coins.png",
+	"format": "RGBA8888",
+	"size": {"w":987,"h":1640},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5b814414a0acdc347728f9574424beb4:4384d7b28aa39030dc2986ca9fc4eaf0:51f960d29b2cb2ae0010061540f14fb7$"
+}
+}

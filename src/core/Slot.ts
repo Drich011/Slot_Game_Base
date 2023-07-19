@@ -33,7 +33,7 @@ export default class Slot{
     private reelEffectPosX:Array<number> = [369,666,967.5,1263,1558.5]
     private maskPosY:number = 130
     public reelContainer:Array<any> = []
-    private reelsSymbols:Array<any> = []
+    public reelsSymbols:Array<any> = []
     private spinCount:number= 0
     public isSpinning:boolean = false
     public notLongPress:boolean = true
@@ -41,7 +41,7 @@ export default class Slot{
     public levelBarIndicator:PIXI.Sprite
     public maskSprite:PIXI.Sprite
 
-    private readonly bonusType:number = 10
+    public readonly bonusType:number = 10
 
     private reelY:number = -2005.2
     // private reelY:number = -6773.7
@@ -54,7 +54,7 @@ export default class Slot{
     private reelEffect:Array<any> = []
     private spinReelAnimation:Array<any> = []
 
-    private bonusSymbolsCount:number = 0
+    public bonusSymbolsCount:number = 0
 
     // payline animation
     public paylines:Array<any> = []
@@ -62,7 +62,6 @@ export default class Slot{
     public generateTypeIndex:number = 0
 
     private animateDone:boolean = true;
-    public freeSpinStart:boolean = false 
 
     // payout
     public totalWin:number = 0
@@ -70,12 +69,26 @@ export default class Slot{
     //methods
     private onSpinEnd:()=>void
     private onSpinning:()=>void
+    private reelContainWildAndBonus:(index: number)=>void
 
     private reelsSymbolsTop1:Array<any> = []
     private reelsSymbolsTop2:Array<any> = []
     private reelsSymbolsTop3:Array<any> = []
     private reelsSymbolsTop4:Array<any> = []
     private reelsSymbolsTop5:Array<any> = []
+
+    //freespin
+    private symbolCount = 0
+    private symbolCount2 = 0
+    private symbolCount3= 0
+    public winFreeSpin = 0
+    public isFreeSpin:boolean = false
+    public isFreeSpinDone:boolean = true
+    public freeSpinStart:boolean = false
+    public autoplayDoneEvent:boolean = true
+    public startCountWinFreeSpin:boolean = false
+    public isMatchingGame:boolean = false
+    public isBonusTick:boolean = false
 
     private reelsValues:Array<Array<number>> = [
         // [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
@@ -90,7 +103,7 @@ export default class Slot{
         [11,5,9,2,4,6,11,10,1,11,10,1]
     ]
 
-    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void,onSpinning:()=>void,){
+    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void,onSpinning:()=>void,reelContainWildAndBonus:(index: number)=>void){
         this.app = app
         this.baseWidth = this.app.screen.width
         this.baseHeight = this.app.screen.height
@@ -100,6 +113,7 @@ export default class Slot{
 
         this.onSpinEnd = onSpinEnd
         this.onSpinning = onSpinning
+        this.reelContainWildAndBonus = reelContainWildAndBonus
 
         this.init()
     }
@@ -148,7 +162,19 @@ export default class Slot{
             data.y = this.reelY
             this.reelsContainer.addChild(data)
             this.container.addChild(this.reelsContainer)
+
+            const reelEffect = new Spine(this.textureArray.reel_effect.spineData)
+            reelEffect.height = this.frameBorder.height *1.08
+            reelEffect.width*=1.1
+            reelEffect.x = this.reelEffectPosX[index]
+            reelEffect.y = 535
+            reelEffect.visible = false
+            this.reelEffect.push(reelEffect)
+            this.container.addChild(reelEffect)  
+            reelEffect.zIndex = 1000
         })
+
+        
         //create mask for reels
         this.maskSprite = Functions.loadTexture(this.textureArray,'frame','mask_big') 
         this.maskSprite.height = 1490 
@@ -193,9 +219,9 @@ export default class Slot{
          this.bonusSymbolsCount = 0
          //this.soundStop(5)
          this.spinType = spinType
-        //  this.symbolCount = 0
-        //  this.symbolCount2 = 0
-        //  this.symbolCount3 = 0
+         this.symbolCount = 0
+         this.symbolCount2 = 0
+         this.symbolCount3 = 0
          this.paylines = []
          let hiddenReelY = -100
          let dY =250
@@ -271,12 +297,18 @@ export default class Slot{
                              }
                          },
                          onComplete:()=>{
-                            //  if(!this.isFreeSpin || this.freeSpinStart){
-                            //  this.reelEffectShow(index)
-                            //  }
+                             if(!this.isFreeSpin || this.freeSpinStart){
+                             this.reelEffectShow(index)
+                             }
                              //this.playSound(4);
-                             spin.kill()               
-                                 this.generateNewSymbols(index)
+                             spin.kill()         
+                             if(this.isFreeSpin && this.isFreeSpinDone){
+                                this.generateNewSymbolsEvent(index)
+                                console.log("GENERATE SYMBOLS EVENT")  
+                            }else{
+                                this.generateNewSymbols(index)
+                            }      
+                               
                              let bounceStop = gsap.to(data,{
                                  y: dY,
                                  duration:0.3,
@@ -287,6 +319,9 @@ export default class Slot{
                                      data.y = this.reelY
                                      this.updateVisibleBlocks(index)
                                      this.applyMotionBlur(index,false)
+                                     if(!this.isFreeSpin){
+                                        this.reelContainWildAndBonus(index)
+                                    }
                                      if(this.spinCount == 5){
                                          this.maskSprite.height = this.frameBorder.height 
                                          this.maskSprite.y = this.frameBorder.y 
@@ -334,30 +369,39 @@ export default class Slot{
      private generateTypes(i:number){
         let arr = Functions.arrayRandomizer(this.reelsValues[i])      
         this.preGeneratedTypes.push(arr)
-       
-        // if( i >= 0 ){
-        //     this.spinReelAnimation[0].repeat(1)
-        // }
-        // if( i >= 1 ){
-        //     this.spinReelAnimation[1].repeat(1)
-        // }
-        // if( i >= 2 ){
-        //     this.spinReelAnimation[2].repeat(1)
-        // }
-        // if( i >= 3 ){
-        //     this.spinReelAnimation[3].repeat(1)
-        // } 
-        // if( i >= 4 ){
-        //     this.spinReelAnimation[4].repeat(1)
-        // }
-       
         if(i >= 2 ){
             if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType)){
-               // this.reelEffect[2].visible = true 
-               // Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
+                this.reelEffect[2].visible = true 
+                // if(!this.sound[11].playing()){
+                //     this.playSound(11)
+                // }
+                Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
                 if(!this.freeSpinStart){
-                //s this.spinReelAnimation[2].repeat(2)
+                this.spinReelAnimation[2].repeat(2)
                 }
+                if(i == 3){
+                    if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType) && (this.preGeneratedTypes[2][0] == this.bonusType || this.preGeneratedTypes[2][1] == this.bonusType || this.preGeneratedTypes[2][2] == this.bonusType)){
+                        if(!this.freeSpinStart){
+                            this.spinReelAnimation[3].repeat(4)
+                        }
+                        this.isBonusTick = true
+                    }
+                }
+                if(i == 4){
+                    if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && 
+                    (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType) && 
+                    (this.preGeneratedTypes[2][0] == this.bonusType || this.preGeneratedTypes[2][1] == this.bonusType || this.preGeneratedTypes[2][2] == this.bonusType) &&
+                    (this.preGeneratedTypes[3][0] == this.bonusType || this.preGeneratedTypes[3][1] == this.bonusType || this.preGeneratedTypes[3][2] == this.bonusType)){
+                        if(!this.freeSpinStart){
+                         this.spinReelAnimation[4].repeat(6)
+                        }
+                        this.isBonusTick = true
+                    }
+                }
+            }
+            if(this.isFreeSpin){
+               // this.playSound(11)
+                Functions.loadSpineAnimation(this.reelEffect[2],'animation',true,1)
             }
         }
     }
@@ -384,6 +428,176 @@ export default class Slot{
             symbol.height = this.blockHeight
         })
         this.checkReelTopValue(i)
+    }
+    private generateNewSymbolsEvent(i:number){
+        let arr:Array<any> = new Array(12).fill(null)
+        this.reelContainer[i].removeChildren()
+        arr.forEach((data,index)=>{
+            let reelValue = this.reelsValues[i]
+            let symbolIndex = reelValue[Math.floor(Math.random() * reelValue.length)]
+            
+            let newSymbol1 = [9,0,4,2,3]
+            let newSymbol2 = [1,9,6,1,4]
+            let newSymbol3 = [4,3,9,2,2]
+            let type:any;
+            let payout:any;
+            let symbol:any;
+           
+            if(index==0){
+               
+                type = json.symbolAssets[newSymbol1[this.symbolCount]].type
+                payout = json.symbolAssets[newSymbol1[this.symbolCount]].pay
+                symbol = new Spine(this.textureArray[`${json.symbolAssets[newSymbol1[this.symbolCount]].symbol}`].spineData)
+                this.symbolCount++     
+            }
+            else if(index ==1){
+                type = json.symbolAssets[newSymbol2[this.symbolCount2]].type
+                payout = json.symbolAssets[newSymbol2[this.symbolCount2]].pay
+                symbol = new Spine(this.textureArray[`${json.symbolAssets[newSymbol2[this.symbolCount2]].symbol}`].spineData)
+                this.symbolCount2++ 
+            }
+            else if(index ==2){
+                type = json.symbolAssets[newSymbol3[this.symbolCount3]].type
+                payout = json.symbolAssets[newSymbol3[this.symbolCount3]].pay
+                symbol = new Spine(this.textureArray[`${json.symbolAssets[newSymbol3[this.symbolCount3]].symbol}`].spineData)
+                this.symbolCount3++ 
+            }
+            else{
+                 type = json.symbolAssets[symbolIndex-1].type
+                 payout = json.symbolAssets[symbolIndex-1].pay
+                 symbol = new Spine(this.textureArray[`${json.symbolAssets[symbolIndex-1].symbol}`].spineData)
+            }
+            
+            // let type = json.symbolAssets[symbolIndex-1].type
+            // let payout = json.symbolAssets[symbolIndex-1].pay
+            // let symbol = new Spine(this.textureArray[`${json.symbolAssets[symbolIndex-1].symbol}`].spineData)
+           
+            symbol.y = index * this.blockSpacing
+            let el ={
+                type:type,
+                symbol:symbol,
+                payout:payout
+            }
+            data = el
+            this.reelsSymbols[i][index].type = data.type
+            this.reelsSymbols[i][index].symbol = data.symbol
+            this.reelsSymbols[i][index].payout = data.payout
+            this.reelsSymbols[i][index].symbol.skeleton.setSkinByName('no_blur')
+            this.reelContainer[i].addChild(data.symbol)
+            symbol.width = this.blockWidth
+            symbol.height = this.blockHeight
+        })
+    }
+    private reelEffectShow(index:number){
+        if(index == 2 && !this.isFreeSpin){
+            this.reelEffect[2].visible = false
+            if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType) && (this.preGeneratedTypes[2][0] == this.bonusType || this.preGeneratedTypes[2][1] == this.bonusType || this.preGeneratedTypes[2][2] == this.bonusType)){
+                this.reelEffect[3].visible = true
+                Functions.loadSpineAnimation(this.reelEffect[3],'animation',true,1)
+               // this.playSound(11)
+            }
+        }
+        if(index == 3 && !this.isFreeSpin){
+            this.reelEffect[2].visible = false
+            this.reelEffect[3].visible = false
+            if((this.preGeneratedTypes[0][0] == this.bonusType || this.preGeneratedTypes[0][1] == this.bonusType || this.preGeneratedTypes[0][2] == this.bonusType) && 
+            (this.preGeneratedTypes[1][0] == this.bonusType || this.preGeneratedTypes[1][1] == this.bonusType || this.preGeneratedTypes[1][2] == this.bonusType) && 
+            (this.preGeneratedTypes[2][0] == this.bonusType || this.preGeneratedTypes[2][1] == this.bonusType || this.preGeneratedTypes[2][2] == this.bonusType) &&
+            (this.preGeneratedTypes[3][0] == this.bonusType || this.preGeneratedTypes[3][1] == this.bonusType || this.preGeneratedTypes[3][2] == this.bonusType)){
+                this.reelEffect[4].visible = true
+                Functions.loadSpineAnimation(this.reelEffect[4],'animation',true,1)
+              //  this.playSound(11)
+                
+            }
+        }
+        if(index == 4  && !this.isFreeSpin){
+            this.reelEffect[4].visible = false
+        }
+
+        if(this.isFreeSpin && index == 0){
+            this.reelEffect[2].visible = true
+            this.isBonusTick = true
+        }
+
+        if(index == 4  && this.isFreeSpin){
+            this.reelEffect[2].visible = false
+        }
+    }
+    // private reelContainWildAndBonus(i:number){
+    //     this.reelsSymbols[i].forEach((data:any,index:number)=>{
+    //         if(index > 8){
+    //             if(data.type == 10){ 
+    //                // this.playSound(18)
+    //                 //this.soundVolume(18,0.2)
+    //                 Functions.loadSpineAnimation(data.symbol,'open',false,1.1)
+    //                 const globalPos = data.symbol.getGlobalPosition() 
+                   
+    //                 this.createWildCoin(this.reelContainer[i].x,globalPos.y-100)
+    //                // this.levelBarIndicator.width++
+    //                // Math.round(this.levelBarIndicator.width)
+    //                 // reset level bar and start matching game
+    //                 // if( Math.round(this.levelBarIndicator.width) == this.levelBarWidth){
+    //                 //     this.autoPlayCount = 0
+    //                 //     this.levelBarIndicator.width = this.levelBarWidth
+    //                 //     this.isMatchingGame = true
+    //                 //   //  this.matchingGame()
+    //                 // }
+    //             }
+    //             if(data.type == this.bonusType){
+    //                 this.bonusSymbolsCount++
+    //                 if(this.bonusSymbolsCount > 1){
+    //               //      this.playSound(10)
+    //                 }else{
+    //                //     this.playSound(9)
+    //                 }
+    //                 Functions.loadSpineAnimation(data.symbol,'fall',false,0.6)
+    //             }
+    //         }
+    //     })
+    // }
+    private createWildCoin(coinX:number,coinY:number){
+        // let levelBarX = this.levelBarIndicator.getGlobalPosition().x
+        // let levelBarY = this.levelBarIndicator.y
+        let barPosX = 0
+        let barPosY = 0
+        let duration = 1
+
+        barPosX = 130
+        barPosY = 450
+
+        for(let i = 0;i<=3;i++){
+            const coin = Functions.animatedSprite(this.textureArray['coins'],'new_coin_spinning')
+            coin.scale.set(0.15)
+            coin.x = (coinX)
+            coin.y = (coinY)
+            coin.alpha = 0.4
+            coin.animationSpeed = 0.5
+            coin.play();
+            let coinAnimation = gsap.to(coin,{
+                y:barPosY,
+                x:barPosX - (coin.width/2),
+                alpha:1,
+                delay:i*0.1,
+                duration:duration,
+                onComplete:()=>{
+                    coinAnimation.kill()
+                    if(i == 0){
+                      //  this.playSound(19)
+                      //  this.soundVolume(19,0.2)
+                    }
+                    let coinFade = gsap.to(coin,{
+                        delay:0.5,
+                        duration:0.3,
+                        alpha:0,
+                        onComplete:()=>{
+                            coinFade.kill()
+                            this.container.removeChild(coin)
+                        }
+                    })
+                }
+            })
+            this.container.addChild(coin)
+        }
     }
     private checkReelTopValue(i:number){
         let j = 0

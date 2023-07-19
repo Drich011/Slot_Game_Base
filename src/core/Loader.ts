@@ -52,6 +52,8 @@ export default class Loader{
                     {name: 'wild',srcs: 'assets/slot/sprites/wild.json'},
                     {name: 'bonus',srcs: 'assets/bonus/sprites/bonus.json'},
                     {name: 'pop_glow',srcs: 'assets/bonus/sprites/pop_glow.json'},
+                    {name: 'reel_effect',srcs: 'assets/bonus/sprites/reel_effect.json'},
+                    {name: 'coins',srcs: 'assets/pop_ups/sprites/coins.json'},
                 ],
             }],
         };

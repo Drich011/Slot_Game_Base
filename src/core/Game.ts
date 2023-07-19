@@ -99,6 +99,8 @@ export default class Game{
     private buyBonusFrame:PIXI.Sprite
     private overlay:PIXI.Sprite
 
+    public readonly bonusType:number = 10
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.wheelEventContainer = new PIXI.Container
@@ -278,7 +280,7 @@ export default class Game{
     }
 
     private createSlot(){
-        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this),this.onSpinning.bind(this))
+        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this),this.onSpinning.bind(this),this.reelContainWildAndBonus.bind(this))
         this.gameContainer.addChild(this.slotGame.container)
         this.slotGame.container.y = +80
     }
@@ -386,12 +388,12 @@ export default class Game{
             check.texture = Functions.loadTexture(this.textureArray,'bonus','check').texture
            // this.playSound(12)
             this.slotGame.freeSpinStart = true
-           // this.slotGame.isFreeSpin = true
+            this.slotGame.isFreeSpin = true
             this.hideBonusPopUp(dY,sY)
             check.interactive = false
             let timeOut = setTimeout(()=>{
                 this.startSpinAutoPlay(1)
-                this.createEventSpin()
+                //this.createEventSpin()
                 clearTimeout(timeOut)
             },1000)
             let timeOut1 = setTimeout(()=>{
@@ -476,7 +478,6 @@ export default class Game{
         this.wheelEventContainer.addChild(this.roulette)
         this.wheelEventContainer.addChild(this.roulette_arrow)
         this.wheelEventContainer.addChild(this.roulette_circle)
-        console.log(this.wheelEventContainer.width)
         this.gameContainer.addChild(this.wheelEventContainer)
 
         let wheelShow = gsap.to(this.roulette.scale,{
@@ -807,6 +808,12 @@ export default class Game{
             this.isAutoPlay = false
             this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
         }
+        if(this.slotGame.isBonusTick){
+            this.freeSpinEvent()
+            this.slotGame.isBonusTick = false
+            this.isAutoPlay = false
+            this.slotGame.autoPlayCount = 0
+        }
     }
     private updateTextValues(){
         this.betTextValue()    
@@ -909,6 +916,87 @@ export default class Game{
         this.paylineTextBottom.y = (this.paylineText.height)+ 15
         this.paylineContainer.x = (this.controller.parentSprite.width - this.paylineContainer.width)/2
         this.paylineContainer.y = 38
+    }
+
+    private freeSpinEvent(){
+        this.createEventSpin()
+    }
+
+    private reelContainWildAndBonus(i:number){
+        this.slotGame.reelsSymbols[i].forEach((data:any,index:number)=>{
+            if(index > 8){
+                if(data.type == 10){ 
+                   // this.playSound(18)
+                    //this.soundVolume(18,0.2)
+                    Functions.loadSpineAnimation(data.symbol,'open',false,1.1)
+                    const globalPos = data.symbol.getGlobalPosition() 
+                   
+                    this.createWildCoin(this.slotGame.reelContainer[i].x,globalPos.y-100)
+                   // this.levelBarIndicator.width++
+                   // Math.round(this.levelBarIndicator.width)
+                    // reset level bar and start matching game
+                    // if( Math.round(this.levelBarIndicator.width) == this.levelBarWidth){
+                    //     this.autoPlayCount = 0
+                    //     this.levelBarIndicator.width = this.levelBarWidth
+                    //     this.isMatchingGame = true
+                    //   //  this.matchingGame()
+                    // }
+                }
+                if(data.type == this.slotGame.bonusType){
+                    this.slotGame.bonusSymbolsCount++
+                    if(this.slotGame.bonusSymbolsCount > 1){
+                  //      this.playSound(10)
+                    }else{
+                   //     this.playSound(9)
+                    }
+                    Functions.loadSpineAnimation(data.symbol,'fall',false,0.6)
+                }
+            }
+        })
+    }
+    private createWildCoin(coinX:number,coinY:number){
+        // let levelBarX = this.levelBarIndicator.getGlobalPosition().x
+        // let levelBarY = this.levelBarIndicator.y
+        let barPosX = 0
+        let barPosY = 0
+        let duration = 1
+
+        barPosX = 130
+        barPosY = 450
+
+        for(let i = 0;i<=3;i++){
+            const coin = Functions.animatedSprite(this.textureArray['coins'],'new_coin_spinning')
+            coin.scale.set(0.15)
+            coin.x = (coinX)
+            coin.y = (coinY)
+            coin.alpha = 0.4
+            coin.animationSpeed = 0.5
+            coin.play();
+            let coinAnimation = gsap.to(coin,{
+                y:barPosY,
+                x:barPosX - (coin.width/2),
+                alpha:1,
+                delay:i*0.1,
+                duration:duration,
+                onComplete:()=>{
+                    coinAnimation.kill()
+                    if(i == 0){
+                      //  this.playSound(19)
+                      //  this.soundVolume(19,0.2)
+                    }
+                    let coinFade = gsap.to(coin,{
+                        delay:0.5,
+                        duration:0.3,
+                        alpha:0,
+                        onComplete:()=>{
+                            coinFade.kill()
+                            this.slotGame.container.removeChild(coin)
+                        }
+                    })
+                }
+            })
+            this.slotGame.container.addChild(coin)
+        }
     }
 
 }
