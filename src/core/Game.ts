@@ -182,6 +182,7 @@ export default class Game{
         });
         new Loader(this.init.bind(this))
     }
+    
     private init(res:any,app:PIXI.Application){
         this.app = app
         this.baseWidth = this.app.screen.width
@@ -271,7 +272,6 @@ export default class Game{
 
     }  
 
-
     private createBackground(){
         this.background =  new PIXI.Sprite(this.textureArray.background.textures['background.png'])
         this.gameContainer.addChild(this.background)
@@ -291,6 +291,7 @@ export default class Game{
         this.gameContainer.addChild(this.controller.container)
 
     }
+
     private createModal(){
         this.modal = new Modal(this.app,this.textureArray)
         this.modal.closeModal.addEventListener('pointerdown',() =>{
@@ -303,6 +304,7 @@ export default class Game{
         //     this.playSound(2)
         // })
     }
+    
     private createBuyBonus(){
         this.buyBonusBtn = Functions.loadTexture(this.textureArray,'bonus','buy_free_spin_btn')
         this.buyBonusBtn.interactive = true
@@ -428,6 +430,7 @@ export default class Game{
         this.overlay.addChild(this.buyBonusFrame)
         this.gameContainer.addChild( this.overlay)
     }
+
     private hideBonusPopUp(dY:number,sY:number){
        // this.enableButtons(true)
         let fadeOutGlow = gsap.to(this.popGlow,{
@@ -535,10 +538,10 @@ export default class Game{
 
     }
 
-
     private startSpin(spinType:string){
         this.slotGame.startSpin(spinType)
     }
+
     private startSpinAutoPlay(spinCount:number){
         this.slotGame.autoPlayCount = spinCount
         this.startSpin(this.spinType)
@@ -789,6 +792,7 @@ export default class Game{
 
 
     }
+
     private onSpinning(){
         this.paylineGreetings = 'GOOD LUCK'
         this.paylineContainersAnimation.forEach(data=>{
@@ -796,6 +800,7 @@ export default class Game{
         })
         this.updatePaylineAnimation(this.paylineGreetings)
     }
+
     private onSpinEnd(){
         this.paylineGreetings = 'SPIN TO WIN'
         this.updatePaylineAnimation(this.paylineGreetings)
@@ -815,6 +820,7 @@ export default class Game{
             this.slotGame.autoPlayCount = 0
         }
     }
+
     private updateTextValues(){
         this.betTextValue()    
         this.updateCreditValues()
@@ -829,11 +835,13 @@ export default class Game{
          this.buyBonusText.x = (this.buyBonusBtn.width - this.buyBonusText.width)/2
          this.buyBonusText.y = (this.buyBonusBtn.height - this.buyBonusText.height) - 20
     }
+
     private updateCreditValues(){
         //credit value
         this.controller.creditText.text = Functions.numberWithCommas(this.userCredit) 
         this.controller.creditText.x = (this.controller.creditContainerSprite.width - this.controller.creditText.width)/2  
     }
+
     private createPaylineAnimation(){
         this.paylineText =  new PIXI.Text('SPIN TO WIN', this.textStyle)
         this.paylineTextBottom = new PIXI.Text('Tap space or enter to skip', this.textStyle3)
@@ -954,6 +962,7 @@ export default class Game{
             }
         })
     }
+
     private createWildCoin(coinX:number,coinY:number){
         // let levelBarX = this.levelBarIndicator.getGlobalPosition().x
         // let levelBarY = this.levelBarIndicator.y
@@ -998,5 +1007,4 @@ export default class Game{
             this.slotGame.container.addChild(coin)
         }
     }
-
 }
