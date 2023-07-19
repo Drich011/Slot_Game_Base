@@ -20,24 +20,44 @@
 				"h": 81
 			}
 		},
-		"wheel.png": {
+		"roulette_circle.png": {
 			"frame": {
 				"x": 118,
 				"y": 10,
-				"w": 709,
-				"h": 691
+				"w": 175,
+				"h": 174
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 709,
-				"h": 691
+				"w": 175,
+				"h": 174
 			},
 			"sourceSize": {
-				"w": 709,
-				"h": 691
+				"w": 175,
+				"h": 174
+			}
+		},
+		"wheel.png": {
+			"frame": {
+				"x": 313,
+				"y": 10,
+				"w": 689,
+				"h": 678
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 689,
+				"h": 678
+			},
+			"sourceSize": {
+				"w": 689,
+				"h": 678
 			}
 		}
 	},
@@ -47,8 +67,8 @@
 		"image": "wheel.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 837,
-			"h": 711
+			"w": 1012,
+			"h": 698
 		},
 		"scale": "1"
 	}

@@ -24,27 +24,27 @@
 			"frame": {
 				"x": 235,
 				"y": 10,
-				"w": 83,
-				"h": 82
+				"w": 94,
+				"h": 72
 			},
 			"rotated": false,
 			"trimmed": false,
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 83,
-				"h": 82
+				"w": 94,
+				"h": 72
 			},
 			"sourceSize": {
-				"w": 83,
-				"h": 82
+				"w": 94,
+				"h": 72
 			}
 		},
 		"ex.png": {
 			"frame": {
-				"x": 338,
+				"x": 349,
 				"y": 10,
-				"w": 84,
+				"w": 94,
 				"h": 72
 			},
 			"rotated": false,
@@ -52,20 +52,20 @@
 			"spriteSourceSize": {
 				"x": 0,
 				"y": 0,
-				"w": 84,
+				"w": 94,
 				"h": 72
 			},
 			"sourceSize": {
-				"w": 84,
+				"w": 94,
 				"h": 72
 			}
 		},
 		"get_free_spin.png": {
 			"frame": {
-				"x": 442,
+				"x": 463,
 				"y": 10,
 				"w": 647,
-				"h": 1018
+				"h": 499
 			},
 			"rotated": false,
 			"trimmed": false,
@@ -73,151 +73,11 @@
 				"x": 0,
 				"y": 0,
 				"w": 647,
-				"h": 1018
+				"h": 499
 			},
 			"sourceSize": {
 				"w": 647,
-				"h": 1018
-			}
-		},
-		"grand.png": {
-			"frame": {
-				"x": 1109,
-				"y": 10,
-				"w": 221,
-				"h": 207
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 221,
-				"h": 207
-			},
-			"sourceSize": {
-				"w": 221,
-				"h": 207
-			}
-		},
-		"major.png": {
-			"frame": {
-				"x": 1350,
-				"y": 10,
-				"w": 221,
-				"h": 207
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 221,
-				"h": 207
-			},
-			"sourceSize": {
-				"w": 221,
-				"h": 207
-			}
-		},
-		"matchin_game_win_board.png": {
-			"frame": {
-				"x": 10,
-				"y": 1048,
-				"w": 1490,
-				"h": 770
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 1490,
-				"h": 770
-			},
-			"sourceSize": {
-				"w": 1490,
-				"h": 770
-			}
-		},
-		"mini.png": {
-			"frame": {
-				"x": 1591,
-				"y": 10,
-				"w": 221,
-				"h": 207
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 221,
-				"h": 207
-			},
-			"sourceSize": {
-				"w": 221,
-				"h": 207
-			}
-		},
-		"money_wilds.png": {
-			"frame": {
-				"x": 1832,
-				"y": 10,
-				"w": 647,
-				"h": 1006
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 647,
-				"h": 1006
-			},
-			"sourceSize": {
-				"w": 647,
-				"h": 1006
-			}
-		},
-		"multiplier_wilds.png": {
-			"frame": {
-				"x": 1520,
-				"y": 1036,
-				"w": 647,
-				"h": 1006
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 647,
-				"h": 1006
-			},
-			"sourceSize": {
-				"w": 647,
-				"h": 1006
-			}
-		},
-		"rock_block.png": {
-			"frame": {
-				"x": 2187,
-				"y": 1036,
-				"w": 243,
-				"h": 189
-			},
-			"rotated": false,
-			"trimmed": false,
-			"spriteSourceSize": {
-				"x": 0,
-				"y": 0,
-				"w": 243,
-				"h": 189
-			},
-			"sourceSize": {
-				"w": 243,
-				"h": 189
+				"h": 499
 			}
 		}
 	},
@@ -227,8 +87,8 @@
 		"image": "bonus.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 2489,
-			"h": 2052
+			"w": 1120,
+			"h": 519
 		},
 		"scale": "1"
 	}

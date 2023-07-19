@@ -23,6 +23,7 @@ export default class Game{
     private baseHeight:number = 0
     private roulette:PIXI.Sprite
     private roulette_arrow:PIXI.Sprite
+    private roulette_circle:PIXI.Sprite
 
     private slotGame:Slot;
     private controller:Controller;
@@ -319,7 +320,7 @@ export default class Game{
     private buyBonusPopUp(){
         let glowX = 956
         let glowY = 1044
-        let dY = -80
+        let dY = 420
 
         // buy bonus modal 
         // glow animation
@@ -344,14 +345,14 @@ export default class Game{
         close.interactive = true
         close.cursor = 'pointer'
         close.x = (close.width)
-        close.y = (this.buyBonusFrame.height - close.height)*.94
+        close.y = (this.buyBonusFrame.height - close.height)*.84
         this.buyBonusFrame.addChild(close)
         //close buy btn
         const check = Functions.loadTexture(this.textureArray,'bonus','check')
         check.interactive = true
         check.cursor = 'pointer'
         check.x = (this.buyBonusFrame.width - check.width)*.85
-        check.y = (this.buyBonusFrame.height - check.height)*.94
+        check.y = (this.buyBonusFrame.height - check.height)*.84
         this.buyBonusFrame.addChild(check)
         let sY = -this.buyBonusFrame.height
         // close.addListener('mouseover',() =>{
@@ -457,17 +458,25 @@ export default class Game{
         
         this.roulette_arrow =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_arrow.png'])
         this.roulette =  new PIXI.Sprite(this.textureArray.wheel.textures['wheel.png'])
+        this.roulette_circle =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_circle.png'])
         this.roulette.x = 960
         this.roulette.y = 500
         this.roulette.scale.set(0.1)
         this.roulette.anchor.set(0.5)
         this.roulette_arrow.x = this.roulette.x - (this.roulette_arrow.width/2)
         this.roulette_arrow.y = 130
+        this.roulette_arrow.alpha = 0
+        this.roulette_circle.alpha = 0
+        this.roulette_circle.scale.set(0.84)
 
-
+        this.roulette_circle.x = this.roulette.x - ( this.roulette_circle.width / 2)
+       
+        this.roulette_circle.y = this.roulette.y - ( this.roulette_circle.width / 2)
 
         this.wheelEventContainer.addChild(this.roulette)
         this.wheelEventContainer.addChild(this.roulette_arrow)
+        this.wheelEventContainer.addChild(this.roulette_circle)
+        console.log(this.wheelEventContainer.width)
         this.gameContainer.addChild(this.wheelEventContainer)
 
         let wheelShow = gsap.to(this.roulette.scale,{
@@ -476,6 +485,8 @@ export default class Game{
             duration: 1, 
             ease: 'power2.out',
             onComplete:()=>{
+                this.roulette_arrow.alpha = 1
+                this.roulette_circle.alpha = 1
                 wheelShow.kill()
             }
         })
@@ -493,9 +504,10 @@ export default class Game{
                    // console.log(tl.progress())
                    // console.log(this.wheelDeg[Math.random()*3])
                 },
-                onComplete:()=>{
-
+                onComplete:()=>{ 
                     let timeOut = setTimeout(()=>{
+                        this.roulette_arrow.alpha = 0
+                        this.roulette_circle.alpha = 0
                         let wheelShow2 = gsap.to(this.roulette.scale,{
                             x: 0.01,
                             y: 0.01, 
@@ -514,7 +526,6 @@ export default class Game{
                       
                         clearTimeout(timeOut)
                     },1500)
-            
                 }
             })
             clearTimeout(timeOut)
