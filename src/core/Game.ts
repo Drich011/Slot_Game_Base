@@ -101,6 +101,8 @@ export default class Game{
 
     public readonly bonusType:number = 10
 
+    private freeSpinStart:Boolean = false
+
     constructor(){
         this.gameContainer = new PIXI.Container
         this.wheelEventContainer = new PIXI.Container
@@ -462,7 +464,7 @@ export default class Game{
     private createEventSpin(){
         
         this.roulette_arrow =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_arrow.png'])
-        this.roulette =  new PIXI.Sprite(this.textureArray.wheel.textures['wheel.png'])
+        this.roulette =  new PIXI.Sprite(this.textureArray.wheel2.textures['wheel2.png'])
         this.roulette_circle =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_circle.png'])
         this.roulette.x = 960
         this.roulette.y = 500
@@ -813,7 +815,10 @@ export default class Game{
             this.isAutoPlay = false
             this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin').texture
         }
-        if(this.slotGame.isBonusTick){
+        if(this.slotGame.autoPlayCount == 0 && this.freeSpinStart){
+            this.freeSpinStart = false
+        }
+        if(this.slotGame.isBonusTick && !this.freeSpinStart ){
             this.freeSpinEvent()
             this.slotGame.isBonusTick = false
             this.isAutoPlay = false
@@ -927,6 +932,7 @@ export default class Game{
     }
 
     private freeSpinEvent(){
+        this.freeSpinStart = true
         this.createEventSpin()
     }
 

@@ -1,0 +1,75 @@
+{
+	"frames": {
+		"roulette_arrow.png": {
+			"frame": {
+				"x": 10,
+				"y": 10,
+				"w": 88,
+				"h": 81
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 88,
+				"h": 81
+			},
+			"sourceSize": {
+				"w": 88,
+				"h": 81
+			}
+		},
+		"roulette_circle.png": {
+			"frame": {
+				"x": 118,
+				"y": 10,
+				"w": 175,
+				"h": 174
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 175,
+				"h": 174
+			},
+			"sourceSize": {
+				"w": 175,
+				"h": 174
+			}
+		},
+		"wheel2.png": {
+			"frame": {
+				"x": 313,
+				"y": 10,
+				"w": 689,
+				"h": 678
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 689,
+				"h": 678
+			},
+			"sourceSize": {
+				"w": 689,
+				"h": 678
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "wheel2.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 1012,
+			"h": 698
+		},
+		"scale": "1"
+	}
+}

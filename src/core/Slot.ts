@@ -319,7 +319,7 @@ export default class Slot{
                                      data.y = this.reelY
                                      this.updateVisibleBlocks(index)
                                      this.applyMotionBlur(index,false)
-                                     if(!this.isFreeSpin){
+                                     if(this.isFreeSpin){
                                         this.reelContainWildAndBonus(index)
                                     }
                                      if(this.spinCount == 5){
@@ -487,6 +487,7 @@ export default class Slot{
             symbol.width = this.blockWidth
             symbol.height = this.blockHeight
         })
+        this.isFreeSpinDone = false
     }
     private reelEffectShow(index:number){
         if(index == 2 && !this.isFreeSpin){

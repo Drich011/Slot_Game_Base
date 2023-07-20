@@ -31,6 +31,7 @@ export default class Loader{
                 assets: [
                     {name: 'main',srcs: 'assets/roulette.json'},
                     {name: 'wheel',srcs: 'assets/wheel.json'},
+                    {name: 'wheel2',srcs: 'assets/wheel2.json'},
                     {name: 'slot',srcs: 'assets/slot/sprites/slot.json'},
                     {name: 'modal_main',srcs: 'assets/modal/sprites/modal_main.json'},
                     {name: 'modal_autoplay',srcs: 'assets/modal/sprites/modal_autoplay.json'},
