@@ -101,7 +101,8 @@ export default class Game{
 
     public readonly bonusType:number = 10
 
-    private freeSpinStart:Boolean = false
+    private freeSpinStart:boolean = false
+    private eventStart:boolean = false
 
     constructor(){
         this.gameContainer = new PIXI.Container
@@ -236,7 +237,7 @@ export default class Game{
        
         window.document.addEventListener('keydown', (e)=> {
             if(e.code === 'Space'  || e.key === 'Enter'){       
-                if(!this.slotGame.isSpinning && !this.isAutoPlay){
+                if(!this.slotGame.isSpinning && !this.isAutoPlay && !this.eventStart){
                     this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                     if(this.slotGame.notLongPress === true) {
                         this.slotGame.notLongPress = false;
@@ -462,6 +463,7 @@ export default class Game{
     }
 
     private createEventSpin(){
+        this.eventStart = true
         
         this.roulette_arrow =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_arrow.png'])
         this.roulette =  new PIXI.Sprite(this.textureArray.wheel2.textures['wheel2.png'])
@@ -527,6 +529,7 @@ export default class Game{
                             this.gameContainer.removeChild(this.wheelEventContainer)
                             this.wheelEventContainer.removeChild(this.roulette)
                             this.wheelEventContainer.removeChild(this.roulette_arrow)
+                            this.eventStart = false
                             clearTimeout(timeOut2)
                         },1000)
                       
@@ -753,7 +756,7 @@ export default class Game{
         this.controller.spinBtnSprite.addEventListener('pointerdown',()=>{
             // console.log(this.slotGame.isSpinning,"this.slotGame.isSpinning")
             // console.log(this.isAutoPlay,"this.isAutoPlay")
-            if(!this.slotGame.isSpinning && !this.isAutoPlay){
+            if(!this.slotGame.isSpinning && !this.isAutoPlay && !this.eventStart){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
                     //this.slotGame.notLongPress = false;
