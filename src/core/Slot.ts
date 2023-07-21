@@ -302,11 +302,12 @@ export default class Slot{
                              }
                              //this.playSound(4);
                              spin.kill()         
-                             if(this.isFreeSpin && this.isFreeSpinDone){
+                             if(this.isFreeSpin && !this.isFreeSpinDone){
                                 this.generateNewSymbolsEvent(index)
                                 console.log("GENERATE SYMBOLS EVENT")  
                             }else{
                                 this.generateNewSymbols(index)
+                                console.log("GENERATE SYMBOLS")  
                             }      
                                
                              let bounceStop = gsap.to(data,{
@@ -487,7 +488,7 @@ export default class Slot{
             symbol.width = this.blockWidth
             symbol.height = this.blockHeight
         })
-        this.isFreeSpinDone = false
+    
     }
     private reelEffectShow(index:number){
         if(index == 2 && !this.isFreeSpin){

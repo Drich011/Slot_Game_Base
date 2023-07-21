@@ -53,14 +53,18 @@ export default class Game{
     private isMatchingGame:boolean = false
 
     //text values
+    private popBonusText:PIXI.Text
+    private buyBonusTextDesc:PIXI.Text
     private buyBonusText:PIXI.Text
     private paylineText:PIXI.Text
     private paylineTextBottom:PIXI.Text
     private paylineGreetings:string
     //text style 
     private textStyle:PIXI.TextStyle
+    private textStyle1:PIXI.TextStyle
     private textStyle2:PIXI.TextStyle
     private textStyle3:PIXI.TextStyle
+    private textStyle4:PIXI.TextStyle
     private whiteYellow:PIXI.TextStyle
     private descText:PIXI.TextStyle
     private textStyleSize:number = 40
@@ -139,6 +143,21 @@ export default class Game{
             wordWrapWidth: 440,
             lineJoin: 'round',
         });
+        this.textStyle1 = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: 34,
+            fontWeight: 'bolder',
+            fill: ['#95EBFF', '#44C6ED'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 0,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: false,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
         this.textStyle2 = new PIXI.TextStyle({  
             fontFamily: 'Eras ITC',
             fontSize: 120,
@@ -163,6 +182,21 @@ export default class Game{
             dropShadow: true,
             dropShadowColor: '#000000',
             dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: false,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
+        this.textStyle4 = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize:80,
+            fontWeight: 'bolder',
+            fill: ['#95EBFF', '#44C6ED'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 0,
             dropShadowAngle: Math.PI / 6,
             dropShadowDistance: 3,
             wordWrap: false,
@@ -313,9 +347,14 @@ export default class Game{
         this.buyBonusBtn.interactive = true
         this.buyBonusBtn.cursor = 'pointer'
         this.buyBonusBtn.y = (this.baseHeight - this.buyBonusBtn.height)/2
+        this.buyBonusTextDesc = new PIXI.Text(`free spin`, this.textStyle1)
+        this.buyBonusTextDesc.x =  (this.buyBonusBtn.width - this.buyBonusTextDesc.width)/2
+        this.buyBonusTextDesc.y =  (this.buyBonusBtn.height - this.buyBonusTextDesc.height) / 2 - 45
+
         this.buyBonusText = new PIXI.Text(`${this.betAmount}`, this.textStyle)
         this.buyBonusText.x = (this.buyBonusBtn.width - this.buyBonusText.width)/2
         this.buyBonusText.y = (this.buyBonusBtn.height - this.buyBonusText.height) - 20
+        this.buyBonusBtn.addChild(this.buyBonusTextDesc)
         this.buyBonusBtn.addChild(this.buyBonusText)
         this.gameContainer.addChild(this.buyBonusBtn)
 
@@ -342,6 +381,11 @@ export default class Game{
         this.buyBonusFrame = Functions.loadTexture(this.textureArray,'bonus','get_free_spin')
         this.buyBonusFrame.x = (this.baseWidth - this.buyBonusFrame.width)/2
         this.buyBonusFrame.y = dY
+        //description
+        this.popBonusText = new PIXI.Text(`FREE SPIN`, this.textStyle4)
+        this.popBonusText.x = (this.buyBonusFrame.width - this.popBonusText.width)/2
+        this.popBonusText.y = 90
+        this.buyBonusFrame.addChild(this.popBonusText)
         //amount
         const amount = new PIXI.Text(`${this.betAmount}`, this.textStyle2)
         amount.x = (this.buyBonusFrame.width - amount.width)/2
@@ -398,6 +442,7 @@ export default class Game{
             check.interactive = false
             let timeOut = setTimeout(()=>{
                 this.startSpinAutoPlay(1)
+                this.slotGame.isFreeSpinDone = false
                 //this.createEventSpin()
                 clearTimeout(timeOut)
             },1000)
@@ -822,10 +867,13 @@ export default class Game{
             this.freeSpinStart = false
         }
         if(this.slotGame.isBonusTick && !this.freeSpinStart ){
+            console.log(this.slotGame.isBonusTick, " this.slotGame.isBonusTick")
             this.freeSpinEvent()
             this.slotGame.isBonusTick = false
+            this.slotGame.isFreeSpin = false
             this.isAutoPlay = false
             this.slotGame.autoPlayCount = 0
+            this.slotGame.isFreeSpinDone = true
         }
     }
 
