@@ -103,6 +103,8 @@ export default class Slot{
         [11,5,9,2,4,6,11,3,1,11,10,1]
     ]
 
+    private textStyle:PIXI.TextStyle
+
     constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void,onSpinning:()=>void,reelContainWildAndBonus:(index: number)=>void){
         this.app = app
         this.baseWidth = this.app.screen.width
@@ -110,6 +112,22 @@ export default class Slot{
         this.textureArray = textureArray
         this.container = new PIXI.Container
         this.reelsContainer = new PIXI.Container
+
+        this.textStyle = new PIXI.TextStyle({  
+            fontFamily: 'Eras ITC',
+            fontSize: 50,
+            fontWeight: 'bolder',
+            fill: ['#95EBFF', '#44C6ED'], // gradient
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 0,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 3,
+            wordWrap: false,
+            wordWrapWidth: 440,
+            lineJoin: 'round',
+        });
 
         this.onSpinEnd = onSpinEnd
         this.onSpinning = onSpinning
@@ -304,10 +322,10 @@ export default class Slot{
                              spin.kill()         
                              if(this.isFreeSpin && !this.isFreeSpinDone){
                                 this.generateNewSymbolsEvent(index)
-                                console.log("GENERATE SYMBOLS EVENT")  
+                                //console.log("GENERATE SYMBOLS EVENT")  
                             }else{
                                 this.generateNewSymbols(index)
-                                console.log("GENERATE SYMBOLS")  
+                                //console.log("GENERATE SYMBOLS")  
                             }      
                                
                              let bounceStop = gsap.to(data,{
@@ -408,6 +426,8 @@ export default class Slot{
     }
     public generateNewSymbols(i:number){
         this.reelContainer[i].removeChildren()
+        let testText = new PIXI.Text('99', this.textStyle)
+        testText.x =  -30
         this.preGeneratedTypes[i].forEach((data:any,index:number)=>{
             let symbolIndex = data
             let type = json.symbolAssets[symbolIndex-1].type
@@ -425,9 +445,12 @@ export default class Slot{
             this.reelsSymbols[i][index].payout = data.payout
             this.reelsSymbols[i][index].symbol.skeleton.setSkinByName('no_blur')
             this.reelContainer[i].addChild(data.symbol)
+        
             symbol.width = this.blockWidth
             symbol.height = this.blockHeight
+            
         })
+        
         this.checkReelTopValue(i)
     }
     private generateNewSymbolsEvent(i:number){
@@ -651,13 +674,20 @@ export default class Slot{
         let firstPosY =  2250
         let secondPosY = 2500
         let thirdPosY = 2750
-
+        let testText = new PIXI.Text('99', this.textStyle)
+         testText.x =  -30
+         testText.y =  30
         let topThree = this.reelsSymbols[index].filter((data:any,index:number)=> index < 3)
         this.reelsSymbols[index].forEach((data:any,i:number)=>{
+            console.log( this.reelsSymbols)
             // hide the top symbols
             if(i > 2){
                 data.symbol.alpha = 0
 
+            }
+            if(data.type == 4){
+                this.reelContainer[index].children[i].addChild(testText)
+                this.animatePatterns(index,i)
             }
             // show the visible symbols
             if(i == 9){
@@ -680,7 +710,10 @@ export default class Slot{
                 data.payout = topThree[2].payout
                 this.reelContainer[index].children[11] = data.symbol
                 this.reelContainer[index].children[11].y = thirdPosY
+                //this.reelContainer[index].children[11].addChild(testText)
+
             }
+            
             data.symbol.width = this.blockWidth
             data.symbol.height = this.blockHeight
         })

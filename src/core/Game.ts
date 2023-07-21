@@ -768,8 +768,6 @@ export default class Game{
             this.modal.betAmountText.x = (this.modal.betAmountSpite.width - this.modal.betAmountText.width)/2
         })
 
-
-
         this.controller.autoPlay.addEventListener('mouseenter',()=>{
             this.controller.autoPlay.texture = this.autoplayHover
         })
@@ -913,7 +911,6 @@ export default class Game{
     }
 
     private onSpinEnd(){
-        console.log(this.slotGame.autoPlayCount)
         this.paylineGreetings = 'SPIN TO WIN'
         this.updatePaylineAnimation(this.paylineGreetings)
      
@@ -930,7 +927,11 @@ export default class Game{
         }
         if(this.slotGame.isBonusTick && !this.freeSpinStart ){
             console.log(this.slotGame.isBonusTick, " this.slotGame.isBonusTick")
-            this.createCongrats()
+         
+            let timeOut = setTimeout(()=>{
+                this.createCongrats()
+                clearTimeout(timeOut)
+            },2500)
             //this.freeSpinEvent()
             this.slotGame.isBonusTick = false
             this.slotGame.isFreeSpin = false
