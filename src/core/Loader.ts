@@ -55,6 +55,7 @@ export default class Loader{
                     {name: 'pop_glow',srcs: 'assets/bonus/sprites/pop_glow.json'},
                     {name: 'reel_effect',srcs: 'assets/bonus/sprites/reel_effect.json'},
                     {name: 'coins',srcs: 'assets/pop_ups/sprites/coins.json'},
+                    {name: 'congrats',srcs: 'assets/pop_ups/sprites/congrats.json'},
                 ],
             }],
         };

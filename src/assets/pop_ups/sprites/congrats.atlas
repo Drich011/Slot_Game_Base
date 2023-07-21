@@ -1,0 +1,111 @@
+
+congrats.png
+size: 1638,1240
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+frame_bg
+  rotate: true
+  xy: 2, 400
+  size: 838, 658
+  orig: 840, 661
+  offset: 1, 2
+  index: -1
+frame_border
+  rotate: false
+  xy: 662, 662
+  size: 874, 576
+  orig: 876, 578
+  offset: 1, 1
+  index: -1
+leaf_left1
+  rotate: false
+  xy: 1125, 2
+  size: 137, 139
+  orig: 137, 139
+  offset: 0, 0
+  index: -1
+leaf_left2
+  rotate: false
+  xy: 662, 401
+  size: 149, 96
+  orig: 149, 96
+  offset: 0, 0
+  index: -1
+leaf_left3
+  rotate: true
+  xy: 1538, 1050
+  size: 188, 81
+  orig: 188, 81
+  offset: 0, 0
+  index: -1
+leaf_right1
+  rotate: true
+  xy: 1264, 5
+  size: 136, 139
+  orig: 137, 139
+  offset: 0, 0
+  index: -1
+leaf_right2
+  rotate: true
+  xy: 1538, 710
+  size: 148, 98
+  orig: 148, 98
+  offset: 0, 0
+  index: -1
+leaf_right3
+  rotate: true
+  xy: 1538, 860
+  size: 188, 80
+  orig: 188, 80
+  offset: 0, 0
+  index: -1
+money_container
+  rotate: true
+  xy: 1445, 19
+  size: 478, 117
+  orig: 480, 119
+  offset: 1, 1
+  index: -1
+rocks
+  rotate: false
+  xy: 662, 499
+  size: 953, 161
+  orig: 955, 163
+  offset: 1, 1
+  index: -1
+title
+  rotate: false
+  xy: 2, 8
+  size: 1121, 139
+  orig: 1121, 139
+  offset: 0, 0
+  index: -1
+vine-left
+  rotate: true
+  xy: 1125, 313
+  size: 184, 318
+  orig: 184, 318
+  offset: 0, 0
+  index: -1
+vineright1
+  rotate: true
+  xy: 813, 403
+  size: 94, 126
+  orig: 94, 126
+  offset: 0, 0
+  index: -1
+vineright2
+  rotate: true
+  xy: 1125, 143
+  size: 168, 271
+  orig: 168, 271
+  offset: 0, 0
+  index: -1
+wood
+  rotate: false
+  xy: 2, 149
+  size: 1121, 249
+  orig: 1121, 249
+  offset: 0, 0
+  index: -1

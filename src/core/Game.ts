@@ -9,6 +9,7 @@ import {Howler} from 'howler';
 import Slot from './Slot';
 import Controller from './Controller';
 import Modal from './Modal';
+import Congrats from './Congrats';
 import Functions from './settings/Functions';
 import json from './settings/settings.json'
 // give the plugin a reference to the PIXI object
@@ -28,11 +29,20 @@ export default class Game{
     private slotGame:Slot;
     private controller:Controller;
     private modal:Modal
+    private congrats:Congrats
 
     //background
     private background:PIXI.Sprite
     private frame:PIXI.Sprite
     private frameBG:PIXI.Sprite
+
+    //free spin
+    private isFreeSpin:boolean = false;
+    private isFreeSpinActive:boolean = false;
+    private transitionDelay:number = 2000
+    private isOpenModal:boolean = false;
+    private winFreeSpin:number = 5
+    private noOfSpin:number = 5
 
     //buttons hover
     private autoplayHover: PIXI.Texture
@@ -258,7 +268,6 @@ export default class Game{
         this.events()
         this.createBuyBonus()
         this.updateTextValues()
-        
 
         this.app.stage.addChild(this.gameContainer)
         this.gameContainer.addChild(this.wheelEventContainer)
@@ -271,7 +280,7 @@ export default class Game{
        
         window.document.addEventListener('keydown', (e)=> {
             if(e.code === 'Space'  || e.key === 'Enter'){       
-                if(!this.slotGame.isSpinning && !this.isAutoPlay && !this.eventStart){
+                if(!this.slotGame.isSpinning && !this.isAutoPlay && !this.eventStart && !this.freeSpinStart){
                     this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                     if(this.slotGame.notLongPress === true) {
                         this.slotGame.notLongPress = false;
@@ -575,6 +584,7 @@ export default class Game{
                             this.wheelEventContainer.removeChild(this.roulette)
                             this.wheelEventContainer.removeChild(this.roulette_arrow)
                             this.eventStart = false
+                            this.startSpinAutoPlay(5)
                             clearTimeout(timeOut2)
                         },1000)
                       
@@ -584,9 +594,60 @@ export default class Game{
             })
             clearTimeout(timeOut)
         },3000)
-
-
     }
+    private createCongrats(){
+        this.freeSpinStart = true
+        //this.fadeSound(6,0,this.fadeDurationBgm)
+        //this.soundStop(6)
+        //this.soundVolume(0,0)
+        // if(!this.sound[7].playing()){
+        //     this.playSound(7)
+        // }
+        //this.fadeSound(7,1,this.fadeDurationBgm)
+        this.congrats = new Congrats(this.app,this.textureArray, this.winFreeSpin, this.noOfSpin)
+        this.gameContainer.addChild(this.congrats.container)
+        
+        this.congrats.container.cursor = 'pointer'
+        this.congrats.container.interactive = true
+        this.congrats.container.addEventListener('pointerdown',()=>{
+ 
+            this.isAutoPlay = false
+            this.congrats.container.interactive = false
+            this.slotGame.isFreeSpinDone = true
+            this.slotGame.freeSpinStart = false
+            this.slotGame.isFreeSpin = false
+            this.slotGame.maskSprite.height = this.slotGame.frameBg.height - 8
+            this.slotGame.maskSprite.y = this.slotGame.frameBg.y - 8
+            this.congrats.textAnimation.duration(0.3)
+            this.isOpenModal= false
+            //this.createTransition()
+            this.slotGame.startCountWinFreeSpin = false
+            this.isFreeSpinActive = false
+            let timeout = setTimeout(()=>{
+             
+                // if(!this.sound[0].playing()){
+                //     this.playSound(0)
+                // }
+               // this.fadeSound(7,0,this.fadeDurationBgm)
+                //this.fadeSound(0,1,this.fadeDurationBgm)
+                this.gameContainer.removeChild(this.congrats.container)
+               // this.enableButtons(true)
+               // this.lightModeEvent(true)
+                let show = setTimeout(() => {
+                    this.isFreeSpin = false
+                    this.freeSpinEvent()
+                  //  this.soundStop(7)
+                    clearTimeout(show);
+                }, 1000);
+                // this.slotGame.reelContainer.forEach((data,index)=>{
+                //     this.slotGame.generateNewSymbols(index)      
+                // })  
+                clearTimeout(timeout)
+            },this.transitionDelay)
+        })
+        this.slotGame.autoplayDoneEvent = true
+    }
+
 
     private startSpin(spinType:string){
         this.slotGame.startSpin(spinType)
@@ -801,7 +862,7 @@ export default class Game{
         this.controller.spinBtnSprite.addEventListener('pointerdown',()=>{
             // console.log(this.slotGame.isSpinning,"this.slotGame.isSpinning")
             // console.log(this.isAutoPlay,"this.isAutoPlay")
-            if(!this.slotGame.isSpinning && !this.isAutoPlay && !this.eventStart){
+            if(!this.slotGame.isSpinning && !this.isAutoPlay && !this.eventStart  && !this.freeSpinStart){
                 this.controller.spinBtnSprite.texture = Functions.loadTexture(this.textureArray,'slot_frame_controller','spin_stop').texture
                 if(this.slotGame.notLongPress === true) {
                     //this.slotGame.notLongPress = false;
@@ -852,6 +913,7 @@ export default class Game{
     }
 
     private onSpinEnd(){
+        console.log(this.slotGame.autoPlayCount)
         this.paylineGreetings = 'SPIN TO WIN'
         this.updatePaylineAnimation(this.paylineGreetings)
      
@@ -868,7 +930,8 @@ export default class Game{
         }
         if(this.slotGame.isBonusTick && !this.freeSpinStart ){
             console.log(this.slotGame.isBonusTick, " this.slotGame.isBonusTick")
-            this.freeSpinEvent()
+            this.createCongrats()
+            //this.freeSpinEvent()
             this.slotGame.isBonusTick = false
             this.slotGame.isFreeSpin = false
             this.isAutoPlay = false
