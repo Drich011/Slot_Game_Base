@@ -192,7 +192,7 @@ export default class Game{
             fontFamily: 'Eras ITC',
             fontSize:80,
             fontWeight: 'bolder',
-            fill: ['#95EBFF', '#44C6ED'], // gradient
+            fill: ['#006AA5', '#FFFFFF'], // gradient
             strokeThickness: 5,
             dropShadow: true,
             dropShadowColor: '#000000',
