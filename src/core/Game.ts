@@ -106,6 +106,7 @@ export default class Game{
     //bonus
     private buyBonusBtn:PIXI.Sprite
     private wheelDeg:Array<number> = [3600,3673,3745,3816,3887]
+    private wheelIndex:number;
 
     //spines
     private popGlow:Spine
@@ -117,6 +118,8 @@ export default class Game{
 
     private freeSpinStart:boolean = false
     private eventStart:boolean = false
+
+    private isSpinning:boolean
 
     constructor(){
         this.gameContainer = new PIXI.Container
@@ -294,7 +297,8 @@ export default class Game{
                     this.slotGame.timeScale = 10
                 }
             }
-           
+            this.slotGame.wheelIndex = 1
+
 
         });
 
@@ -315,7 +319,7 @@ export default class Game{
                 this.slotGame.timeScale = 10
             }
         });
-
+       
     }  
 
     private createBackground(){
@@ -518,6 +522,7 @@ export default class Game{
 
     private createEventSpin(){
         this.eventStart = true
+        this.slotGame.eventStart = true
         
         this.roulette_arrow =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_arrow.png'])
         this.roulette =  new PIXI.Sprite(this.textureArray.wheel2.textures['wheel2.png'])
@@ -541,6 +546,9 @@ export default class Game{
         this.wheelEventContainer.addChild(this.roulette_circle)
         this.gameContainer.addChild(this.wheelEventContainer)
 
+        this.wheelIndex = Math.floor(Math.random()*5)      
+        this.slotGame.wheelIndex = this.wheelIndex+1
+
         let wheelShow = gsap.to(this.roulette.scale,{
             x: 1,
             y: 1, 
@@ -555,7 +563,7 @@ export default class Game{
         let timeOut = setTimeout(()=>{
             let tl = gsap.to(this.roulette,{
                 //rotation:PIXI.DEG_TO_RAD*1800,
-                rotation:PIXI.DEG_TO_RAD*this.wheelDeg[Math.floor(Math.random()*5)],
+                rotation:PIXI.DEG_TO_RAD*this.wheelDeg[this.wheelIndex],
                 duration:5,
                 onUpdate: function() {
                     // if (tl.progress() > 0.7898) {
@@ -654,6 +662,7 @@ export default class Game{
     }
 
     private startSpinAutoPlay(spinCount:number){
+
         this.slotGame.autoPlayCount = spinCount
         this.startSpin(this.spinType)
        // this.modal.totalSpin = 0 
@@ -910,7 +919,7 @@ export default class Game{
         this.updatePaylineAnimation(this.paylineGreetings)
     }
 
-    private onSpinEnd(){
+    private onSpinEnd(index:number){
         this.paylineGreetings = 'SPIN TO WIN'
         this.updatePaylineAnimation(this.paylineGreetings)
      
@@ -924,9 +933,10 @@ export default class Game{
         }
         if(this.slotGame.autoPlayCount == 0 && this.freeSpinStart){
             this.freeSpinStart = false
+            this.slotGame.eventStart = false
+
         }
         if(this.slotGame.isBonusTick && !this.freeSpinStart ){
-            console.log(this.slotGame.isBonusTick, " this.slotGame.isBonusTick")
          
             let timeOut = setTimeout(()=>{
                 this.createCongrats()

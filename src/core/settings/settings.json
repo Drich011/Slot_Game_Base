@@ -11,17 +11,17 @@
             "pay":0.3
         },
         {
-            "symbol": "monkey",
+            "symbol": "cameleon",
             "type":3,
             "pay":0.5
         },
         {
-            "symbol": "tiger",
+            "symbol": "monkey",
             "type":4,
             "pay":0.6
         },
         {
-            "symbol": "cameleon",
+            "symbol": "tiger",
             "type":5,
             "pay":0.7
         },

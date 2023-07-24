@@ -67,7 +67,7 @@ export default class Slot{
     public totalWin:number = 0
 
     //methods
-    private onSpinEnd:()=>void
+    private onSpinEnd:(index:number)=>void
     private onSpinning:()=>void
     private reelContainWildAndBonus:(index: number)=>void
 
@@ -90,22 +90,31 @@ export default class Slot{
     public isMatchingGame:boolean = false
     public isBonusTick:boolean = false
 
+    public wheelIndex:number;
+    public testText:PIXI.Text;
+
     private reelsValues:Array<Array<number>> = [
         // [3,4,3,11,10,1,2,4,11,8,4,11,2,9,3,10,1,4,5,9,2,6,8,6,9,3,9,7,1,7],
         // [2,8,3,11,10,7,3,11,9,1,4,2,3,4,4,7,5,10,5,9,2,6,8,6,9,3,9,11,1,7],
         // [1,2,9,3,10,2,3,9,8,10,2,4,11,4,2,11,5,9,5,9,2,6,8,6,9,3,11,7,1,7],
         // [1,1,1,1,11,4,1,1,11,1,4,10,11,11,1,1,4,1,5,9,2,6,8,11,9,3,9,7,1,7],
         // [11,5,9,2,4,6,11,11,2,9,10,5,3,3,8,11,4,5,3,5,8,9,1,6,6,11,3,7,3,2]
-        [3,4,3,2,2,1,3,10,5,11,6,1],
-        [2,8,3,11,10,7,11,1,1,11,3,1],
-        [1,2,9,3,2,2,11,1,1,11,10,1],
-        [1,1,1,1,11,4,11,2,1,11,10,1],
+        // [3,4,3,2,2,1,3,10,5,11,6,1],
+        // [2,8,3,11,10,7,11,1,1,11,3,1],
+        // [1,2,9,3,2,2,11,1,1,11,10,1],
+        // [1,1,1,1,11,4,11,2,1,11,10,1],
+        // [11,5,9,2,4,6,11,3,1,11,10,1]
+        [4,4,4,4,4,1,3,4,5,11,6,1],
+        [2,8,3,4,4,4,4,1,1,11,3,1],
+        [1,2,9,3,4,4,4,1,1,4,10,1],
+        [1,1,4,1,4,4,4,2,4,4,10,1],
         [11,5,9,2,4,6,11,3,1,11,10,1]
     ]
 
     private textStyle:PIXI.TextStyle
+    public eventStart:boolean = false
 
-    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:()=>void,onSpinning:()=>void,reelContainWildAndBonus:(index: number)=>void){
+    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:(index:number)=>void,onSpinning:()=>void,reelContainWildAndBonus:(index: number)=>void){
         this.app = app
         this.baseWidth = this.app.screen.width
         this.baseHeight = this.app.screen.height
@@ -369,7 +378,7 @@ export default class Slot{
                                          }
                                          this.autoPlayCount--
                                         // set the credit base 
-                                         this.onSpinEnd()
+                                         this.onSpinEnd(index)
                                         //console.log(this.autoPlayCount, " z")
                                         //  if(this.autoPlayCount == 0 && !this.autoplayDoneEvent) {
                                         //      this.createCongrats()
@@ -426,8 +435,8 @@ export default class Slot{
     }
     public generateNewSymbols(i:number){
         this.reelContainer[i].removeChildren()
-        let testText = new PIXI.Text('99', this.textStyle)
-        testText.x =  -30
+        // let testText = new PIXI.Text('99', this.textStyle)
+        // testText.x =  -30
         this.preGeneratedTypes[i].forEach((data:any,index:number)=>{
             let symbolIndex = data
             let type = json.symbolAssets[symbolIndex-1].type
@@ -674,21 +683,27 @@ export default class Slot{
         let firstPosY =  2250
         let secondPosY = 2500
         let thirdPosY = 2750
-        let testText = new PIXI.Text('99', this.textStyle)
-         testText.x =  -30
-         testText.y =  30
+  
         let topThree = this.reelsSymbols[index].filter((data:any,index:number)=> index < 3)
         this.reelsSymbols[index].forEach((data:any,i:number)=>{
-            console.log( this.reelsSymbols)
+            this.testText = new PIXI.Text('99', this.textStyle)
+            this.testText.x =  -30
+            this.testText.y =  30
+            
+            
             // hide the top symbols
             if(i > 2){
                 data.symbol.alpha = 0
+            }
 
+            //Will Occur when Event Start
+            if(this.eventStart){
+                if(data.type == this.wheelIndex){
+                    this.reelContainer[index].children[i].addChild(this.testText)
+                    this.animatePatterns(index,i)
+                }
             }
-            if(data.type == 4){
-                this.reelContainer[index].children[i].addChild(testText)
-                this.animatePatterns(index,i)
-            }
+        
             // show the visible symbols
             if(i == 9){
                 data.type = topThree[0].type
@@ -710,13 +725,15 @@ export default class Slot{
                 data.payout = topThree[2].payout
                 this.reelContainer[index].children[11] = data.symbol
                 this.reelContainer[index].children[11].y = thirdPosY
-                //this.reelContainer[index].children[11].addChild(testText)
-
             }
-            
+   
             data.symbol.width = this.blockWidth
             data.symbol.height = this.blockHeight
         })
+
+        if(this.autoPlayCount == 0){
+            this.onSpinEnd(index)
+        }
     }
     private checkPattern(){
         let arr = Array.from({length: json.pattern.length}, (_, index) => index)
