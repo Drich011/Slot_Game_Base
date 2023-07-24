@@ -373,6 +373,7 @@ export default class Game{
 
         this.buyBonusBtn.addEventListener('pointerdown',()=>{
             this.buyBonusPopUp()
+            this.buyBonusBtn.interactive = false
         })
     }
 
@@ -430,23 +431,16 @@ export default class Game{
         //     close.texture =Functions.loadTexture(this.textureArray,'bonus','ex').texture
         //  })
         close.addEventListener('pointerdown',()=>{
+            this.buyBonusBtn.interactive = true
             close.interactive = false
             close.texture =Functions.loadTexture(this.textureArray,'bonus','ex').texture
             //this.playSound(13) 
             this.hideBonusPopUp(dY,sY);
             //this.isOpenModal = false
         })
-        // check.addListener('mouseover',() =>{
-        //     this.playSound(2)
-        // })
-        // accept bonus
-        // check.addEventListener('mouseenter',()=>{
-        //    check.texture = this.checkHover
-        // })
-        // check.addEventListener('mouseleave',()=>{
-        //     check.texture = Functions.loadTexture(this.textureArray,'bonus','check').texture
-        // })
+
         check.addEventListener('pointerdown',()=>{
+            this.buyBonusBtn.interactive = true
             check.texture = Functions.loadTexture(this.textureArray,'bonus','check').texture
            // this.playSound(12)
             this.slotGame.freeSpinStart = true
@@ -565,15 +559,6 @@ export default class Game{
                 //rotation:PIXI.DEG_TO_RAD*1800,
                 rotation:PIXI.DEG_TO_RAD*this.wheelDeg[this.wheelIndex],
                 duration:5,
-                onUpdate: function() {
-                    // if (tl.progress() > 0.7898) {
-                    //     tl.timeScale(0.1);
-                    // }
-                    // console.log(this.roulette.rotation)
-                    // tl.timeScale(1);
-                   // console.log(tl.progress())
-                   // console.log(this.wheelDeg[Math.random()*3])
-                },
                 onComplete:()=>{ 
                     let timeOut = setTimeout(()=>{
                         this.roulette_arrow.alpha = 0
@@ -618,38 +603,17 @@ export default class Game{
         this.congrats.container.cursor = 'pointer'
         this.congrats.container.interactive = true
         this.congrats.container.addEventListener('pointerdown',()=>{
- 
-            this.isAutoPlay = false
             this.congrats.container.interactive = false
-            this.slotGame.isFreeSpinDone = true
-            this.slotGame.freeSpinStart = false
-            this.slotGame.isFreeSpin = false
-            this.slotGame.maskSprite.height = this.slotGame.frameBg.height - 8
-            this.slotGame.maskSprite.y = this.slotGame.frameBg.y - 8
             this.congrats.textAnimation.duration(0.3)
-            this.isOpenModal= false
-            //this.createTransition()
-            this.slotGame.startCountWinFreeSpin = false
-            this.isFreeSpinActive = false
             let timeout = setTimeout(()=>{
-             
-                // if(!this.sound[0].playing()){
-                //     this.playSound(0)
-                // }
-               // this.fadeSound(7,0,this.fadeDurationBgm)
-                //this.fadeSound(0,1,this.fadeDurationBgm)
                 this.gameContainer.removeChild(this.congrats.container)
-               // this.enableButtons(true)
-               // this.lightModeEvent(true)
                 let show = setTimeout(() => {
                     this.isFreeSpin = false
+                    this.congrats.container.interactive = true
                     this.freeSpinEvent()
                   //  this.soundStop(7)
                     clearTimeout(show);
                 }, 1000);
-                // this.slotGame.reelContainer.forEach((data,index)=>{
-                //     this.slotGame.generateNewSymbols(index)      
-                // })  
                 clearTimeout(timeout)
             },this.transitionDelay)
         })
@@ -1069,17 +1033,8 @@ export default class Game{
                     //this.soundVolume(18,0.2)
                     Functions.loadSpineAnimation(data.symbol,'open',false,1.1)
                     const globalPos = data.symbol.getGlobalPosition() 
-                   
                     this.createWildCoin(this.slotGame.reelContainer[i].x,globalPos.y-100)
-                   // this.levelBarIndicator.width++
-                   // Math.round(this.levelBarIndicator.width)
-                    // reset level bar and start matching game
-                    // if( Math.round(this.levelBarIndicator.width) == this.levelBarWidth){
-                    //     this.autoPlayCount = 0
-                    //     this.levelBarIndicator.width = this.levelBarWidth
-                    //     this.isMatchingGame = true
-                    //   //  this.matchingGame()
-                    // }
+
                 }
                 if(data.type == this.slotGame.bonusType){
                     this.slotGame.bonusSymbolsCount++
@@ -1095,8 +1050,6 @@ export default class Game{
     }
 
     private createWildCoin(coinX:number,coinY:number){
-        // let levelBarX = this.levelBarIndicator.getGlobalPosition().x
-        // let levelBarY = this.levelBarIndicator.y
         let barPosX = 0
         let barPosY = 0
         let duration = 1
