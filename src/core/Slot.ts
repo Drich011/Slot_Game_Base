@@ -294,7 +294,7 @@ export default class Slot{
                          bounceContainerArr[3].delay(0)
                          bounceContainerArr[4].delay(0)
                      }
-                     // reset the alpha value of symbols to 1 on spin
+                     //reset the alpha value of symbols to 1 on spin
                      this.resetTopSymbolsAlpha(index)
                  },
                  onComplete:()=>{
@@ -377,12 +377,7 @@ export default class Slot{
                                              }
                                          }
                                          this.autoPlayCount--
-                                        // set the credit base 
                                          this.onSpinEnd(index)
-                                        //console.log(this.autoPlayCount, " z")
-                                        //  if(this.autoPlayCount == 0 && !this.autoplayDoneEvent) {
-                                        //      this.createCongrats()
-                                        //  }
                                      }
                                  }
                              })

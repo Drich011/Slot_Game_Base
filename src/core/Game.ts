@@ -606,7 +606,6 @@ export default class Game{
             this.congrats.container.interactive = false
             this.congrats.textAnimation.duration(0.3)
             let timeout = setTimeout(()=>{
-                this.gameContainer.removeChild(this.congrats.container)
                 let show = setTimeout(() => {
                     this.isFreeSpin = false
                     this.congrats.container.interactive = true
