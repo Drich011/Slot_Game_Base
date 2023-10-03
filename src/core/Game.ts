@@ -330,7 +330,7 @@ export default class Game{
     }
 
     private createSlot(){
-        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this),this.onSpinning.bind(this),this.reelContainWildAndBonus.bind(this))
+        this.slotGame = new Slot(this.app,this.textureArray,this.onSpinEnd.bind(this),this.onSpinning.bind(this))
         this.gameContainer.addChild(this.slotGame.container)
         this.slotGame.container.y = +80
     }
@@ -345,14 +345,9 @@ export default class Game{
     private createModal(){
         this.modal = new Modal(this.app,this.textureArray)
         this.modal.closeModal.addEventListener('pointerdown',() =>{
-           // this.playSound(1)
-            
             this.controller.settingBtnSpite.interactive = true
             this.controller.autoPlay.interactive = true
         })
-        // this.modal.closeModal.addListener('mouseover',() =>{
-        //     this.playSound(2)
-        // })
     }
     
     private createBuyBonus(){
@@ -372,258 +367,12 @@ export default class Game{
         this.gameContainer.addChild(this.buyBonusBtn)
 
         this.buyBonusBtn.addEventListener('pointerdown',()=>{
-            this.buyBonusPopUp()
-            this.buyBonusBtn.interactive = false
+            console.log("nice")
         })
     }
-
-    private buyBonusPopUp(){
-        let glowX = 956
-        let glowY = 1044
-        let dY = 420
-
-        // buy bonus modal 
-        // glow animation
-        this.popGlow.x = glowX
-        this.popGlow.y = glowY
-        this.popGlow.alpha = 0
-        this.popGlow.scale.x = 1.1
-        this.popGlow.scale.y = 1.3
-        Functions.loadSpineAnimation(this.popGlow,'glow',true,0.1)
-        this.overlay.addChild(this.popGlow)
-        
-        this.buyBonusFrame = Functions.loadTexture(this.textureArray,'bonus','get_free_spin')
-        this.buyBonusFrame.x = (this.baseWidth - this.buyBonusFrame.width)/2
-        this.buyBonusFrame.y = dY
-        //description
-        this.popBonusText = new PIXI.Text(`FREE SPIN`, this.textStyle4)
-        this.popBonusText.x = (this.buyBonusFrame.width - this.popBonusText.width)/2
-        this.popBonusText.y = 90
-        this.buyBonusFrame.addChild(this.popBonusText)
-        //amount
-        const amount = new PIXI.Text(`${this.betAmount}`, this.textStyle2)
-        amount.x = (this.buyBonusFrame.width - amount.width)/2
-        amount.y = (this.buyBonusFrame.height - amount.height) * 0.85
-        this.buyBonusFrame.addChild(amount)
-        //close buy btn
-        const close = Functions.loadTexture(this.textureArray,'bonus','ex')
-        close.interactive = true
-        close.cursor = 'pointer'
-        close.x = (close.width)
-        close.y = (this.buyBonusFrame.height - close.height)*.84
-        this.buyBonusFrame.addChild(close)
-        //close buy btn
-        const check = Functions.loadTexture(this.textureArray,'bonus','check')
-        check.interactive = true
-        check.cursor = 'pointer'
-        check.x = (this.buyBonusFrame.width - check.width)*.85
-        check.y = (this.buyBonusFrame.height - check.height)*.84
-        this.buyBonusFrame.addChild(check)
-        let sY = -this.buyBonusFrame.height
-        // close.addListener('mouseover',() =>{
-        //     this.playSound(2)
-        // })
-        // reject bonus
-        // close.addEventListener('mouseenter',()=>{
-        //     close.texture = this.exHover
-        //  })
-        //  close.addEventListener('mouseleave',()=>{
-        //     close.texture =Functions.loadTexture(this.textureArray,'bonus','ex').texture
-        //  })
-        close.addEventListener('pointerdown',()=>{
-            this.buyBonusBtn.interactive = true
-            close.interactive = false
-            close.texture =Functions.loadTexture(this.textureArray,'bonus','ex').texture
-            //this.playSound(13) 
-            this.hideBonusPopUp(dY,sY);
-            //this.isOpenModal = false
-        })
-
-        check.addEventListener('pointerdown',()=>{
-            this.buyBonusBtn.interactive = true
-            check.texture = Functions.loadTexture(this.textureArray,'bonus','check').texture
-           // this.playSound(12)
-            this.slotGame.freeSpinStart = true
-            this.slotGame.isFreeSpin = true
-            this.hideBonusPopUp(dY,sY)
-            check.interactive = false
-            let timeOut = setTimeout(()=>{
-                this.startSpinAutoPlay(1)
-                this.slotGame.isFreeSpinDone = false
-                //this.createEventSpin()
-                clearTimeout(timeOut)
-            },1000)
-            let timeOut1 = setTimeout(()=>{
-                check.interactive = true
-                this.buyBonusFrame.removeChild(check)
-                this.buyBonusFrame.removeChild(close)
-                clearTimeout(timeOut1)
-            },5000)
-           
-        })
-        let bonusFrameShow = gsap.from(this.buyBonusFrame, {
-            delay:.3,
-            y:sY,
-            onComplete:()=>{
-                bonusFrameShow.kill()
-                let bounceUp = gsap.to(this.buyBonusFrame,{
-                    y:dY-160,
-                    onComplete:()=>{
-                        bounceUp.kill()
-                        let fadeInGlow = gsap.to(this.popGlow,{
-                            delay:0,
-                            duration:1,
-                            alpha:1,
-                            onComplete:()=>{
-                                fadeInGlow.kill()
-                            }
-                        }) 
-                    }
-                })
-            }
-        })
-        this.overlay.addChild(this.buyBonusFrame)
-        this.gameContainer.addChild( this.overlay)
-    }
-
-    private hideBonusPopUp(dY:number,sY:number){
-       // this.enableButtons(true)
-        let fadeOutGlow = gsap.to(this.popGlow,{
-            duration:0.3,
-            alpha:0,
-            onComplete:()=>{
-                fadeOutGlow.kill()
-                this.overlay.removeChild(this.popGlow)
-                let bonusFrameHide = gsap.to(this.buyBonusFrame, {
-                    delay:0.2,
-                    duration:0.2,
-                    y:dY*1.2,
-                    onComplete:()=>{
-                        bonusFrameHide.kill()
-                        let bounceDown = gsap.to(this.buyBonusFrame,{
-                            duration:0.2,
-                            y:sY,
-                            onComplete:()=>{
-                                bounceDown.kill()
-                                this.gameContainer.removeChild(this.overlay)
-                            }
-                        })
-                    }
-                })
-            }
-        }) 
-    }
-
-    private createEventSpin(){
-        this.eventStart = true
-        this.slotGame.eventStart = true
-        
-        this.roulette_arrow =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_arrow.png'])
-        this.roulette =  new PIXI.Sprite(this.textureArray.wheel2.textures['wheel2.png'])
-        this.roulette_circle =  new PIXI.Sprite(this.textureArray.wheel.textures['roulette_circle.png'])
-        this.roulette.x = 960
-        this.roulette.y = 500
-        this.roulette.scale.set(0.1)
-        this.roulette.anchor.set(0.5)
-        this.roulette_arrow.x = this.roulette.x - (this.roulette_arrow.width/2)
-        this.roulette_arrow.y = 130
-        this.roulette_arrow.alpha = 0
-        this.roulette_circle.alpha = 0
-        this.roulette_circle.scale.set(0.84)
-
-        this.roulette_circle.x = this.roulette.x - ( this.roulette_circle.width / 2)
-       
-        this.roulette_circle.y = this.roulette.y - ( this.roulette_circle.width / 2)
-
-        this.wheelEventContainer.addChild(this.roulette)
-        this.wheelEventContainer.addChild(this.roulette_arrow)
-        this.wheelEventContainer.addChild(this.roulette_circle)
-        this.gameContainer.addChild(this.wheelEventContainer)
-
-        this.wheelIndex = Math.floor(Math.random()*5)      
-        this.slotGame.wheelIndex = this.wheelIndex+1
-
-        let wheelShow = gsap.to(this.roulette.scale,{
-            x: 1,
-            y: 1, 
-            duration: 1, 
-            ease: 'power2.out',
-            onComplete:()=>{
-                this.roulette_arrow.alpha = 1
-                this.roulette_circle.alpha = 1
-                wheelShow.kill()
-            }
-        })
-        let timeOut = setTimeout(()=>{
-            let tl = gsap.to(this.roulette,{
-                //rotation:PIXI.DEG_TO_RAD*1800,
-                rotation:PIXI.DEG_TO_RAD*this.wheelDeg[this.wheelIndex],
-                duration:5,
-                onComplete:()=>{ 
-                    let timeOut = setTimeout(()=>{
-                        this.roulette_arrow.alpha = 0
-                        this.roulette_circle.alpha = 0
-                        let wheelShow2 = gsap.to(this.roulette.scale,{
-                            x: 0.01,
-                            y: 0.01, 
-                            duration: 1, 
-                            ease: 'power2.out',
-                            onComplete:()=>{
-                                wheelShow2.kill()
-                            }
-                        })
-                        let timeOut2 = setTimeout(()=>{
-                            this.gameContainer.removeChild(this.wheelEventContainer)
-                            this.wheelEventContainer.removeChild(this.roulette)
-                            this.wheelEventContainer.removeChild(this.roulette_arrow)
-                            this.eventStart = false
-                            this.startSpinAutoPlay(5)
-                            clearTimeout(timeOut2)
-                        },1000)
-                      
-                        clearTimeout(timeOut)
-                    },1500)
-                }
-            })
-            clearTimeout(timeOut)
-        },3000)
-    }
-    private createCongrats(){
-        this.freeSpinStart = true
-        //this.fadeSound(6,0,this.fadeDurationBgm)
-        //this.soundStop(6)
-        //this.soundVolume(0,0)
-        // if(!this.sound[7].playing()){
-        //     this.playSound(7)
-        // }
-        //this.fadeSound(7,1,this.fadeDurationBgm)
-        this.congrats = new Congrats(this.app,this.textureArray, this.winFreeSpin, this.noOfSpin)
-        this.gameContainer.addChild(this.congrats.container)
-        
-        this.congrats.container.cursor = 'pointer'
-        this.congrats.container.interactive = true
-        this.congrats.container.addEventListener('pointerdown',()=>{
-            this.congrats.container.interactive = false
-            this.congrats.textAnimation.duration(0.3)
-            let timeout = setTimeout(()=>{
-                let show = setTimeout(() => {
-                    this.isFreeSpin = false
-                    this.congrats.container.interactive = true
-                    this.freeSpinEvent()
-                  //  this.soundStop(7)
-                    clearTimeout(show);
-                }, 1000);
-                clearTimeout(timeout)
-            },this.transitionDelay)
-        })
-        this.slotGame.autoplayDoneEvent = true
-    }
-
-
     private startSpin(spinType:string){
         this.slotGame.startSpin(spinType)
     }
-
     private startSpinAutoPlay(spinCount:number){
 
         this.slotGame.autoPlayCount = spinCount
@@ -899,19 +648,7 @@ export default class Game{
             this.slotGame.eventStart = false
 
         }
-        if(this.slotGame.isBonusTick && !this.freeSpinStart ){
-         
-            let timeOut = setTimeout(()=>{
-                this.createCongrats()
-                clearTimeout(timeOut)
-            },2500)
-            //this.freeSpinEvent()
-            this.slotGame.isBonusTick = false
-            this.slotGame.isFreeSpin = false
-            this.isAutoPlay = false
-            this.slotGame.autoPlayCount = 0
-            this.slotGame.isFreeSpinDone = true
-        }
+
     }
 
     private updateTextValues(){
@@ -1007,7 +744,6 @@ export default class Game{
         })
         this.paylineAnimations.push(fadeIn)
     }
-
     private updatePaylineText(bottomText:string,topText:string){
         this.paylineTextBottom.text = bottomText
         this.paylineText.text = topText 
@@ -1017,77 +753,5 @@ export default class Game{
         this.paylineTextBottom.y = (this.paylineText.height)+ 15
         this.paylineContainer.x = (this.controller.parentSprite.width - this.paylineContainer.width)/2
         this.paylineContainer.y = 38
-    }
-
-    private freeSpinEvent(){
-        this.freeSpinStart = true
-        this.createEventSpin()
-    }
-
-    private reelContainWildAndBonus(i:number){
-        this.slotGame.reelsSymbols[i].forEach((data:any,index:number)=>{
-            if(index > 8){
-                if(data.type == 10){ 
-                   // this.playSound(18)
-                    //this.soundVolume(18,0.2)
-                    Functions.loadSpineAnimation(data.symbol,'open',false,1.1)
-                    const globalPos = data.symbol.getGlobalPosition() 
-                    this.createWildCoin(this.slotGame.reelContainer[i].x,globalPos.y-100)
-
-                }
-                if(data.type == this.slotGame.bonusType){
-                    this.slotGame.bonusSymbolsCount++
-                    if(this.slotGame.bonusSymbolsCount > 1){
-                  //      this.playSound(10)
-                    }else{
-                   //     this.playSound(9)
-                    }
-                    Functions.loadSpineAnimation(data.symbol,'fall',false,0.6)
-                }
-            }
-        })
-    }
-
-    private createWildCoin(coinX:number,coinY:number){
-        let barPosX = 0
-        let barPosY = 0
-        let duration = 1
-
-        barPosX = 130
-        barPosY = 450
-
-        for(let i = 0;i<=3;i++){
-            const coin = Functions.animatedSprite(this.textureArray['coins'],'new_coin_spinning')
-            coin.scale.set(0.15)
-            coin.x = (coinX)
-            coin.y = (coinY)
-            coin.alpha = 0.4
-            coin.animationSpeed = 0.5
-            coin.play();
-            let coinAnimation = gsap.to(coin,{
-                y:barPosY,
-                x:barPosX - (coin.width/2),
-                alpha:1,
-                delay:i*0.1,
-                duration:duration,
-                onComplete:()=>{
-                    coinAnimation.kill()
-                    if(i == 0){
-                      //  this.playSound(19)
-                      //  this.soundVolume(19,0.2)
-                    }
-                    let coinFade = gsap.to(coin,{
-                        delay:0.5,
-                        duration:0.3,
-                        alpha:0,
-                        onComplete:()=>{
-                            coinFade.kill()
-                            this.slotGame.container.removeChild(coin)
-                        }
-                    })
-                }
-            })
-            this.slotGame.container.addChild(coin)
-        }
     }
 }

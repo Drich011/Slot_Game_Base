@@ -69,7 +69,6 @@ export default class Slot{
     //methods
     private onSpinEnd:(index:number)=>void
     private onSpinning:()=>void
-    private reelContainWildAndBonus:(index: number)=>void
 
     private reelsSymbolsTop1:Array<any> = []
     private reelsSymbolsTop2:Array<any> = []
@@ -114,7 +113,7 @@ export default class Slot{
     private textStyle:PIXI.TextStyle
     public eventStart:boolean = false
 
-    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:(index:number)=>void,onSpinning:()=>void,reelContainWildAndBonus:(index: number)=>void){
+    constructor(app:PIXI.Application,textureArray:any,onSpinEnd:(index:number)=>void,onSpinning:()=>void){
         this.app = app
         this.baseWidth = this.app.screen.width
         this.baseHeight = this.app.screen.height
@@ -140,7 +139,6 @@ export default class Slot{
 
         this.onSpinEnd = onSpinEnd
         this.onSpinning = onSpinning
-        this.reelContainWildAndBonus = reelContainWildAndBonus
 
         this.init()
     }
@@ -347,9 +345,6 @@ export default class Slot{
                                      data.y = this.reelY
                                      this.updateVisibleBlocks(index)
                                      this.applyMotionBlur(index,false)
-                                     if(this.isFreeSpin){
-                                        this.reelContainWildAndBonus(index)
-                                    }
                                      if(this.spinCount == 5){
                                          this.maskSprite.height = this.frameBorder.height 
                                          this.maskSprite.y = this.frameBorder.y 
